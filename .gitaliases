@@ -1,0 +1,10 @@
+[alias]
+    # Troop Worktree Management
+    # agent-start <name>: fetches origin (if available) and spawns an isolated tree in .worktrees/<name> on branch <name>
+    agent-start = "!f() { git fetch origin main 2>/dev/null || true; BASE=$({ git rev-parse --verify origin/main 2>/dev/null || git rev-parse --verify main; }); git worktree add .worktrees/$1 -b $1 $BASE; }; f"
+
+    # agent-stop <name>: removes the worktree in .worktrees/$1 and deletes the local $1 branch
+    agent-stop = "!f() { git worktree remove .worktrees/$1 && git branch -d $1; }; f"
+
+    # List active monkeys working in trees across the troop
+    troop = worktree list

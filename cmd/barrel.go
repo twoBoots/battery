@@ -1,0 +1,164 @@
+package cmd
+
+import (
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"strings"
+
+	"github.com/spf13/cobra"
+	"github.com/twoboots/battery/internal/config"
+	"github.com/twoboots/battery/internal/techstack"
+)
+
+var barrelCmd = &cobra.Command{
+	Use:     "barrel",
+	Aliases: []string{"barrels"},
+	Short:   "Manage registered barrels",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return runBarrelList(cmd.OutOrStdout(), getWorkingDir())
+	},
+}
+
+var barrelListCmd = &cobra.Command{
+	Use:     "list",
+	Aliases: []string{"ls"},
+	Short:   "List all registered barrels and resolved Cooper tech stacks",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return runBarrelList(cmd.OutOrStdout(), getWorkingDir())
+	},
+}
+
+var (
+	addName  string
+	addType  string
+	addLocal bool
+)
+
+var barrelAddCmd = &cobra.Command{
+	Use:   "add <path>",
+	Short: "Add a barrel to configuration",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		pathArg := strings.TrimSpace(args[0])
+		name := strings.TrimSpace(addName)
+		if name == "" {
+			name = config.InferBarrelName(pathArg)
+		}
+
+		barrelType := config.BarrelTypeBarrel
+		if strings.ToLower(addType) == "battery" {
+			barrelType = config.BarrelTypeBattery
+		}
+
+		b := config.BarrelConfig{
+			Name: name,
+			Path: pathArg,
+			Type: barrelType,
+		}
+
+		cwd := getWorkingDir()
+		if _, err := config.AddBarrel(b, cwd, addLocal); err != nil {
+			return err
+		}
+
+		targetFile := config.ConfigFilename
+		if addLocal {
+			targetFile = config.LocalConfigFilename
+		}
+		fmt.Fprintf(cmd.OutOrStdout(), "✓ Added barrel '%s' (%s) to %s\n", name, pathArg, targetFile)
+		return nil
+	},
+}
+
+var removeLocal bool
+
+var barrelRemoveCmd = &cobra.Command{
+	Use:     "remove <name_or_path>",
+	Aliases: []string{"rm"},
+	Short:   "Remove a barrel from configuration",
+	Args:    cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		identifier := strings.TrimSpace(args[0])
+		cwd := getWorkingDir()
+		if _, err := config.RemoveBarrel(identifier, cwd, removeLocal); err != nil {
+			return err
+		}
+
+		targetFile := config.ConfigFilename
+		if removeLocal {
+			targetFile = config.LocalConfigFilename
+		}
+		fmt.Fprintf(cmd.OutOrStdout(), "✓ Removed barrel '%s' from %s\n", identifier, targetFile)
+		return nil
+	},
+}
+
+func init() {
+	barrelAddCmd.Flags().StringVarP(&addName, "name", "n", "", "Custom name for the barrel")
+	barrelAddCmd.Flags().StringVarP(&addType, "type", "t", "barrel", "Specify barrel type ('barrel' or 'battery')")
+	barrelAddCmd.Flags().BoolVar(&addLocal, "local", false, "Add to local developer overrides (.batteryrc.local)")
+
+	barrelRemoveCmd.Flags().BoolVar(&removeLocal, "local", false, "Remove from local developer overrides (.batteryrc.local)")
+
+	barrelCmd.AddCommand(barrelListCmd)
+	barrelCmd.AddCommand(barrelAddCmd)
+	barrelCmd.AddCommand(barrelRemoveCmd)
+
+	RootCmd.AddCommand(barrelCmd)
+}
+
+func runBarrelList(out io.Writer, cwd string) error {
+	effective, err := config.GetEffectiveConfig(cwd)
+	if err != nil {
+		return err
+	}
+
+	fmt.Fprintf(out, "\n🛢️  Registered Barrels (%d) [Structure: %s]\n\n", len(effective.Barrels), effective.Structure)
+
+	if len(effective.Barrels) == 0 {
+		fmt.Fprintln(out, "  No barrels registered yet. Run 'battery barrel add <path>' or 'battery init'.")
+		fmt.Fprintln(out)
+		return nil
+	}
+
+	for _, barrel := range effective.Barrels {
+		absPath := filepath.Join(cwd, barrel.Path)
+		exists := false
+		fi, err := os.Stat(absPath)
+		if err == nil && fi.IsDir() {
+			exists = true
+		}
+
+		existsTag := "✓"
+		if !exists {
+			existsTag = "✗ (missing)"
+		}
+
+		sourceTag := "[canonical]"
+		if barrel.Source == "local" {
+			sourceTag = "[local override]"
+		}
+
+		typeTag := ""
+		if barrel.Type == config.BarrelTypeBattery {
+			typeTag = " [sub-battery]"
+		}
+
+		subBat := ""
+		techInfo := techstack.CooperTechStackInfo{Summary: "N/A"}
+		if exists {
+			techInfo = techstack.ResolveBarrelTechStack(absPath)
+			if techstack.IsSubBattery(absPath) {
+				subBat = " [contains .batteryrc]"
+			}
+		}
+
+		fmt.Fprintf(out, "  • %s %s%s%s\n", barrel.Name, sourceTag, typeTag, subBat)
+		fmt.Fprintf(out, "    Path   : %s (%s)\n", barrel.Path, existsTag)
+		fmt.Fprintf(out, "    Cooper : %s\n\n", techInfo.Summary)
+	}
+
+	return nil
+}

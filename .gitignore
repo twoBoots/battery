@@ -1,0 +1,13 @@
+# Troop Worktrees
+.worktrees/
+
+# Battery Local Overrides
+.batteryrc.local
+.batteryrc.*.local
+
+# Build Artifacts
+bin/
+dist/
+coverage/
+cov_profile/
+coverage.out

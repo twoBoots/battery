@@ -1,0 +1,97 @@
+name: Release Binary
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  build-and-release:
+    needs: ci
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            binary: battery-linux-x86_64
+          - goos: linux
+            goarch: arm64
+            binary: battery-linux-aarch64
+          - goos: darwin
+            goarch: amd64
+            binary: battery-darwin-x86_64
+          - goos: darwin
+            goarch: arm64
+            binary: battery-darwin-aarch64
+          - goos: windows
+            goarch: amd64
+            binary: battery-windows-x86_64.exe
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+          cache: true
+
+      - name: Compile Go Binary (${{ matrix.goos }}/${{ matrix.goarch }})
+        env:
+          CGO_ENABLED: 0
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          mkdir -p dist
+          VERSION="1.0.0"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          go build -ldflags="-s -w -X github.com/twoboots/battery/cmd.Version=${VERSION}" -o dist/${{ matrix.binary }} .
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.binary }}
+          path: dist/${{ matrix.binary }}
+
+  publish-release:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v6
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create or Update GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            TAG="latest"
+          fi
+          
+          echo "Publishing release assets for tag: $TAG"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release for $TAG exists. Updating release assets..."
+            gh release upload "$TAG" release-assets/* --clobber
+          else
+            echo "Release for $TAG does not exist. Creating release with assets..."
+            gh release create "$TAG" release-assets/* --title "Battery $TAG" --notes "Automated Go binary release for Battery"
+          fi
