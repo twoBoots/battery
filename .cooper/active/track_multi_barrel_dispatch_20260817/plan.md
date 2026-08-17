@@ -14,9 +14,9 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 2: Track Initialization & Spec Dispatch Engine
 
-- [ ] Task 2.1: Implement `InitTrack(cwd, trackID, barrels, opts)` to scaffold `.cooper/active/<track_id>/` in Battery with unit tests.
-- [ ] Task 2.2: Implement `DispatchTrack(cwd, trackID, opts)` to seed target barrels with `metadata.json`, `proposal.md`, and `spec-deltas/` while omitting `plan.md`.
-- [ ] Task 2.3: Add tests verifying that `plan.md` is omitted in dispatched barrels to preserve local planning autonomy.
+- [x] Task 2.1: Implement `InitTrack(cwd, trackID, barrels, opts)` to scaffold `.cooper/active/<track_id>/` in Battery with unit tests. (7d9ccbf)
+- [x] Task 2.2: Implement `DispatchTrack(cwd, trackID, opts)` to seed target barrels with `metadata.json`, `proposal.md`, and `spec-deltas/` while omitting `plan.md`. (7d9ccbf)
+- [x] Task 2.3: Add tests verifying that `plan.md` is omitted in dispatched barrels to preserve local planning autonomy. (7d9ccbf)
 
 ---
 
