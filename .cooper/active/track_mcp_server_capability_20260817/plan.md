@@ -36,5 +36,5 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 5: Verification, Documentation, & Capabilities Spec Promotion
 
-- [ ] Task 5.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%.
-- [ ] Task 5.2: Update README and documentation with MCP integration examples for AI assistants (Cursor, Claude Code, Antigravity).
+- [x] Task 5.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%. (eeb0fe0)
+- [x] Task 5.2: Update README and documentation with MCP integration examples for AI assistants (Cursor, Claude Code, Antigravity). (eeb0fe0)
