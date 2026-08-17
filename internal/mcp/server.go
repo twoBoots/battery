@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 )
 
@@ -139,7 +140,15 @@ func (s *Server) HandleRequest(ctx context.Context, req Request) Response {
 		}
 		entry, exists := s.resources[params.URI]
 		if !exists {
-			// Also support pattern matching prefix if needed
+			for pattern, rEntry := range s.resources {
+				if matchURIPattern(pattern, params.URI) {
+					entry = rEntry
+					exists = true
+					break
+				}
+			}
+		}
+		if !exists {
 			return NewErrorResponse(req.ID, MethodNotFoundCode, fmt.Sprintf("resource not found: %s", params.URI), nil)
 		}
 		res, err := entry.handler(ctx, params.URI)
@@ -219,3 +228,22 @@ func (s *Server) Serve(ctx context.Context, in io.Reader, out io.Writer) error {
 
 	return scanner.Err()
 }
+
+func matchURIPattern(pattern, actual string) bool {
+	if pattern == actual {
+		return true
+	}
+	// e.g. pattern = "battery://barrels/{name}/tech-stack"
+	// actual = "battery://barrels/auth/tech-stack"
+	if strings.Contains(pattern, "{") && strings.Contains(pattern, "}") {
+		startIdx := strings.Index(pattern, "{")
+		endIdx := strings.Index(pattern, "}")
+		prefix := pattern[:startIdx]
+		suffix := pattern[endIdx+1:]
+		if strings.HasPrefix(actual, prefix) && strings.HasSuffix(actual, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
