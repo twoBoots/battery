@@ -1,0 +1,1 @@
+Phase 3 Checkpoint: MCP Resources (battery://topology, battery://barrels/{name}/tech-stack, battery://tracks/{track_id}) and Prompts (plan_multi_barrel_track) verified with 89.1% statement coverage.
