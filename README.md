@@ -108,9 +108,11 @@ battery mcp [--transport stdio]
 
 ## 🤖 Model Context Protocol (MCP) Support
 
-`battery` natively implements the **Model Context Protocol (MCP)** over stdio (`battery mcp` / `battery serve`), exposing multi-repository SDD orchestration directly to AI coding assistants (e.g. Antigravity, Claude Code, Cursor, Windsurf).
+`battery` natively implements the **Model Context Protocol (MCP)** over stdio (`battery mcp` / `battery serve`), exposing multi-repository SDD orchestration directly to AI coding assistants (e.g. Antigravity, Claude Code, Cursor, Windsurf, Copilot, Cline, Roo Code).
 
-### MCP Configuration Example (`.gemini/settings.json` or Claude Desktop config)
+See **[Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)** for complete configuration instructions across all editors and agents.
+
+### Quick Setup (`.gemini/settings.json`, `.cursor/mcp.json`, `claude_desktop_config.json`)
 
 ```json
 {
@@ -128,10 +130,10 @@ battery mcp [--transport stdio]
 * **Resources**: `battery://topology`, `battery://barrels/{name}/tech-stack`, `battery://tracks/{track_id}`
 * **Prompts**: `plan_multi_barrel_track`
 
-
 ---
 
 ## 🔗 Quick Links
+- [Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)
 - [Multi-Barrel Track Dispatch & Decoupled Planning Guide](docs/multi-barrel-track-dispatch.md)
 - [Battery Architecture](.cooper/BATTERY.md)
 - [Cooper Architecture](.cooper/COOPER.md)
