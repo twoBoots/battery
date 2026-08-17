@@ -35,6 +35,12 @@ func TestTrackInitCmd(t *testing.T) {
 	// Verify track directory exists
 	trackDir := filepath.Join(tmpDir, ".cooper", "active", "my-feature")
 	assert.FileExists(t, filepath.Join(trackDir, "metadata.json"))
+
+	// Default barrels when none specified
+	buf.Reset()
+	err = runTrackInit(buf, tmpDir, "track-default-barrels", "", "", nil, nil)
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Initialized track 'track-default-barrels'")
 }
 
 func TestTrackDispatchCmd(t *testing.T) {
@@ -68,6 +74,12 @@ func TestTrackDispatchCmd(t *testing.T) {
 	// Verify folder-a contains spec-deltas but NO plan.md
 	assert.FileExists(t, filepath.Join(barrelADir, ".cooper", "active", "my-feature", "spec-deltas", "auth", "spec.md"))
 	assert.NoFileExists(t, filepath.Join(barrelADir, ".cooper", "active", "my-feature", "plan.md"))
+
+	// Dispatch again with force=true
+	buf.Reset()
+	err = runTrackDispatch(buf, tmpDir, "my-feature", true)
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Dispatched track 'my-feature'")
 }
 
 func TestTrackStatusCmd(t *testing.T) {
@@ -94,15 +106,27 @@ func TestTrackStatusCmd(t *testing.T) {
 	require.NoError(t, err)
 	assert.Contains(t, buf.String(), "Multi-Barrel Track Status")
 	assert.Contains(t, buf.String(), "my-feature")
+
+	// Status on non-existent track
+	buf.Reset()
+	err = runTrackStatus(buf, tmpDir, "non-existent")
+	assert.Error(t, err)
 }
 
 func TestTrackListCmd(t *testing.T) {
 	tmpDir := t.TempDir()
 
-	_, err := track.InitTrack(tmpDir, "track-1", []string{"folder-a"}, track.InitTrackOptions{Name: "Track One"})
+	buf := new(bytes.Buffer)
+	// Empty list
+	err := runTrackList(buf, tmpDir)
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "No active or archived tracks found")
+
+	// With tracks
+	_, err = track.InitTrack(tmpDir, "track-1", []string{"folder-a"}, track.InitTrackOptions{Name: "Track One"})
 	require.NoError(t, err)
 
-	buf := new(bytes.Buffer)
+	buf.Reset()
 	err = runTrackList(buf, tmpDir)
 	require.NoError(t, err)
 	assert.Contains(t, buf.String(), "track-1")

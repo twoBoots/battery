@@ -39,5 +39,5 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 5: End-to-End Verification & Documentation
 
-- [ ] Task 5.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%.
-- [ ] Task 5.2: Execute manual verification workflow using sibling mock barrel directories.
+- [x] Task 5.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%. (99432fd)
+- [x] Task 5.2: Execute manual verification workflow using sibling mock barrel directories. (99432fd)
