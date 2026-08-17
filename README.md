@@ -99,7 +99,35 @@ battery track init <track_id> [--barrels folder-a,folder-b] [--name <title>]
 battery track dispatch <track_id> [--force]
 battery track status [<track_id>]
 battery track list
+
+# Model Context Protocol (MCP) server for AI coding assistants
+battery mcp [--transport stdio]
 ```
+
+---
+
+## 🤖 Model Context Protocol (MCP) Support
+
+`battery` natively implements the **Model Context Protocol (MCP)** over stdio (`battery mcp` / `battery serve`), exposing multi-repository SDD orchestration directly to AI coding assistants (e.g. Antigravity, Claude Code, Cursor, Windsurf).
+
+### MCP Configuration Example (`.gemini/settings.json` or Claude Desktop config)
+
+```json
+{
+  "mcpServers": {
+    "battery": {
+      "command": "battery",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+### Available MCP Primitives
+* **Tools**: `battery_status`, `battery_list_barrels`, `battery_init_track`, `battery_dispatch_track`, `battery_track_status`
+* **Resources**: `battery://topology`, `battery://barrels/{name}/tech-stack`, `battery://tracks/{track_id}`
+* **Prompts**: `plan_multi_barrel_track`
+
 
 ---
 
