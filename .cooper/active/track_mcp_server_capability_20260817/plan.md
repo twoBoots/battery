@@ -29,8 +29,8 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 4: CLI Command Suite (`cmd/mcp.go`)
 
-- [ ] Task 4.1: Implement `battery mcp` / `battery serve` Cobra command routing to `internal/mcp.Server` with CLI tests.
-- [ ] Task 4.2: Register `mcp` command in `cmd/root.go` and add help/flag options.
+- [x] Task 4.1: Implement `battery mcp` / `battery serve` Cobra command routing to `internal/mcp.Server` with CLI tests. (0b52420)
+- [x] Task 4.2: Register `mcp` command in `cmd/root.go` and add help/flag options. (0b52420)
 
 ---
 
