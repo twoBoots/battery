@@ -93,11 +93,18 @@ battery barrel remove payment
 
 # Interactive initialization or auto-discovery
 battery init [--structure <multi-repo|monorepo|custom>] [--non-interactive] [-y]
+
+# Multi-barrel track initialization & dispatch
+battery track init <track_id> [--barrels folder-a,folder-b] [--name <title>]
+battery track dispatch <track_id> [--force]
+battery track status [<track_id>]
+battery track list
 ```
 
 ---
 
 ## 🔗 Quick Links
+- [Multi-Barrel Track Dispatch & Decoupled Planning Guide](docs/multi-barrel-track-dispatch.md)
 - [Battery Architecture](.cooper/BATTERY.md)
 - [Cooper Architecture](.cooper/COOPER.md)
 - [Cooper Workflow](.cooper/definition/workflow.md)

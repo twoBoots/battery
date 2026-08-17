@@ -1,0 +1,9 @@
+{
+  "track_id": "track_multi_barrel_dispatch_20260817",
+  "name": "Multi-Barrel Track Dispatch & Decoupled Planning",
+  "status": "in-progress",
+  "created_at": "2026-08-17T22:34:00+10:00",
+  "updated_at": "2026-08-17T22:34:00+10:00",
+  "type": "feature",
+  "capabilities": ["track-dispatch", "barrel-config"]
+}
