@@ -1,0 +1,1 @@
+Phase 2 Verification: install.sh reconnects stdin to /dev/tty on piped execution so battery init prompts interactively. Argument parsing now treats flags appropriately. Tests pass.
