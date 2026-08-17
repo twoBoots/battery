@@ -1,0 +1,1 @@
+Task 6.1-6.3: Colocated test files in src/ (*.test.ts), resolved all 19 Deno linter issues, added PR CI workflow (.github/workflows/ci.yml) with 0 lint errors and 20 passing tests.
