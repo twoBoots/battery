@@ -12,8 +12,8 @@ import (
 
 // DispatchTrackOptions configures track dispatching.
 type DispatchTrackOptions struct {
-	Force         bool
-	BarrelCapMap  map[string][]string // Optional mapping of barrel -> specific capabilities
+	Force        bool
+	BarrelCapMap map[string][]string // Optional mapping of barrel -> specific capabilities
 }
 
 // DispatchedBarrelResult captures the outcome of dispatching to a barrel.

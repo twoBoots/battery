@@ -58,9 +58,9 @@ func TestBarrelTrackSummary_Fields(t *testing.T) {
 
 func TestBarrelTrackSummary_PercentComplete(t *testing.T) {
 	tests := []struct {
-		name      string
-		summary   track.BarrelTrackSummary
-		expected  int
+		name     string
+		summary  track.BarrelTrackSummary
+		expected int
 	}{
 		{
 			name: "zero tasks and archived",
