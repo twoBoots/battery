@@ -246,4 +246,3 @@ func matchURIPattern(pattern, actual string) bool {
 	}
 	return false
 }
-
