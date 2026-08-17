@@ -1,0 +1,1 @@
+Task 2.1, 2.2, 2.3: Implemented default battery MCP tools (battery_status, battery_list_barrels, battery_init_track, battery_dispatch_track, battery_track_status) with >91% test coverage.
