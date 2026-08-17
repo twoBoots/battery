@@ -7,16 +7,16 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 ## Phase 1: MCP Protocol Types & Stdio Server Core
 
 - [x] Task 1.1: Define JSON-RPC 2.0 and MCP protocol message types (`Request`, `Response`, `Notification`, `Error`, Server Capabilities) in `internal/mcp/protocol.go` with unit tests. (2c4d7d5)
-- [ ] Task 1.2: Implement stdio `Server` loop with initialization, ping, and request dispatch in `internal/mcp/server.go` with unit tests.
-- [ ] Task 1.3: Add error resilience tests for malformed JSON, unknown methods, and graceful shutdown.
+- [x] Task 1.2: Implement stdio `Server` loop with initialization, ping, and request dispatch in `internal/mcp/server.go` with unit tests. (97e8098)
+- [x] Task 1.3: Add error resilience tests for malformed JSON, unknown methods, and graceful shutdown. (97e8098)
 
 ---
 
 ## Phase 2: Core MCP Tool Suite (`internal/mcp/tools.go`)
 
-- [ ] Task 2.1: Implement `battery_status` and `battery_list_barrels` MCP tools with unit tests.
-- [ ] Task 2.2: Implement `battery_init_track` and `battery_dispatch_track` MCP tools with unit tests.
-- [ ] Task 2.3: Implement `battery_track_status` MCP tool with unit tests.
+- [x] Task 2.1: Implement `battery_status` and `battery_list_barrels` MCP tools with unit tests. (2b56417)
+- [x] Task 2.2: Implement `battery_init_track` and `battery_dispatch_track` MCP tools with unit tests. (2b56417)
+- [x] Task 2.3: Implement `battery_track_status` MCP tool with unit tests. (2b56417)
 
 ---
 
