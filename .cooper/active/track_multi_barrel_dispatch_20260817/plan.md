@@ -30,10 +30,10 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 4: CLI Command Suite (`cmd/track.go`)
 
-- [ ] Task 4.1: Implement `battery track init <track_id> --barrels <names>` Cobra command with tests.
-- [ ] Task 4.2: Implement `battery track dispatch <track_id>` Cobra command with tests.
-- [ ] Task 4.3: Implement `battery track status [<track_id>]` with formatted table output supporting active and archived barrels.
-- [ ] Task 4.4: Implement `battery track list` command with tests.
+- [x] Task 4.1: Implement `battery track init <track_id> --barrels <names>` Cobra command with tests. (466763b)
+- [x] Task 4.2: Implement `battery track dispatch <track_id>` Cobra command with tests. (466763b)
+- [x] Task 4.3: Implement `battery track status [<track_id>]` with formatted table output supporting active and archived barrels. (466763b)
+- [x] Task 4.4: Implement `battery track list` command with tests. (466763b)
 
 ---
 
