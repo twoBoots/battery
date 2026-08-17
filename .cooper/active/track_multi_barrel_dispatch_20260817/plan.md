@@ -22,9 +22,9 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 3: Status Aggregation & Plan Task Parser
 
-- [ ] Task 3.1: Implement `ParsePlanTasks(planContent)` to extract total, completed `[x]`, in-progress `[~]`, and pending `[ ]` tasks with unit tests.
-- [ ] Task 3.2: Implement `GetMultiBarrelTrackStatus(cwd, trackID)` aggregating status across active worktrees, main trunks, and archived tracks.
-- [ ] Task 3.3: Implement `ListTracks(cwd)` to scan and list all active and archived tracks in Battery.
+- [x] Task 3.1: Implement `ParsePlanTasks(planContent)` to extract total, completed `[x]`, in-progress `[~]`, and pending `[ ]` tasks with unit tests. (6462384)
+- [x] Task 3.2: Implement `GetMultiBarrelTrackStatus(cwd, trackID)` aggregating status across active worktrees, main trunks, and archived tracks. (6462384)
+- [x] Task 3.3: Implement `ListTracks(cwd)` to scan and list all active and archived tracks in Battery. (6462384)
 
 ---
 
