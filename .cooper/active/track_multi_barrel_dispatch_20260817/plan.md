@@ -6,9 +6,9 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 1: Core Track Models & Barrel Location Scanner
 
-- [ ] Task 1.1: Define Track and Barrel Track models (`TrackMetadata`, `BarrelTrackSummary`, location enums) in `internal/track/models.go` with unit tests.
-- [ ] Task 1.2: Implement `LocateBarrelTrack(barrelPath, trackID)` to scan `.worktrees/<track_id>/.cooper/active/`, `.cooper/active/`, and `.cooper/archive/` with unit tests.
-- [ ] Task 1.3: Add tests verifying correct detection of completed/archived barrel tracks.
+- [x] Task 1.1: Define Track and Barrel Track models (`TrackMetadata`, `BarrelTrackSummary`, location enums) in `internal/track/models.go` with unit tests. (d5d8c67)
+- [x] Task 1.2: Implement `LocateBarrelTrack(barrelPath, trackID)` to scan `.worktrees/<track_id>/.cooper/active/`, `.cooper/active/`, and `.cooper/archive/` with unit tests. (0d724a3)
+- [x] Task 1.3: Add tests verifying correct detection of completed/archived barrel tracks. (0d724a3)
 
 ---
 
