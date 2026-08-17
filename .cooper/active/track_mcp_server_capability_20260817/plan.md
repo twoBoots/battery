@@ -22,8 +22,8 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 3: MCP Resources & Prompts (`internal/mcp/resources.go`, `internal/mcp/prompts.go`)
 
-- [ ] Task 3.1: Implement `resources/list` and `resources/read` for `battery://topology`, `battery://barrels/{name}/tech-stack`, and `battery://tracks/{track_id}` with unit tests.
-- [ ] Task 3.2: Implement `prompts/list` and `prompts/get` for `plan_multi_barrel_track` with unit tests.
+- [x] Task 3.1: Implement `resources/list` and `resources/read` for `battery://topology`, `battery://barrels/{name}/tech-stack`, and `battery://tracks/{track_id}` with unit tests. (3e6172f)
+- [x] Task 3.2: Implement `prompts/list` and `prompts/get` for `plan_multi_barrel_track` with unit tests. (3e6172f)
 
 ---
 
