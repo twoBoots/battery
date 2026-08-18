@@ -6,13 +6,15 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [x] **Track: Sync Cooper RFC Skill & Two-Tier SDD Planning Architecture**
-  - Worktree: `.worktrees/track_sync_cooper_rfc_two_tier_20260818`
-  - Link: [.cooper/active/track_sync_cooper_rfc_two_tier_20260818/plan.md](./active/track_sync_cooper_rfc_two_tier_20260818/plan.md)
+*(No active tracks)*
 
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Sync Cooper RFC Skill & Two-Tier SDD Planning Architecture**
+  - Completed: 2026-08-18 (PR #8)
+  - Spec: [.cooper/specs/barrel-config/spec.md](./specs/barrel-config/spec.md)
 
 - [x] **Track: CLI Self-Updater & Release Versioning Enhancement**
   - Completed: 2026-08-18 (PR #7)
