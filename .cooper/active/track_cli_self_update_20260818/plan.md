@@ -22,9 +22,9 @@
   - [x] Sub-task: Write CLI command tests for `battery update --check`, `--force`, `--version` (Red)
   - [x] Sub-task: Implement `updateCmd` in `cmd/update.go` and wire into `RootCmd` with aliases (Green)
   - [x] Sub-task: Refactor & verify command outputs (Refactor)
-- [ ] Task: Phase 2 Verification & Checkpoint
-  - [ ] Sub-task: Run full CLI test suite (`go test -v ./...`)
-  - [ ] Sub-task: Phase checkpoint notes and branch synchronization
+- [x] Task: Phase 2 Verification & Checkpoint (19bbba6)
+  - [x] Sub-task: Run full CLI test suite (`go test -v ./...`)
+  - [x] Sub-task: Phase checkpoint notes and branch synchronization
 
 ## Phase 3: Specification Promotion & Documentation
 - [ ] Task: Promote Living Spec & Update Docs
