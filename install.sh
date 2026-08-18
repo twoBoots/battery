@@ -137,6 +137,17 @@ else
     echo "  [✓] Created AGENTS.md from Battery template"
 fi
 
+# Setup CLAUDE.md pointer and .claude/skills symlink if .agents/skills exists
+if [ -d ".agents/skills" ]; then
+    mkdir -p ".claude"
+    if [ ! -e ".claude/skills" ]; then
+        ln -sf "../.agents/skills" ".claude/skills" 2>/dev/null || true
+    fi
+fi
+if [ ! -f "CLAUDE.md" ]; then
+    echo "@AGENTS.md" > "CLAUDE.md"
+fi
+
 # Ensure .gitignore has .batteryrc.local, worktrees, and bin
 if [ -f ".gitignore" ]; then
     if ! grep -qs "\.batteryrc\.local" .gitignore; then
