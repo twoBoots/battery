@@ -1,7 +1,7 @@
 # Implementation Plan: Preserve Existing Configuration on Battery Install & Init
 
 ## Phase 1: Core CLI Initialization Logic & Flags
-- [ ] Task: Add CLI flags and configuration detection logic to `battery init`
+- [~] Task: Add CLI flags and configuration detection logic to `battery init`
   - [ ] Sub-task: Write unit tests for non-interactive init with existing config (Red)
   - [ ] Sub-task: Implement existing config detection, preservation logic, and `--force`/`--overwrite` flag in `cmd/init.go` (Green)
   - [ ] Sub-task: Refactor and verify test coverage >80% (Refactor)
