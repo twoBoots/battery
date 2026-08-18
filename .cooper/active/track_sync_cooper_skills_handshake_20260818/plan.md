@@ -1,13 +1,13 @@
 # Execution Plan: Sync Cooper Skills, Handshake Index & Installer Refinement
 
 ## Phase 1: Package Project-Local Cooper Skills
-- [ ] Task: Install Cooper Skills into `.agents/skills/`
-  - [ ] Sub-task: Install `cooper-setup/SKILL.md`
-  - [ ] Sub-task: Install `cooper-new-track/SKILL.md`
-  - [ ] Sub-task: Install `cooper-implement/SKILL.md`
-  - [ ] Sub-task: Install `cooper-review/SKILL.md`
-  - [ ] Sub-task: Install `cooper-status/SKILL.md`
-- [ ] Task: Phase 1 Checkpoint
+- [x] Task: Install Cooper Skills into `.agents/skills/` (cf72d10)
+  - [x] Sub-task: Install `cooper-setup/SKILL.md`
+  - [x] Sub-task: Install `cooper-new-track/SKILL.md`
+  - [x] Sub-task: Install `cooper-implement/SKILL.md`
+  - [x] Sub-task: Install `cooper-review/SKILL.md`
+  - [x] Sub-task: Install `cooper-status/SKILL.md`
+- [x] Task: Phase 1 Checkpoint
 
 ## Phase 2: Handshake Index, Tracks Registry & Framework References
 - [ ] Task: Create `.cooper/index.md` and `.cooper/tracks.md`
