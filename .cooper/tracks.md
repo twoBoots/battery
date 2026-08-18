@@ -6,7 +6,7 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Fix Antigravity / agy MCP Configuration Target to mcp_config.json**
+- [x] **Track: Fix Antigravity / agy MCP Configuration Target to mcp_config.json**
   - Worktree: `.worktrees/track_fix_antigravity_mcp_config_20260818`
   - Link: [.cooper/active/track_fix_antigravity_mcp_config_20260818/plan.md](./active/track_fix_antigravity_mcp_config_20260818/plan.md)
 

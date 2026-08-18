@@ -1,7 +1,7 @@
 {
   "track_id": "track_fix_antigravity_mcp_config_20260818",
   "name": "Fix Antigravity / agy MCP Configuration Target to mcp_config.json",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-08-18T10:26:00Z",
   "updated_at": "2026-08-18T10:26:00Z",
   "type": "bugfix",
