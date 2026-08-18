@@ -21,7 +21,7 @@ func getInstallScriptPath(t *testing.T) string {
 	return installScript
 }
 
-func TestInstallScript_E2E_PreserveExistingConfig(t *testing.T) {
+func TestInstallScriptE2EPreserveExistingConfig(t *testing.T) {
 	tempDir := t.TempDir()
 
 	// 1. Initialize git in temp repo
@@ -61,7 +61,7 @@ func TestInstallScript_E2E_PreserveExistingConfig(t *testing.T) {
 	assert.Equal(t, "../custom-path", preservedCfg.Barrels[0].Path)
 }
 
-func TestInstallScript_E2E_ForceOverwrite(t *testing.T) {
+func TestInstallScriptE2EForceOverwrite(t *testing.T) {
 	parentDir := t.TempDir()
 	tempDir := filepath.Join(parentDir, "my-battery-repo")
 	err := exec.Command("mkdir", "-p", tempDir).Run()
