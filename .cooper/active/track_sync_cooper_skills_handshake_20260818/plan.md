@@ -10,9 +10,9 @@
 - [x] Task: Phase 1 Checkpoint
 
 ## Phase 2: Handshake Index, Tracks Registry & Framework References
-- [ ] Task: Create `.cooper/index.md` and `.cooper/tracks.md`
-- [ ] Task: Synchronize `.cooper/COOPER.md` and `.cooper/definition/workflow.md`
-- [ ] Task: Phase 2 Checkpoint
+- [x] Task: Create `.cooper/index.md` and `.cooper/tracks.md` (b852356)
+- [x] Task: Synchronize `.cooper/COOPER.md` and `.cooper/definition/workflow.md` (b852356)
+- [x] Task: Phase 2 Checkpoint
 
 ## Phase 3: Agent Guidelines & Installer Refinement
 - [ ] Task: Update `AGENTS.md` and `AGENTS.template.md` with Rule 5
