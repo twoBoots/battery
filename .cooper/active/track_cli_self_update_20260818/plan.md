@@ -1,7 +1,7 @@
 # Implementation Plan: CLI Self-Updater & Release Versioning Enhancement
 
 ## Phase 1: Core Updater Domain Logic (`internal/updater`)
-- [ ] Task: Platform Detection & Asset Matching
+- [~] Task: Platform Detection & Asset Matching
   - [ ] Sub-task: Write unit tests for OS/Arch mapping against release binary matrix (Red)
   - [ ] Sub-task: Implement `GetPlatformBinaryName(goos, goarch)` (Green)
   - [ ] Sub-task: Refactor & verify tests (Refactor)
