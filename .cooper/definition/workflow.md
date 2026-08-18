@@ -10,6 +10,7 @@
 6. **High Code Coverage:** Aim for >80% code coverage for all modules.
 7. **User Experience First:** Every decision should prioritize user experience and explicit requirements.
 8. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
+9. **Upstream Architecture vs. Track Execution:** Major collaborative initiatives, epics, or cross-cutting architectural changes should first be planned and peer-reviewed upstream using `cooper-rfc`. Once approved and merged to `main`, decomposed child tracks enter this Track Workflow for TDD implementation.
 
 ---
 
