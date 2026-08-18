@@ -82,6 +82,7 @@ Classify repository state:
 ### 2.8 Project-Local Agent Skills Installation (`.agents/skills/`)
 1. Ensure `.agents/skills/` contains the Cooper skill suite:
    - `.agents/skills/cooper-setup/SKILL.md`
+   - `.agents/skills/cooper-rfc/SKILL.md`
    - `.agents/skills/cooper-new-track/SKILL.md`
    - `.agents/skills/cooper-implement/SKILL.md`
    - `.agents/skills/cooper-review/SKILL.md`
