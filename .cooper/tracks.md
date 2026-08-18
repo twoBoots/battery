@@ -6,7 +6,7 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [~] **Track: Sync Cooper Skills, Handshake Index & Installer Refinement**
+- [x] **Track: Sync Cooper Skills, Handshake Index & Installer Refinement**
   - Worktree: `.worktrees/track_sync_cooper_skills_handshake_20260818`
   - Link: [.cooper/active/track_sync_cooper_skills_handshake_20260818/plan.md](./active/track_sync_cooper_skills_handshake_20260818/plan.md)
 
