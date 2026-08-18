@@ -44,7 +44,7 @@ type Server struct {
 func NewServer(cwd string) *Server {
 	return &Server{
 		cwd:       cwd,
-		version:   "v1.2.0",
+		version:   "v1.2.1",
 		tools:     make(map[string]toolEntry),
 		resources: make(map[string]resourceEntry),
 		prompts:   make(map[string]promptEntry),

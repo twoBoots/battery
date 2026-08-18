@@ -35,7 +35,7 @@ func TestMCP_InitializeSerialization(t *testing.T) {
 		ProtocolVersion: LatestProtocolVersion,
 		ServerInfo: Implementation{
 			Name:    "battery-mcp",
-			Version: "v1.2.0",
+			Version: "v1.2.1",
 		},
 		Capabilities: ServerCapabilities{
 			Tools:     &ToolsCapability{},
