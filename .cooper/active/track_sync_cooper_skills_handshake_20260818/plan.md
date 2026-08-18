@@ -15,6 +15,6 @@
 - [x] Task: Phase 2 Checkpoint
 
 ## Phase 3: Agent Guidelines & Installer Refinement
-- [ ] Task: Update `AGENTS.md` and `AGENTS.template.md` with Rule 5
-- [ ] Task: Streamline `install.sh` to leverage Cooper's installer and index
-- [ ] Task: Phase 3 Checkpoint & Full Verification
+- [x] Task: Update `AGENTS.md` and `AGENTS.template.md` with Rule 5 (8fd97ea)
+- [x] Task: Streamline `install.sh` to leverage Cooper's installer and index (8fd97ea)
+- [x] Task: Phase 3 Checkpoint & Full Verification
