@@ -240,4 +240,89 @@ func RegisterDefaultTools(s *Server) {
 		}
 		return NewTextResult(string(data), false), nil
 	})
+
+	// 6. battery_init_barrel_tech_stack
+	s.RegisterTool(Tool{
+		Name:        "battery_init_barrel_tech_stack",
+		Description: "Scaffolds or updates .cooper/definition/tech-stack.md and code styleguides for a specific barrel package or repository.",
+		InputSchema: ToolInputSchema{
+			Type: "object",
+			Properties: map[string]interface{}{
+				"barrel": map[string]interface{}{
+					"type":        "string",
+					"description": "Barrel identifier (registered name or filesystem path to barrel)",
+				},
+				"language": map[string]interface{}{
+					"type":        "string",
+					"description": "Primary programming language (e.g. 'Go 1.23', 'TypeScript')",
+				},
+				"framework": map[string]interface{}{
+					"type":        "string",
+					"description": "Framework name (e.g. 'Next.js', 'Gin')",
+				},
+				"test_runner": map[string]interface{}{
+					"type":        "string",
+					"description": "Test runner command (e.g. 'go test ./...', 'npm test')",
+				},
+				"linter": map[string]interface{}{
+					"type":        "string",
+					"description": "Linter command (e.g. 'golangci-lint run', 'eslint .')",
+				},
+				"coverage_threshold": map[string]interface{}{
+					"type":        "string",
+					"description": "Target coverage threshold (e.g. '>80%')",
+				},
+				"force": map[string]interface{}{
+					"type":        "boolean",
+					"description": "Overwrite existing tech-stack.md if present",
+				},
+			},
+			Required: []string{"barrel"},
+		},
+	}, func(ctx context.Context, args map[string]interface{}) (CallToolResult, error) {
+		barrelArg, _ := args["barrel"].(string)
+		if strings.TrimSpace(barrelArg) == "" {
+			return NewErrorResult("barrel argument is required"), nil
+		}
+
+		targetPath := barrelArg
+		effCfg, err := config.GetEffectiveConfig(s.cwd)
+		if err == nil {
+			for _, b := range effCfg.Barrels {
+				if b.Name == barrelArg {
+					targetPath = b.Path
+					break
+				}
+			}
+		}
+
+		if !filepath.IsAbs(targetPath) {
+			targetPath = filepath.Join(s.cwd, targetPath)
+		}
+
+		lang, _ := args["language"].(string)
+		framework, _ := args["framework"].(string)
+		testRunner, _ := args["test_runner"].(string)
+		linter, _ := args["linter"].(string)
+		cov, _ := args["coverage_threshold"].(string)
+		force, _ := args["force"].(bool)
+
+		res, err := techstack.ScaffoldBarrelTechStack(targetPath, techstack.ScaffoldOptions{
+			Language:          lang,
+			Framework:         framework,
+			TestRunner:        testRunner,
+			Linter:            linter,
+			CoverageThreshold: cov,
+			Force:             force,
+		})
+		if err != nil {
+			return NewErrorResult(fmt.Sprintf("failed to scaffold barrel tech stack: %v", err)), nil
+		}
+
+		data, err := json.MarshalIndent(res, "", "  ")
+		if err != nil {
+			return NewErrorResult(fmt.Sprintf("failed to marshal scaffold result: %v", err)), nil
+		}
+		return NewTextResult(string(data), false), nil
+	})
 }
