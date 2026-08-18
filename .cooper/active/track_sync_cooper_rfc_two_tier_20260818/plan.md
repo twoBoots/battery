@@ -1,7 +1,7 @@
 # Execution Plan: Sync Cooper RFC Skill & Two-Tier SDD Planning Architecture
 
 ## Phase 1: Install & Sync Project-Local Cooper Skills
-- [ ] Task: Install `cooper-rfc` and update `cooper-new-track` & `cooper-setup`
+- [~] Task: Install `cooper-rfc` and update `cooper-new-track` & `cooper-setup`
   - [ ] Sub-task: Install `.agents/skills/cooper-rfc/SKILL.md`
   - [ ] Sub-task: Update `.agents/skills/cooper-new-track/SKILL.md` with silent scope check
   - [ ] Sub-task: Update `.agents/skills/cooper-setup/SKILL.md` with `cooper-rfc`
