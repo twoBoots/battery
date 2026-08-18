@@ -1,7 +1,7 @@
 # Execution Plan: Fix Antigravity / agy MCP Configuration Target
 
 ## Phase 1: Update MCP Installer Target & Tests (TDD)
-- [ ] Task: Update Installer Logic & Tests
+- [~] Task: Update Installer Logic & Tests
   - [ ] Sub-task: Update `cmd/mcp_test.go` and `internal/mcp/installer_test.go` for Antigravity target (Red)
   - [ ] Sub-task: Update `internal/mcp/installer.go` and `cmd/mcp.go` with `~/.gemini/config/mcp_config.json` (Green)
   - [ ] Sub-task: Verify tests pass with coverage >80% (Refactor)
