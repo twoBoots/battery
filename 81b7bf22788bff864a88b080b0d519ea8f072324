@@ -1,0 +1,3 @@
+Task: Promote Living Spec & Update Docs
+Scope: .cooper/specs/cli-self-update/spec.md, .cooper/index.md, README.md, install.sh
+Summary: Promoted living capability specification for cli-self-update and documented battery update command across README and installer.
