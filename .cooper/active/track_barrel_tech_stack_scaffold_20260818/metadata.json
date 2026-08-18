@@ -1,0 +1,12 @@
+{
+  "track_id": "track_barrel_tech_stack_scaffold_20260818",
+  "name": "Per-Barrel Tech Stack Scaffolding & Auto-Inference Engine (CLI + MCP)",
+  "status": "in-progress",
+  "created_at": "2026-08-18T20:25:00+10:00",
+  "updated_at": "2026-08-18T20:25:00+10:00",
+  "type": "feature",
+  "capabilities": [
+    "barrel-config",
+    "mcp-server"
+  ]
+}

@@ -46,6 +46,11 @@ The system MUST expose Battery's core orchestration functions as callable MCP to
 - **WHEN** `tools/call` is invoked with `name: "battery_track_status"`
 - **THEN** it MUST aggregate and return task progress and phase status across all participating barrels.
 
+#### Scenario 2.6: `battery_init_barrel_tech_stack` Tool
+- **GIVEN** a valid barrel name or directory path and optional parameters (`language`, `framework`, `test_runner`, `linter`, `coverage_threshold`, `force`)
+- **WHEN** `tools/call` is invoked with `name: "battery_init_barrel_tech_stack"`
+- **THEN** it MUST infer or apply the provided settings and scaffold `.cooper/definition/tech-stack.md` in the target barrel directory, returning structured confirmation of the generated files.
+
 ### Requirement 3: MCP Resources for Living Context
 The system MUST expose queryable URIs under `battery://` for workspace inspection.
 

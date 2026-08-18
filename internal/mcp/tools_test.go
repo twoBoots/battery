@@ -169,4 +169,49 @@ func TestTools_ValidationErrors(t *testing.T) {
 	require.Nil(t, res.Error)
 	callRes = res.Result.(CallToolResult)
 	assert.True(t, callRes.IsError)
+
+	// Missing barrel in init_barrel_tech_stack
+	res = srv.HandleRequest(context.Background(), Request{
+		JSONRPC: JSONRPCVersion,
+		ID:      rawID(23),
+		Method:  "tools/call",
+		Params:  json.RawMessage(`{"name":"battery_init_barrel_tech_stack","arguments":{}}`),
+	})
+	require.Nil(t, res.Error)
+	callRes = res.Result.(CallToolResult)
+	assert.True(t, callRes.IsError)
+}
+
+func TestTools_InitBarrelTechStack(t *testing.T) {
+	dir := setupTestWorkspace(t)
+	srv := NewServer(dir)
+	RegisterDefaultTools(srv)
+	RegisterDefaultResources(srv)
+
+	// Create a new un-scaffolded barrel
+	newBarrelDir := filepath.Join(dir, "barrels", "billing")
+	err := os.MkdirAll(newBarrelDir, 0755)
+	require.NoError(t, err)
+	err = os.WriteFile(filepath.Join(newBarrelDir, "package.json"), []byte(`{"name":"billing"}`), 0644)
+	require.NoError(t, err)
+
+	// Call battery_init_barrel_tech_stack
+	res := srv.HandleRequest(context.Background(), Request{
+		JSONRPC: JSONRPCVersion,
+		ID:      rawID(30),
+		Method:  "tools/call",
+		Params:  json.RawMessage(`{"name":"battery_init_barrel_tech_stack","arguments":{"barrel":"./barrels/billing","framework":"Express","test_runner":"jest"}}`),
+	})
+	require.Nil(t, res.Error)
+	callRes := res.Result.(CallToolResult)
+	assert.False(t, callRes.IsError)
+	assert.Contains(t, callRes.Content[0].Text, "tech-stack.md")
+
+	// Verify file was created
+	techPath := filepath.Join(newBarrelDir, ".cooper", "definition", "tech-stack.md")
+	assert.FileExists(t, techPath)
+	data, err := os.ReadFile(techPath)
+	require.NoError(t, err)
+	assert.Contains(t, string(data), "Express")
+	assert.Contains(t, string(data), "jest")
 }

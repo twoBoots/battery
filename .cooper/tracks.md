@@ -14,6 +14,10 @@ All active and completed Cooper tracks are registered below.
   - Worktree: `.worktrees/track_sync_cooper_skills_handshake_20260818`
   - Link: [.cooper/active/track_sync_cooper_skills_handshake_20260818/plan.md](./active/track_sync_cooper_skills_handshake_20260818/plan.md)
 
+- [ ] **Track: Per-Barrel Tech Stack Scaffolding & Auto-Inference Engine (CLI + MCP)**
+  - Worktree: `.worktrees/track_barrel_tech_stack_scaffold_20260818`
+  - Link: [.cooper/active/track_barrel_tech_stack_scaffold_20260818/plan.md](./active/track_barrel_tech_stack_scaffold_20260818/plan.md)
+
 - [ ] **Track: Multi-Barrel Track Dispatch Capability**
   - Worktree: `.worktrees/track_multi_barrel_dispatch_20260817`
   - Link: [.cooper/active/track_multi_barrel_dispatch_20260817/plan.md](./active/track_multi_barrel_dispatch_20260817/plan.md)

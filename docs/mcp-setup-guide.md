@@ -144,6 +144,7 @@ Any custom AI agent runner can launch `battery` as a child process using:
 | :--- | :--- | :--- | :--- |
 | `battery_status` | Inspects workspace topology, barrel connectivity, and active tracks. | *None* | `verbose` (boolean) |
 | `battery_list_barrels` | Lists registered barrels and resolves their Cooper tech stacks (`.cooper/definition/tech-stack.md`). | *None* | *None* |
+| `battery_init_barrel_tech_stack` | Scaffolds or updates `.cooper/definition/tech-stack.md` and code styleguides for a barrel or monorepo package. | `barrel` (string) | `language`, `framework`, `test_runner`, `linter`, `coverage_threshold`, `force` |
 | `battery_init_track` | Scaffolds a new track under `.cooper/active/<track_id>/`. | `track_id` (string) | `barrels` (array), `name` (string), `force` (boolean) |
 | `battery_dispatch_track` | Dispatches spec deltas to barrel worktrees while omitting `plan.md` to preserve local planning autonomy. | `track_id` (string) | `force` (boolean) |
 | `battery_track_status` | Aggregates phase completion and task checklists across all participating barrels. | `track_id` (string) | *None* |
