@@ -9,7 +9,7 @@
 
 ## Phase 2: Framework Guides & Workflow Synchronization
 - [x] Task: Synchronize `.cooper/COOPER.md` with Two-Tier Planning Model (90e8a7e)
-- [~] Task: Update `.cooper/definition/workflow.md` with Rule 9 (Upstream Architecture vs. Track Execution)
+- [x] Task: Update `.cooper/definition/workflow.md` with Rule 9 (Upstream Architecture vs. Track Execution) (fd88929)
 - [ ] Task: Phase 2 Verification & Checkpoint
 
 ## Phase 3: Agent Guidelines, Installer & Spec Promotion
