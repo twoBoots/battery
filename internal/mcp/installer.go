@@ -68,11 +68,13 @@ func GetSupportedClients(cwd string, homeDir string) []ClientTarget {
 		},
 		{
 			id:          "antigravity",
-			displayName: "Google Antigravity / Gemini (.gemini/settings.json)",
-			configPath:  filepath.Join(cwd, ".gemini", "settings.json"),
+			displayName: "Google Antigravity / agy (~/.gemini/config/mcp_config.json)",
+			configPath:  filepath.Join(homeDir, ".gemini", "config", "mcp_config.json"),
 			detectPaths: []string{
-				filepath.Join(cwd, ".gemini"),
+				filepath.Join(homeDir, ".gemini", "config"),
 				filepath.Join(homeDir, ".gemini"),
+				filepath.Join(cwd, ".agents"),
+				filepath.Join(cwd, ".gemini"),
 			},
 		},
 		{

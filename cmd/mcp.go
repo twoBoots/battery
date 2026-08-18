@@ -39,7 +39,7 @@ var mcpInstallCmd = &cobra.Command{
 
 Supported clients:
   * cursor          - Cursor IDE (.cursor/mcp.json)
-  * antigravity     - Google Antigravity / Gemini (.gemini/settings.json)
+  * antigravity     - Google Antigravity / agy (~/.gemini/config/mcp_config.json)
   * claude-desktop  - Anthropic Claude Desktop
   * claude-code     - Anthropic Claude Code (~/.claude.json)
   * windsurf        - Windsurf IDE (~/.codeium/windsurf/mcp_config.json)
