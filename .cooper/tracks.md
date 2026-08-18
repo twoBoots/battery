@@ -6,7 +6,7 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Preserve Existing Configuration on Battery Install & Init**
+- [x] **Track: Preserve Existing Configuration on Battery Install & Init**
   - Worktree: `.worktrees/track_preserve_config_on_install_20260818`
   - Link: [.cooper/active/track_preserve_config_on_install_20260818/plan.md](./active/track_preserve_config_on_install_20260818/plan.md)
 
