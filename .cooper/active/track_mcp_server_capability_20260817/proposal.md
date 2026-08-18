@@ -18,8 +18,12 @@ With modern AI agent ecosystems natively adopting the Model Context Protocol (MC
    - Expose `battery://topology`, `battery://barrels/{name}/tech-stack`, and `battery://tracks/{track_id}` as queryable MCP resources.
 4. **Planning Prompts**:
    - Provide guided prompt templates for multi-barrel track inception and contract definition.
+5. **MCP Client Auto-Configuration (`battery mcp install`)**:
+   - Provide automated and interactive configuration generation for AI coding assistants (Cursor, Antigravity, Claude Desktop, Claude Code, Windsurf, VS Code) and interactive prompts during `battery init`.
 
 ## Value & Impact
 * Gives AI agents direct, structured programmatic control over multi-repository SDD workflows.
 * Eliminates CLI output parsing errors and shell escaping issues.
 * Accelerates parallel track execution across heterogeneous multi-barrel environments.
+* Delivers a frictionless setup experience for AI developers across any IDE or agent environment.
+

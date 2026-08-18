@@ -38,3 +38,13 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 - [x] Task 5.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%. (eeb0fe0)
 - [x] Task 5.2: Update README and documentation with MCP integration examples for AI assistants (Cursor, Claude Code, Antigravity). (eeb0fe0)
+
+---
+
+## Phase 6: MCP Client Auto-Configuration & Installer Integration
+
+- [ ] Task 6.1: Implement `internal/mcp/installer.go` for detecting AI clients, safe JSON merging, and configuration writing with unit tests.
+- [ ] Task 6.2: Implement `battery mcp install` CLI command with interactive multi-select and flags (`--client`, `--all`) in `cmd/mcp.go` with CLI tests.
+- [ ] Task 6.3: Integrate interactive MCP setup prompt into `battery init` (`cmd/init.go`) and update `install.sh` / `docs/mcp-setup-guide.md`.
+- [ ] Task 6.4: Run full verification, ensure test coverage >80%, and checkpoint.
+

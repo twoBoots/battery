@@ -61,3 +61,22 @@ The system MUST expose standard prompt templates for guiding AI agents through m
 - **GIVEN** a request for `prompts/get` with `name: "plan_multi_barrel_track"`
 - **WHEN** the prompt is retrieved with argument `track_id`
 - **THEN** it MUST return prompt messages instructing the agent on Cooper Hybrid and Troop multi-barrel protocols.
+
+### Requirement 5: MCP Client Auto-Configuration & Installation (`battery mcp install`)
+The system MUST support automatic detection, interactive selection, and safe JSON configuration insertion of Battery MCP into supported AI assistants.
+
+#### Scenario 5.1: Non-Interactive / Flag-Based Client Installation
+- **GIVEN** a list of target clients (e.g. `--client cursor,claude-desktop,antigravity` or `--all`)
+- **WHEN** `battery mcp install` is executed
+- **THEN** it MUST create or update each client's configuration file with the `battery mcp` server definition without corrupting existing JSON keys.
+
+#### Scenario 5.2: Interactive Client Discovery & Multi-Select
+- **GIVEN** an interactive terminal session
+- **WHEN** `battery mcp install` is executed without client flags
+- **THEN** it MUST scan for known client configurations and present a multi-select prompt allowing the user to choose which clients to configure.
+
+#### Scenario 5.3: Integration with `battery init`
+- **GIVEN** an interactive `battery init` session
+- **WHEN** workspace topology configuration completes
+- **THEN** it MUST prompt the user whether to configure MCP for their AI assistant and invoke the installer upon confirmation.
+

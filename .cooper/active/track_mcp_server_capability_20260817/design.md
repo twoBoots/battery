@@ -46,3 +46,10 @@ The MCP server adheres to the Model Context Protocol Specification (JSON-RPC 2.0
 
 4. **Prompts (`prompts/list` & `prompts/get`)**:
    - `plan_multi_barrel_track`: Returns a structured prompt guiding agents on authoring spec-deltas and multi-barrel tracks.
+
+5. **MCP Client Auto-Configuration (`internal/mcp/installer.go`)**:
+   - Detects existing client configuration directories (Cursor `.cursor/`, Antigravity `.gemini/`, Claude Desktop, Claude Code `~/.claude.json`, Windsurf `~/.codeium/windsurf/`, VS Code `.vscode/`).
+   - Safely reads, merges, and writes the `"battery"` entry under `"mcpServers"` in each client's config file without mutating other servers.
+   - Provides interactive multi-select prompt when run interactively, and flag-based selection for scripted workflows (`battery mcp install --client=cursor,claude`).
+   - Integrates with `battery init` to prompt developers at the completion of workspace setup.
+
