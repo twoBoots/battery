@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/charmbracelet/huh"
@@ -12,26 +13,41 @@ import (
 	"github.com/twoboots/battery/internal/discovery"
 )
 
-var (
-	initStructure      string
-	initLocal          bool
-	initNonInteractive bool
-	initYes            bool
-)
+type InitOptions struct {
+	Structure      string
+	Local          bool
+	NonInteractive bool
+	Force          bool
+}
 
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize battery configuration (.batteryrc)",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return runInit(cmd.OutOrStdout(), getWorkingDir())
+		structure, _ := cmd.Flags().GetString("structure")
+		local, _ := cmd.Flags().GetBool("local")
+		nonInteractive, _ := cmd.Flags().GetBool("non-interactive")
+		yes, _ := cmd.Flags().GetBool("yes")
+		force, _ := cmd.Flags().GetBool("force")
+		overwrite, _ := cmd.Flags().GetBool("overwrite")
+
+		opts := InitOptions{
+			Structure:      structure,
+			Local:          local,
+			NonInteractive: nonInteractive || yes,
+			Force:          force || overwrite,
+		}
+		return runInit(cmd.OutOrStdout(), getWorkingDir(), opts)
 	},
 }
 
 func init() {
-	initCmd.Flags().StringVarP(&initStructure, "structure", "s", "", "Specify structure: 'multi-repo', 'monorepo', or 'custom'")
-	initCmd.Flags().BoolVar(&initLocal, "local", false, "Save to .batteryrc.local instead of canonical .batteryrc")
-	initCmd.Flags().BoolVar(&initNonInteractive, "non-interactive", false, "Run non-interactively with auto-discovered topology")
-	initCmd.Flags().BoolVarP(&initYes, "yes", "y", false, "Alias for --non-interactive")
+	initCmd.Flags().StringP("structure", "s", "", "Specify structure: 'multi-repo', 'monorepo', or 'custom'")
+	initCmd.Flags().Bool("local", false, "Save to .batteryrc.local instead of canonical .batteryrc")
+	initCmd.Flags().Bool("non-interactive", false, "Run non-interactively with auto-discovered topology")
+	initCmd.Flags().BoolP("yes", "y", false, "Alias for --non-interactive")
+	initCmd.Flags().BoolP("force", "f", false, "Force overwrite existing configuration")
+	initCmd.Flags().Bool("overwrite", false, "Alias for --force")
 
 	RootCmd.AddCommand(initCmd)
 }
@@ -44,19 +60,135 @@ func isTerminal() bool {
 	return (fileInfo.Mode() & os.ModeCharDevice) != 0
 }
 
-func runInit(out io.Writer, cwd string) error {
-	isNonInteractive := initNonInteractive ||
-		initYes ||
+func hasExistingConfig(cwd string, isLocal bool) bool {
+	filename := config.ConfigFilename
+	if isLocal {
+		filename = config.LocalConfigFilename
+	}
+	filePath := filepath.Join(cwd, filename)
+	info, err := os.Stat(filePath)
+	return err == nil && !info.IsDir()
+}
+
+func promptExistingConfigAction(targetFilename string) (string, error) {
+	var selected string
+	options := []huh.Option[string]{
+		huh.NewOption(fmt.Sprintf("Continue setup and preserve current config in %s (Recommended)", targetFilename), "preserve"),
+		huh.NewOption(fmt.Sprintf("Overwrite %s and start clean", targetFilename), "overwrite"),
+	}
+
+	form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewSelect[string]().
+				Title(fmt.Sprintf("Existing Battery configuration detected in %s:", targetFilename)).
+				Options(options...).
+				Value(&selected),
+		),
+	)
+
+	if err := form.Run(); err != nil {
+		return "preserve", err
+	}
+
+	return selected, nil
+}
+
+func runInit(out io.Writer, cwd string, opts InitOptions) error {
+	isNonInteractive := opts.NonInteractive ||
 		os.Getenv("CI") == "true" ||
 		!isTerminal()
 
 	fmt.Fprintln(out, "🔋 Initializing Battery Configuration...")
 
+	targetFilename := config.ConfigFilename
+	if opts.Local {
+		targetFilename = config.LocalConfigFilename
+	}
+
+	if hasExistingConfig(cwd, opts.Local) {
+		if isNonInteractive {
+			if opts.Force {
+				fmt.Fprintf(out, "  [!] Overwriting existing configuration in %s...\n", targetFilename)
+			} else {
+				fmt.Fprintf(out, "  [✓] Existing configuration detected in %s; preserving current configuration.\n", targetFilename)
+				var existingStructure config.ProjectStructure
+				var numBarrels int
+
+				if opts.Local {
+					if localCfg, err := config.LoadLocalConfig(cwd); err == nil && localCfg != nil {
+						existingStructure = localCfg.Structure
+						numBarrels = len(localCfg.Barrels)
+					}
+				} else {
+					if canonCfg, err := config.LoadConfig(cwd); err == nil && canonCfg != nil {
+						existingStructure = canonCfg.Structure
+						numBarrels = len(canonCfg.Barrels)
+					}
+				}
+
+				if existingStructure == "" {
+					existingStructure = config.StructureMultiRepo
+				}
+
+				fmt.Fprintf(out, "   Structure: %s\n", existingStructure)
+				fmt.Fprintf(out, "   Barrels  : %d registered\n\n", numBarrels)
+				return nil
+			}
+		} else {
+			action, err := promptExistingConfigAction(targetFilename)
+			if err != nil {
+				return err
+			}
+			if action == "preserve" {
+				fmt.Fprintf(out, "  [✓] Preserving current configuration in %s.\n", targetFilename)
+				var existingStructure config.ProjectStructure
+				var numBarrels int
+
+				if opts.Local {
+					if localCfg, err := config.LoadLocalConfig(cwd); err == nil && localCfg != nil {
+						existingStructure = localCfg.Structure
+						numBarrels = len(localCfg.Barrels)
+					}
+				} else {
+					if canonCfg, err := config.LoadConfig(cwd); err == nil && canonCfg != nil {
+						existingStructure = canonCfg.Structure
+						numBarrels = len(canonCfg.Barrels)
+					}
+				}
+
+				if existingStructure == "" {
+					existingStructure = config.StructureMultiRepo
+				}
+
+				fmt.Fprintf(out, "   Structure: %s\n", existingStructure)
+				fmt.Fprintf(out, "   Barrels  : %d registered\n\n", numBarrels)
+
+				var configureMCP bool
+				confirmMCPForm := huh.NewForm(
+					huh.NewGroup(
+						huh.NewConfirm().
+							Title("Would you like to configure Battery MCP server for your AI assistant? (Cursor, Claude, Antigravity, Windsurf, VS Code)").
+							Value(&configureMCP),
+					),
+				)
+				if err := confirmMCPForm.Run(); err == nil && configureMCP {
+					if err := runMCPInstall(out, cwd, "", nil, false, false); err != nil {
+						fmt.Fprintf(out, "  [!] MCP configuration notice: %v\n", err)
+					}
+				}
+
+				return nil
+			}
+
+			fmt.Fprintf(out, "  [!] Overwriting %s and starting clean...\n", targetFilename)
+		}
+	}
+
 	discovered := discovery.DiscoverCandidateBarrels(cwd)
 
 	var selectedStructure config.ProjectStructure
-	if initStructure != "" {
-		selectedStructure = config.ProjectStructure(initStructure)
+	if opts.Structure != "" {
+		selectedStructure = config.ProjectStructure(opts.Structure)
 	} else if isNonInteractive {
 		selectedStructure = discovered.Structure
 	} else {
@@ -95,12 +227,7 @@ func runInit(out io.Writer, cwd string) error {
 		Barrels:   finalBarrels,
 	}
 
-	targetFilename := config.ConfigFilename
-	if initLocal {
-		targetFilename = config.LocalConfigFilename
-	}
-
-	if _, err := config.SaveConfig(newConfig, cwd, initLocal); err != nil {
+	if _, err := config.SaveConfig(newConfig, cwd, opts.Local); err != nil {
 		return err
 	}
 

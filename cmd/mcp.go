@@ -72,8 +72,6 @@ func runMCPServer(in io.Reader, out io.Writer, cwd string) error {
 
 func runMCPInstall(out io.Writer, cwd string, homeDir string, clientIDs []string, all bool, nonInteractive bool) error {
 	isNonInteractive := nonInteractive ||
-		initNonInteractive ||
-		initYes ||
 		os.Getenv("CI") == "true" ||
 		!isTerminal()
 

@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 var (
@@ -24,8 +25,20 @@ across a collection of barrels for human developers and AI agents alike.`, Versi
 	},
 }
 
+// ResetFlags recursively resets all flags on a command and its subcommands to their default values.
+func ResetFlags(cmd *cobra.Command) {
+	cmd.Flags().VisitAll(func(f *pflag.Flag) {
+		_ = f.Value.Set(f.DefValue)
+		f.Changed = false
+	})
+	for _, child := range cmd.Commands() {
+		ResetFlags(child)
+	}
+}
+
 // Execute adds all child commands to the root command and sets flags appropriately.
 func Execute() error {
+	defer ResetFlags(RootCmd)
 	return RootCmd.Execute()
 }
 
