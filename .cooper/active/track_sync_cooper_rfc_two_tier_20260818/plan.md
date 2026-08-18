@@ -14,7 +14,7 @@
 
 ## Phase 3: Agent Guidelines, Installer & Spec Promotion
 - [x] Task: Update `AGENTS.md` and `AGENTS.template.md` with `cooper-rfc` (ea53e67)
-- [ ] Task: Update `install.sh` with `cooper-rfc`
+- [~] Task: Update `install.sh` with `cooper-rfc`
 - [ ] Task: Promote living spec `.cooper/specs/barrel-config/spec.md`
 - [ ] Task: Reconcile `.cooper/tracks.md` registry
 - [ ] Task: Phase 3 Verification, Tests & Final Checkpoint
