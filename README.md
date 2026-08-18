@@ -91,6 +91,9 @@ battery barrel add ../payment-service --name payment
 # Remove a barrel
 battery barrel remove payment
 
+# Scaffold / update .cooper/definition/tech-stack.md for a barrel package
+battery barrel init <path|name> [--framework <f>] [--force]
+
 # Interactive initialization or auto-discovery
 battery init [--structure <multi-repo|monorepo|custom>] [--non-interactive] [-y]
 
@@ -136,7 +139,7 @@ See **[Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)** for complete c
 ```
 
 ### Available MCP Primitives
-* **Tools**: `battery_status`, `battery_list_barrels`, `battery_init_track`, `battery_dispatch_track`, `battery_track_status`
+* **Tools**: `battery_status`, `battery_list_barrels`, `battery_init_barrel_tech_stack`, `battery_init_track`, `battery_dispatch_track`, `battery_track_status`
 * **Resources**: `battery://topology`, `battery://barrels/{name}/tech-stack`, `battery://tracks/{track_id}`
 * **Prompts**: `plan_multi_barrel_track`
 
