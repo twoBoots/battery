@@ -126,6 +126,65 @@ func TestGetSupportedClients_Detection(t *testing.T) {
 	}
 }
 
+func TestGetSupportedClients_AntigravityConfig(t *testing.T) {
+	tmpDir := t.TempDir()
+	homeDir := filepath.Join(tmpDir, "home")
+	workspaceDir := filepath.Join(tmpDir, "workspace")
+
+	clients := GetSupportedClients(workspaceDir, homeDir)
+	var antigravity *ClientTarget
+	for _, c := range clients {
+		if c.ID == "antigravity" {
+			target := c
+			antigravity = &target
+			break
+		}
+	}
+	if antigravity == nil {
+		t.Fatalf("antigravity client not found")
+	}
+
+	expectedPath := filepath.Join(homeDir, ".gemini", "config", "mcp_config.json")
+	if antigravity.ConfigPath != expectedPath {
+		t.Errorf("expected configPath %s, got %s", expectedPath, antigravity.ConfigPath)
+	}
+
+	expectedDisplayName := "Google Antigravity / agy (~/.gemini/config/mcp_config.json)"
+	if antigravity.DisplayName != expectedDisplayName {
+		t.Errorf("expected displayName %q, got %q", expectedDisplayName, antigravity.DisplayName)
+	}
+}
+
+func TestGetSupportedClients_AntigravityDetection(t *testing.T) {
+	// Test detection via ~/.gemini/config
+	tmpDir := t.TempDir()
+	homeDir := filepath.Join(tmpDir, "home")
+	workspaceDir := filepath.Join(tmpDir, "workspace")
+	if err := os.MkdirAll(filepath.Join(homeDir, ".gemini", "config"), 0755); err != nil {
+		t.Fatal(err)
+	}
+	clients := GetSupportedClients(workspaceDir, homeDir)
+	for _, c := range clients {
+		if c.ID == "antigravity" && !c.Detected {
+			t.Errorf("expected antigravity detected via ~/.gemini/config")
+		}
+	}
+
+	// Test detection via workspace/.agents
+	tmpDir2 := t.TempDir()
+	homeDir2 := filepath.Join(tmpDir2, "home")
+	workspaceDir2 := filepath.Join(tmpDir2, "workspace")
+	if err := os.MkdirAll(filepath.Join(workspaceDir2, ".agents"), 0755); err != nil {
+		t.Fatal(err)
+	}
+	clients2 := GetSupportedClients(workspaceDir2, homeDir2)
+	for _, c := range clients2 {
+		if c.ID == "antigravity" && !c.Detected {
+			t.Errorf("expected antigravity detected via workspace/.agents")
+		}
+	}
+}
+
 func TestGetSupportedClients_DefaultHome(t *testing.T) {
 	tmpDir := t.TempDir()
 	clients := GetSupportedClients(tmpDir, "")
