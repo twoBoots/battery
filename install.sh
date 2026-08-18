@@ -19,11 +19,15 @@ TARGET_DIR="$(pwd)"
 # Parse flags
 NON_INTERACTIVE=false
 STRUCTURE_ARG=""
+FORCE_ARG=false
 
 for arg in "$@"; do
     case "$arg" in
         --non-interactive|-y|--yes)
             NON_INTERACTIVE=true
+            ;;
+        --force|-f|--overwrite)
+            FORCE_ARG=true
             ;;
         --structure=*|-s=*)
             STRUCTURE_ARG="${arg#*=}"
@@ -174,25 +178,24 @@ INSTALL_BIN_DIR="${HOME}/.local/bin"
 [ -d "/usr/local/bin" ] && [ -w "/usr/local/bin" ] && INSTALL_BIN_DIR="/usr/local/bin"
 mkdir -p "$INSTALL_BIN_DIR"
 
-RELEASE_URL="https://github.com/${GITHUB_REPO}/releases/latest/download/${RELEASE_BINARY}"
-if command -v curl >/dev/null 2>&1; then
-    if curl -fsSL "$RELEASE_URL" -o "${INSTALL_BIN_DIR}/battery" 2>/dev/null; then
+# Tier 1: Build locally if Go is available and source is present
+if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/main.go" ] && command -v go >/dev/null 2>&1; then
+    (cd "$SCRIPT_DIR" && go build -ldflags="-s -w" -o "${INSTALL_BIN_DIR}/battery" .) >/dev/null 2>&1 || true
+    if [ -f "${INSTALL_BIN_DIR}/battery" ]; then
         chmod +x "${INSTALL_BIN_DIR}/battery"
         CLI_INSTALLED=true
-        echo "  [✓] Downloaded prebuilt binary from GitHub Releases to ${INSTALL_BIN_DIR}/battery"
+        echo "  [✓] Compiled and registered CLI globally with Go (${INSTALL_BIN_DIR}/battery)"
     fi
 fi
 
-# Tier 2: Build locally if Go is available and source is present
+# Tier 2: Download prebuilt binary from GitHub Releases
 if [ "$CLI_INSTALLED" = false ]; then
-    if command -v go >/dev/null 2>&1; then
-        if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/main.go" ]; then
-            (cd "$SCRIPT_DIR" && go build -ldflags="-s -w" -o "${INSTALL_BIN_DIR}/battery" .) >/dev/null 2>&1 || true
-            if [ -f "${INSTALL_BIN_DIR}/battery" ]; then
-                chmod +x "${INSTALL_BIN_DIR}/battery"
-                CLI_INSTALLED=true
-                echo "  [✓] Compiled and registered CLI globally with Go (${INSTALL_BIN_DIR}/battery)"
-            fi
+    RELEASE_URL="https://github.com/${GITHUB_REPO}/releases/latest/download/${RELEASE_BINARY}"
+    if command -v curl >/dev/null 2>&1; then
+        if curl -fsSL "$RELEASE_URL" -o "${INSTALL_BIN_DIR}/battery" 2>/dev/null; then
+            chmod +x "${INSTALL_BIN_DIR}/battery"
+            CLI_INSTALLED=true
+            echo "  [✓] Downloaded prebuilt binary from GitHub Releases to ${INSTALL_BIN_DIR}/battery"
         fi
     fi
 fi
@@ -202,6 +205,9 @@ echo "  [4/4] Configuring workspace topology..."
 INIT_ARGS=()
 if [ "$NON_INTERACTIVE" = true ]; then
     INIT_ARGS+=("--non-interactive")
+fi
+if [ "$FORCE_ARG" = true ]; then
+    INIT_ARGS+=("--force")
 fi
 if [ -n "$STRUCTURE_ARG" ]; then
     INIT_ARGS+=("--structure" "$STRUCTURE_ARG")
@@ -230,6 +236,8 @@ else
     if [ ! -f ".batteryrc" ]; then
         echo '{"version":"1.0.0","structure":"multi-repo","barrels":[]}' > .batteryrc
         echo "  [✓] Created default .batteryrc"
+    else
+        echo "  [✓] Existing .batteryrc detected; preserving current configuration."
     fi
 fi
 
