@@ -9,7 +9,7 @@
   - [x] Sub-task: Write unit tests for release API parsing and version comparison with httptest (Red)
   - [x] Sub-task: Implement release fetching and semver comparator (Green)
   - [x] Sub-task: Refactor & verify tests (Refactor)
-- [ ] Task: Binary Download & Atomic Replacement Service
+- [~] Task: Binary Download & Atomic Replacement Service
   - [ ] Sub-task: Write unit tests for executable download and file replacement using temp directories (Red)
   - [ ] Sub-task: Implement safe download and swap logic (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
