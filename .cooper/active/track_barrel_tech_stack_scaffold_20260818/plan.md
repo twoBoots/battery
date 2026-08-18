@@ -14,7 +14,7 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 2: CLI Integration (`cmd/barrel.go`)
 
-- [ ] Task 2.1: Add `battery barrel init <path|name>` Cobra subcommand with flags (`--language`, `--framework`, `--test-runner`, `--linter`, `--coverage-threshold`, `--force`) and tests.
+- [x] Task 2.1: Add `battery barrel init <path|name>` Cobra subcommand with flags (`--language`, `--framework`, `--test-runner`, `--linter`, `--coverage-threshold`, `--force`) and tests. (03bbb00)
 
 ---
 
