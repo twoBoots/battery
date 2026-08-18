@@ -5,10 +5,10 @@
   - [x] Sub-task: Write unit tests for OS/Arch mapping against release binary matrix (Red)
   - [x] Sub-task: Implement `GetPlatformBinaryName(goos, goarch)` (Green)
   - [x] Sub-task: Refactor & verify tests (Refactor)
-- [~] Task: GitHub Release Fetching & Semver Logic
-  - [ ] Sub-task: Write unit tests for release API parsing and version comparison with httptest (Red)
-  - [ ] Sub-task: Implement release fetching and semver comparator (Green)
-  - [ ] Sub-task: Refactor & verify tests (Refactor)
+- [x] Task: GitHub Release Fetching & Semver Logic (e03bb5d)
+  - [x] Sub-task: Write unit tests for release API parsing and version comparison with httptest (Red)
+  - [x] Sub-task: Implement release fetching and semver comparator (Green)
+  - [x] Sub-task: Refactor & verify tests (Refactor)
 - [ ] Task: Binary Download & Atomic Replacement Service
   - [ ] Sub-task: Write unit tests for executable download and file replacement using temp directories (Red)
   - [ ] Sub-task: Implement safe download and swap logic (Green)
