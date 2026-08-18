@@ -1,0 +1,3 @@
+Task: Create .cooper/index.md and .cooper/tracks.md, sync framework docs
+Scope: .cooper/index.md, .cooper/tracks.md, .cooper/COOPER.md, .cooper/definition/workflow.md
+Summary: Added Battery-tailored Handshake index and Tracks Registry, synced COOPER.md and workflow.md from upstream Cooper
