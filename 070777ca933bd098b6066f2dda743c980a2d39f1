@@ -1,0 +1,3 @@
+Task: Add CLI flags and configuration detection logic to battery init
+Scope: cmd/init.go, cmd/init_test.go, cmd/mcp.go, cmd/root.go
+Summary: Added existing configuration detection for .batteryrc and .batteryrc.local, prompt for preserving config or overwriting, --force/--overwrite flags for non-interactive mode, and ResetFlags on RootCmd.
