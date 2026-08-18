@@ -27,7 +27,7 @@
   - [x] Sub-task: Phase checkpoint notes and branch synchronization
 
 ## Phase 3: Specification Promotion & Documentation
-- [ ] Task: Promote Living Spec & Update Docs
+- [~] Task: Promote Living Spec & Update Docs
   - [ ] Sub-task: Promote `spec-deltas/cli-self-update/spec.md` to `.cooper/specs/cli-self-update/spec.md`
   - [ ] Sub-task: Update `README.md`, `install.sh`, and `.cooper/index.md`
 - [ ] Task: Final Track Review & Checkpoint
