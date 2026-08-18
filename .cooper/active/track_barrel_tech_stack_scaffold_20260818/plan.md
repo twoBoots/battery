@@ -6,9 +6,9 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 1: Tech Stack Inference & Scaffolding Engine (`internal/techstack/scaffold.go`)
 
-- [ ] Task 1.1: Implement marker-based inference logic (`InferTechStack(barrelPath)`) supporting Go, TypeScript/JS, Rust, Python, Deno, Java with unit tests.
-- [ ] Task 1.2: Implement `ScaffoldBarrelTechStack(barrelPath, opts)` to write `.cooper/definition/tech-stack.md` and styleguides with unit tests.
-- [ ] Task 1.3: Add tests validating collision prevention (not overwriting without `force: true`).
+- [x] Task 1.1: Implement marker-based inference logic (`InferTechStack(barrelPath)`) supporting Go, TypeScript/JS, Rust, Python, Deno, Java with unit tests. (c02b195)
+- [x] Task 1.2: Implement `ScaffoldBarrelTechStack(barrelPath, opts)` to write `.cooper/definition/tech-stack.md` and styleguides with unit tests. (c02b195)
+- [x] Task 1.3: Add tests validating collision prevention (not overwriting without `force: true`). (c02b195)
 
 ---
 
