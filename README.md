@@ -100,6 +100,10 @@ battery track dispatch <track_id> [--force]
 battery track status [<track_id>]
 battery track list
 
+# Self-update CLI binary
+battery update [--check] [--force] [--target-version <v1.3.0>]
+battery self-update
+
 # Model Context Protocol (MCP) server for AI coding assistants
 battery mcp [--transport stdio]
 
