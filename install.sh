@@ -90,27 +90,13 @@ get_cooper_file() {
 }
 
 # 1. Setup Cooper & Troop foundation
-echo "  [1/4] Setting up Cooper Hybrid SDD & Troop worktree foundation..."
+echo "  [1/4] Setting up Cooper SDD & Troop worktree foundation..."
 if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../cooper/install.sh" ]; then
     bash "$SCRIPT_DIR/../cooper/install.sh" "$TARGET_DIR" >/dev/null 2>&1 || true
 elif command -v curl >/dev/null 2>&1; then
     curl -fsSL "$COOPER_RAW_BASE_URL/install.sh" 2>/dev/null | bash -s "$TARGET_DIR" >/dev/null 2>&1 || true
-fi
-
-# Ensure base .cooper directory tree exists
-mkdir -p .cooper/definition .cooper/code_styleguides .cooper/specs .cooper/active .cooper/archive
-
-# Relocate TROOP.md into .cooper/ to keep project root clean if it exists in root
-if [ -f "TROOP.md" ]; then
-    mv "TROOP.md" ".cooper/TROOP.md"
-fi
-
-# Remove legacy root COOPER.md if present
-rm -f "COOPER.md"
-
-# Ensure .cooper/COOPER.md is present
-if [ ! -s ".cooper/COOPER.md" ]; then
-    get_cooper_file ".cooper/COOPER.md" ".cooper/COOPER.md"
+elif command -v wget >/dev/null 2>&1; then
+    wget -qO- "$COOPER_RAW_BASE_URL/install.sh" 2>/dev/null | bash -s "$TARGET_DIR" >/dev/null 2>&1 || true
 fi
 
 # 2. Install Battery specifications & configuration files
@@ -118,7 +104,16 @@ echo "  [2/4] Installing Battery specifications & guidelines..."
 rm -f "strategy.md"
 get_battery_file ".cooper/BATTERY.md" ".cooper/BATTERY.md"
 
-# Setup AGENTS.md from template
+# Ensure .cooper/index.md links to BATTERY.md
+if [ -f ".cooper/index.md" ]; then
+    if ! grep -qs "BATTERY.md" ".cooper/index.md"; then
+        if grep -qs "## Definition" ".cooper/index.md"; then
+            awk '/## Definition/{print; print "- [Battery Architecture](./BATTERY.md)"; next}1' .cooper/index.md > .cooper/index.md.tmp && mv .cooper/index.md.tmp .cooper/index.md
+        fi
+    fi
+fi
+
+# Setup AGENTS.md with Battery rules
 if [ -f "AGENTS.md" ]; then
     if ! grep -qs "Battery Agent Rules" AGENTS.md; then
         TMP_TEMPLATE="$(mktemp)"
@@ -129,10 +124,13 @@ if [ -f "AGENTS.md" ]; then
         elif command -v wget >/dev/null 2>&1; then
             wget -qO "$TMP_TEMPLATE" "$RAW_BASE_URL/AGENTS.template.md"
         fi
-        echo -e "\n" >> AGENTS.md
-        cat "$TMP_TEMPLATE" >> AGENTS.md
+        TMP_COMBINED="$(mktemp)"
+        cat "$TMP_TEMPLATE" > "$TMP_COMBINED"
+        echo "" >> "$TMP_COMBINED"
+        cat "AGENTS.md" >> "$TMP_COMBINED"
+        mv "$TMP_COMBINED" "AGENTS.md"
         rm -f "$TMP_TEMPLATE"
-        echo "  [✓] Appended Battery rules to existing AGENTS.md"
+        echo "  [✓] Attached Battery rules to AGENTS.md"
     fi
 else
     get_battery_file "AGENTS.template.md" "AGENTS.md"
