@@ -6,6 +6,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
+- [x] **Track: Fix Antigravity / agy MCP Configuration Target to mcp_config.json**
+  - Worktree: `.worktrees/track_fix_antigravity_mcp_config_20260818`
+  - Link: [.cooper/active/track_fix_antigravity_mcp_config_20260818/plan.md](./active/track_fix_antigravity_mcp_config_20260818/plan.md)
+
 - [x] **Track: Sync Cooper Skills, Handshake Index & Installer Refinement**
   - Worktree: `.worktrees/track_sync_cooper_skills_handshake_20260818`
   - Link: [.cooper/active/track_sync_cooper_skills_handshake_20260818/plan.md](./active/track_sync_cooper_skills_handshake_20260818/plan.md)

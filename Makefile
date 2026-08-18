@@ -1,6 +1,6 @@
 BINARY_NAME=battery
 BIN_DIR=bin
-VERSION=1.0.0
+VERSION=1.2.1
 LDFLAGS=-ldflags="-s -w -X github.com/twoboots/battery/cmd.Version=$(VERSION)"
 
 .PHONY: all build test test-coverage lint fmt clean install

@@ -119,7 +119,7 @@ func TestMCPInstall_WithClientsFlag(t *testing.T) {
 	assert.FileExists(t, cursorFile)
 
 	// Verify Antigravity file exists
-	antigravityFile := filepath.Join(workspaceDir, ".gemini", "settings.json")
+	antigravityFile := filepath.Join(homeDir, ".gemini", "config", "mcp_config.json")
 	assert.FileExists(t, antigravityFile)
 }
 

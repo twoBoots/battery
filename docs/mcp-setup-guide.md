@@ -33,7 +33,7 @@ Add `battery` to your AI client's MCP configuration using the examples below.
 
 ### 1. Google Antigravity & Gemini CLI
 
-In your workspace or global `.gemini/settings.json` (or `~/.gemini/antigravity-cli/mcp/battery.json`):
+In your global `~/.gemini/config/mcp_config.json` (or workspace `.agents/mcp_config.json`):
 
 ```json
 {
