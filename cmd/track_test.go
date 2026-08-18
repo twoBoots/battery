@@ -111,6 +111,17 @@ func TestTrackStatusCmd(t *testing.T) {
 	buf.Reset()
 	err = runTrackStatus(buf, tmpDir, "non-existent")
 	assert.Error(t, err)
+
+	// Status with active tasks in barrel plan
+	barrelTrackDir := filepath.Join(tmpDir, "folder-a", ".cooper", "active", "my-feature")
+	require.NoError(t, os.MkdirAll(barrelTrackDir, 0755))
+	require.NoError(t, os.WriteFile(filepath.Join(barrelTrackDir, "metadata.json"), []byte(`{"track_id":"my-feature","status":"in-progress"}`), 0644))
+	require.NoError(t, os.WriteFile(filepath.Join(barrelTrackDir, "plan.md"), []byte("- [x] Task 1\n- [ ] Task 2\n"), 0644))
+
+	buf.Reset()
+	err = runTrackStatus(buf, tmpDir, "my-feature")
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "50% (1/2 tasks completed)")
 }
 
 func TestTrackListCmd(t *testing.T) {

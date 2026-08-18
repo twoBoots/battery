@@ -232,3 +232,6 @@ echo "  battery barrel list          - List all configured barrels & Cooper tech
 echo "  battery barrel add <path>    - Add a barrel to .batteryrc (or --local)"
 echo "  battery barrel remove <name> - Remove a barrel from .batteryrc"
 echo "  battery init                 - Reconfigure project structure & discovered barrels"
+echo "  battery mcp                  - Start Model Context Protocol (MCP) server over stdio"
+echo "  battery mcp install          - Configure Battery MCP in AI coding assistants"
+

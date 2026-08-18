@@ -54,12 +54,25 @@ func TestInitTrack_InvalidInputs(t *testing.T) {
 	_, err := track.InitTrack(tmpDir, "", []string{"folder-a"}, track.InitTrackOptions{})
 	assert.Error(t, err)
 
+	// Invalid characters in track ID
+	_, err = track.InitTrack(tmpDir, "invalid/track/id!", []string{"folder-a"}, track.InitTrackOptions{})
+	assert.Error(t, err)
+
 	// Already existing track without overwrite
 	_, err = track.InitTrack(tmpDir, "existing-track", []string{"folder-a"}, track.InitTrackOptions{})
 	require.NoError(t, err)
 
 	_, err = track.InitTrack(tmpDir, "existing-track", []string{"folder-a"}, track.InitTrackOptions{})
 	assert.Error(t, err)
+
+	// Force overwrite existing track
+	meta, err := track.InitTrack(tmpDir, "existing-track", nil, track.InitTrackOptions{
+		Force:    true,
+		Proposal: "# Custom Proposal",
+		Design:   "# Custom Design",
+	})
+	require.NoError(t, err)
+	assert.Equal(t, "existing-track", meta.TrackID)
 }
 
 func TestDispatchTrack_SeedsBarrelsWithoutPlan(t *testing.T) {
@@ -144,4 +157,33 @@ func TestDispatchTrack_TargetsWorktreeWhenPresent(t *testing.T) {
 	assert.FileExists(t, filepath.Join(worktreeTrackDir, "metadata.json"))
 	assert.FileExists(t, filepath.Join(worktreeTrackDir, "proposal.md"))
 	assert.NoFileExists(t, filepath.Join(worktreeTrackDir, "plan.md"))
+}
+
+func TestDispatchTrack_Errors(t *testing.T) {
+	tmpDir := t.TempDir()
+
+	// Missing track error
+	_, err := track.DispatchTrack(tmpDir, "nonexistent-track", track.DispatchTrackOptions{})
+	assert.Error(t, err)
+
+	// Barrel not found in .batteryrc
+	cfg := config.BatteryConfig{
+		Version:   "1.0.0",
+		Structure: config.StructureMultiRepo,
+		Barrels: []config.BarrelConfig{
+			{Name: "folder-a", Path: "./folder-a"},
+		},
+	}
+	_, err = config.SaveConfig(&cfg, tmpDir, false)
+	require.NoError(t, err)
+
+	_, err = track.InitTrack(tmpDir, "test-track", []string{"unconfigured-barrel"}, track.InitTrackOptions{})
+	require.NoError(t, err)
+
+	results, err := track.DispatchTrack(tmpDir, "test-track", track.DispatchTrackOptions{})
+	require.NoError(t, err)
+	require.Len(t, results, 1)
+	assert.False(t, results[0].Created)
+	assert.NotEmpty(t, results[0].Error)
+	assert.Contains(t, results[0].Error, "not found in .batteryrc configuration")
 }

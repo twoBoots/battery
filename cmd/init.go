@@ -108,6 +108,22 @@ func runInit(out io.Writer, cwd string) error {
 	fmt.Fprintf(out, "   Structure: %s\n", selectedStructure)
 	fmt.Fprintf(out, "   Barrels  : %d registered\n\n", len(finalBarrels))
 
+	if !isNonInteractive {
+		var configureMCP bool
+		confirmMCPForm := huh.NewForm(
+			huh.NewGroup(
+				huh.NewConfirm().
+					Title("Would you like to configure Battery MCP server for your AI assistant? (Cursor, Claude, Antigravity, Windsurf, VS Code)").
+					Value(&configureMCP),
+			),
+		)
+		if err := confirmMCPForm.Run(); err == nil && configureMCP {
+			if err := runMCPInstall(out, cwd, "", nil, false, false); err != nil {
+				fmt.Fprintf(out, "  [!] MCP configuration notice: %v\n", err)
+			}
+		}
+	}
+
 	return nil
 }
 
