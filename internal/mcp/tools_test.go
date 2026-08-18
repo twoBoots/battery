@@ -215,4 +215,3 @@ func TestTools_InitBarrelTechStack(t *testing.T) {
 	assert.Contains(t, string(data), "Express")
 	assert.Contains(t, string(data), "jest")
 }
-

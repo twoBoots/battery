@@ -159,4 +159,3 @@ func TestBarrelInitCmd_Scaffolding(t *testing.T) {
 	assert.Contains(t, string(content), "Chi")
 	assert.Contains(t, string(content), "go test")
 }
-
