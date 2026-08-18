@@ -1,0 +1,3 @@
+Task: Platform Detection & Asset Matching
+Scope: internal/updater/platform.go, internal/updater/platform_test.go
+Summary: Implemented OS and Arch normalization and release binary asset matching with >90% test coverage.
