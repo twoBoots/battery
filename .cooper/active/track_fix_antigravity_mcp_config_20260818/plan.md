@@ -5,7 +5,7 @@
   - [x] Sub-task: Update `cmd/mcp_test.go` and `internal/mcp/installer_test.go` for Antigravity target (Red)
   - [x] Sub-task: Update `internal/mcp/installer.go` and `cmd/mcp.go` with `~/.gemini/config/mcp_config.json` (Green)
   - [x] Sub-task: Verify tests pass with coverage >80% (Refactor)
-- [ ] Task: Phase 1 Checkpoint
+- [x] Task: Phase 1 Checkpoint (5644a61)
 
 ## Phase 2: Documentation & Living Spec Updates
 - [ ] Task: Update Documentation (`README.md`, `docs/mcp-setup-guide.md`)
