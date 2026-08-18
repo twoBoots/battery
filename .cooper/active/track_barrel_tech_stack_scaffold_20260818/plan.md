@@ -20,8 +20,8 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 3: MCP Tool Integration (`internal/mcp/tools.go`)
 
-- [ ] Task 3.1: Implement `battery_init_barrel_tech_stack` MCP tool with parameter parsing, inference, and execution with unit tests.
-- [ ] Task 3.2: Verify integration with dynamic resource `battery://barrels/{name}/tech-stack`.
+- [x] Task 3.1: Implement `battery_init_barrel_tech_stack` MCP tool with parameter parsing, inference, and execution with unit tests. (3bcb88d)
+- [x] Task 3.2: Verify integration with dynamic resource `battery://barrels/{name}/tech-stack`. (3bcb88d)
 
 ---
 
