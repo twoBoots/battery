@@ -18,7 +18,7 @@
   - [x] Sub-task: Git fetch and notes synchronization
 
 ## Phase 2: CLI Command Integration (`cmd/update.go`)
-- [ ] Task: `battery update` CLI Command Implementation
+- [~] Task: `battery update` CLI Command Implementation
   - [ ] Sub-task: Write CLI command tests for `battery update --check`, `--force`, `--version` (Red)
   - [ ] Sub-task: Implement `updateCmd` in `cmd/update.go` and wire into `RootCmd` with aliases (Green)
   - [ ] Sub-task: Refactor & verify command outputs (Refactor)
