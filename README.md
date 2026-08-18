@@ -122,7 +122,7 @@ battery mcp install
 See **[Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)** for complete configuration instructions across all editors and agents.
 
 
-### Quick Setup (`.gemini/settings.json`, `.cursor/mcp.json`, `claude_desktop_config.json`)
+### Quick Setup (`mcp_config.json`, `.cursor/mcp.json`, `claude_desktop_config.json`)
 
 ```json
 {
