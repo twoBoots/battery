@@ -5,7 +5,7 @@
   - [x] Sub-task: Install `.agents/skills/cooper-rfc/SKILL.md`
   - [x] Sub-task: Update `.agents/skills/cooper-new-track/SKILL.md` with silent scope check
   - [x] Sub-task: Update `.agents/skills/cooper-setup/SKILL.md` with `cooper-rfc`
-- [ ] Task: Phase 1 Verification & Checkpoint
+- [x] Task: Phase 1 Verification & Checkpoint (e5f845b)
 
 ## Phase 2: Framework Guides & Workflow Synchronization
 - [ ] Task: Synchronize `.cooper/COOPER.md` with Two-Tier Planning Model
