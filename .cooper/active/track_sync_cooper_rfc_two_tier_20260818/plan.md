@@ -13,7 +13,7 @@
 - [x] Task: Phase 2 Verification & Checkpoint (4fbb899)
 
 ## Phase 3: Agent Guidelines, Installer & Spec Promotion
-- [~] Task: Update `AGENTS.md` and `AGENTS.template.md` with `cooper-rfc`
+- [x] Task: Update `AGENTS.md` and `AGENTS.template.md` with `cooper-rfc` (ea53e67)
 - [ ] Task: Update `install.sh` with `cooper-rfc`
 - [ ] Task: Promote living spec `.cooper/specs/barrel-config/spec.md`
 - [ ] Task: Reconcile `.cooper/tracks.md` registry
