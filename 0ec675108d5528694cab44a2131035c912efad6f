@@ -1,0 +1,3 @@
+Task: Update Installer Logic & Tests
+Scope: internal/mcp/installer.go, cmd/mcp.go, test files
+Summary: Updated Antigravity MCP config path to ~/.gemini/config/mcp_config.json, expanded detection paths to include ~/.gemini/config and .agents, updated display name and tests.
