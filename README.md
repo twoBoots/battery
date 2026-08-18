@@ -102,6 +102,9 @@ battery track list
 
 # Model Context Protocol (MCP) server for AI coding assistants
 battery mcp [--transport stdio]
+
+# Configure Battery MCP server in AI coding assistants (Cursor, Antigravity, Claude, Windsurf, VS Code)
+battery mcp install [--client cursor,antigravity] [--all]
 ```
 
 ---
@@ -110,7 +113,14 @@ battery mcp [--transport stdio]
 
 `battery` natively implements the **Model Context Protocol (MCP)** over stdio (`battery mcp` / `battery serve`), exposing multi-repository SDD orchestration directly to AI coding assistants (e.g. Antigravity, Claude Code, Cursor, Windsurf, Copilot, Cline, Roo Code).
 
+### 🚀 Auto-Configuration
+Configure your AI coding assistants with one command:
+```bash
+battery mcp install
+```
+
 See **[Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)** for complete configuration instructions across all editors and agents.
+
 
 ### Quick Setup (`.gemini/settings.json`, `.cursor/mcp.json`, `claude_desktop_config.json`)
 

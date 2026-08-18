@@ -8,7 +8,26 @@ Exposing Battery as an MCP server enables **any** compliant AI coding assistant 
 
 ---
 
-## ⚙️ Client Configuration Reference
+## 🚀 Quick Setup (Automatic Configuration)
+
+Battery can automatically detect and configure your installed AI coding assistants with a single command:
+
+```bash
+# Interactive multi-select menu with auto-detected clients
+battery mcp install
+
+# Or configure specific clients non-interactively
+battery mcp install --client cursor,antigravity,claude-desktop
+
+# Or configure all supported clients
+battery mcp install --all
+```
+
+`battery init` also offers to configure your AI assistant automatically during initial workspace setup!
+
+---
+
+## ⚙️ Client Configuration Reference (Manual)
 
 Add `battery` to your AI client's MCP configuration using the examples below.
 

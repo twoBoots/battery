@@ -43,8 +43,9 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 6: MCP Client Auto-Configuration & Installer Integration
 
-- [ ] Task 6.1: Implement `internal/mcp/installer.go` for detecting AI clients, safe JSON merging, and configuration writing with unit tests.
-- [ ] Task 6.2: Implement `battery mcp install` CLI command with interactive multi-select and flags (`--client`, `--all`) in `cmd/mcp.go` with CLI tests.
-- [ ] Task 6.3: Integrate interactive MCP setup prompt into `battery init` (`cmd/init.go`) and update `install.sh` / `docs/mcp-setup-guide.md`.
-- [ ] Task 6.4: Run full verification, ensure test coverage >80%, and checkpoint.
+- [x] Task 6.1: Implement `internal/mcp/installer.go` for detecting AI clients, safe JSON merging, and configuration writing with unit tests.
+- [x] Task 6.2: Implement `battery mcp install` CLI command with interactive multi-select and flags (`--client`, `--all`) in `cmd/mcp.go` with CLI tests.
+- [x] Task 6.3: Integrate interactive MCP setup prompt into `battery init` (`cmd/init.go`) and update `install.sh` / `docs/mcp-setup-guide.md`.
+- [x] Task 6.4: Run full verification, ensure test coverage >80%, and checkpoint.
+
 

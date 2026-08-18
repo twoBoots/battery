@@ -82,3 +82,22 @@ func TestInitCmd_NonInteractive_LocalMonorepo(t *testing.T) {
 	assert.Len(t, local.Barrels, 1)
 	assert.Equal(t, "core", local.Barrels[0].Name)
 }
+
+func TestInitCmd_NonInteractive_NoBarrels(t *testing.T) {
+	tempDir := t.TempDir()
+
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetArgs([]string{"init", "--non-interactive", "--structure", "custom"})
+
+	err := cmd.Execute()
+	require.NoError(t, err)
+
+	out := buf.String()
+	assert.Contains(t, out, "No candidate barrels automatically discovered")
+	assert.Contains(t, out, "Structure: custom")
+}
