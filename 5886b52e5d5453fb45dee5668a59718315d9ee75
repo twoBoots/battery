@@ -1,0 +1,3 @@
+Task: Update install.sh fallback and documentation
+Scope: install.sh
+Summary: Added --force/--overwrite flag support, tier-1 local compilation when SCRIPT_DIR/main.go is present, and non-destructive fallback logic preserving existing .batteryrc.
