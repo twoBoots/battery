@@ -86,6 +86,8 @@ get_cooper_file() {
 
     if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../cooper/$filename" ]; then
         cp "$SCRIPT_DIR/../cooper/$filename" "$dest"
+    elif [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../../cooper/$filename" ]; then
+        cp "$SCRIPT_DIR/../../cooper/$filename" "$dest"
     elif command -v curl >/dev/null 2>&1; then
         curl -fsSL "$COOPER_RAW_BASE_URL/$filename" -o "$dest" 2>/dev/null || true
     elif command -v wget >/dev/null 2>&1; then
@@ -97,6 +99,8 @@ get_cooper_file() {
 echo "  [1/4] Setting up Cooper SDD & Troop worktree foundation..."
 if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../cooper/install.sh" ]; then
     bash "$SCRIPT_DIR/../cooper/install.sh" "$TARGET_DIR" >/dev/null 2>&1 || true
+elif [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../../cooper/install.sh" ]; then
+    bash "$SCRIPT_DIR/../../cooper/install.sh" "$TARGET_DIR" >/dev/null 2>&1 || true
 elif command -v curl >/dev/null 2>&1; then
     curl -fsSL "$COOPER_RAW_BASE_URL/install.sh" 2>/dev/null | bash -s "$TARGET_DIR" >/dev/null 2>&1 || true
 elif command -v wget >/dev/null 2>&1; then
