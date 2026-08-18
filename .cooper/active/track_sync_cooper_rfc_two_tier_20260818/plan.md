@@ -16,5 +16,5 @@
 - [x] Task: Update `AGENTS.md` and `AGENTS.template.md` with `cooper-rfc` (ea53e67)
 - [x] Task: Update `install.sh` with `cooper-rfc` (verified)
 - [x] Task: Promote living spec `.cooper/specs/barrel-config/spec.md` (4e73ab6)
-- [ ] Task: Reconcile `.cooper/tracks.md` registry
+- [~] Task: Reconcile `.cooper/tracks.md` registry
 - [ ] Task: Phase 3 Verification, Tests & Final Checkpoint
