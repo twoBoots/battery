@@ -9,5 +9,5 @@
 
 ## Phase 2: Documentation & Living Spec Updates
 - [x] Task: Update Documentation (`README.md`, `docs/mcp-setup-guide.md`) (3ed45d8)
-- [~] Task: Update Living Spec (`.cooper/specs/mcp-server/spec.md`)
+- [x] Task: Update Living Spec (`.cooper/specs/mcp-server/spec.md`) (34246d6)
 - [ ] Task: Phase 2 Checkpoint & Verification
