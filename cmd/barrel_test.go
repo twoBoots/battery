@@ -129,3 +129,34 @@ func TestBarrelRemove_NotFound(t *testing.T) {
 	err := cmd.Execute()
 	assert.Error(t, err)
 }
+
+func TestBarrelInitCmd_Scaffolding(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	barrelDir := filepath.Join(tempDir, "services", "payment")
+	err := os.MkdirAll(barrelDir, 0755)
+	require.NoError(t, err)
+	err = os.WriteFile(filepath.Join(barrelDir, "go.mod"), []byte("module payment\n\ngo 1.23.0\n"), 0644)
+	require.NoError(t, err)
+
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetErr(buf)
+	cmd.RootCmd.SetArgs([]string{"barrel", "init", "./services/payment", "--framework", "Chi"})
+
+	err = cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Created Cooper tech stack")
+
+	techFile := filepath.Join(barrelDir, ".cooper", "definition", "tech-stack.md")
+	assert.FileExists(t, techFile)
+
+	content, err := os.ReadFile(techFile)
+	require.NoError(t, err)
+	assert.Contains(t, string(content), "Chi")
+	assert.Contains(t, string(content), "go test")
+}
+

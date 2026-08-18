@@ -95,6 +95,32 @@ var barrelRemoveCmd = &cobra.Command{
 	},
 }
 
+var (
+	barrelInitLang      string
+	barrelInitFramework string
+	barrelInitTest      string
+	barrelInitLinter    string
+	barrelInitCov       string
+	barrelInitForce     bool
+)
+
+var barrelInitCmd = &cobra.Command{
+	Use:   "init <path|name>",
+	Short: "Scaffold .cooper/definition/tech-stack.md for a barrel package or repository",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		target := strings.TrimSpace(args[0])
+		return runBarrelInit(cmd.OutOrStdout(), getWorkingDir(), target, techstack.ScaffoldOptions{
+			Language:          barrelInitLang,
+			Framework:         barrelInitFramework,
+			TestRunner:        barrelInitTest,
+			Linter:            barrelInitLinter,
+			CoverageThreshold: barrelInitCov,
+			Force:             barrelInitForce,
+		})
+	},
+}
+
 func init() {
 	barrelAddCmd.Flags().StringVarP(&addName, "name", "n", "", "Custom name for the barrel")
 	barrelAddCmd.Flags().StringVarP(&addType, "type", "t", "barrel", "Specify barrel type ('barrel' or 'battery')")
@@ -102,11 +128,52 @@ func init() {
 
 	barrelRemoveCmd.Flags().BoolVar(&removeLocal, "local", false, "Remove from local developer overrides (.batteryrc.local)")
 
+	barrelInitCmd.Flags().StringVar(&barrelInitLang, "language", "", "Override primary language (e.g. 'Go 1.23', 'TypeScript')")
+	barrelInitCmd.Flags().StringVar(&barrelInitFramework, "framework", "", "Override framework (e.g. 'Next.js', 'Gin')")
+	barrelInitCmd.Flags().StringVar(&barrelInitTest, "test-runner", "", "Override test runner command (e.g. 'go test ./...')")
+	barrelInitCmd.Flags().StringVar(&barrelInitLinter, "linter", "", "Override linter command (e.g. 'golangci-lint run')")
+	barrelInitCmd.Flags().StringVar(&barrelInitCov, "coverage-threshold", "", "Override coverage threshold (e.g. '>80%')")
+	barrelInitCmd.Flags().BoolVarP(&barrelInitForce, "force", "f", false, "Overwrite existing tech-stack.md")
+
 	barrelCmd.AddCommand(barrelListCmd)
 	barrelCmd.AddCommand(barrelAddCmd)
 	barrelCmd.AddCommand(barrelRemoveCmd)
+	barrelCmd.AddCommand(barrelInitCmd)
 
 	RootCmd.AddCommand(barrelCmd)
+}
+
+func runBarrelInit(out io.Writer, cwd, target string, opts techstack.ScaffoldOptions) error {
+	targetPath := target
+	effCfg, err := config.GetEffectiveConfig(cwd)
+	if err == nil {
+		for _, b := range effCfg.Barrels {
+			if b.Name == target {
+				targetPath = b.Path
+				break
+			}
+		}
+	}
+
+	if !filepath.IsAbs(targetPath) {
+		targetPath = filepath.Join(cwd, targetPath)
+	}
+
+	res, err := techstack.ScaffoldBarrelTechStack(targetPath, opts)
+	if err != nil {
+		return err
+	}
+
+	status := "Created"
+	if res.Overwritten {
+		status = "Updated"
+	}
+
+	fmt.Fprintf(out, "✓ %s Cooper tech stack at %s\n", status, res.TechStackPath)
+	if res.StyleguidePath != "" {
+		fmt.Fprintf(out, "✓ Styleguide: %s\n", res.StyleguidePath)
+	}
+	return nil
 }
 
 func runBarrelList(out io.Writer, cwd string) error {
