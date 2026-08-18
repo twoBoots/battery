@@ -1,9 +1,9 @@
 {
   "track_id": "track_cli_self_update_20260818",
   "name": "CLI Self-Updater & Release Versioning Enhancement",
-  "status": "planned",
+  "status": "completed",
   "created_at": "2026-08-18T10:55:00Z",
-  "updated_at": "2026-08-18T10:55:00Z",
+  "updated_at": "2026-08-18T12:07:00Z",
   "type": "feature",
   "barrels": [
     "battery"
