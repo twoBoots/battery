@@ -27,5 +27,5 @@ Follow strict TDD (Red -> Green -> Refactor) and attach Git Notes to task commit
 
 ## Phase 4: Verification, Documentation, & Capabilities Spec Promotion
 
-- [ ] Task 4.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%.
-- [ ] Task 4.2: Update README, `docs/mcp-setup-guide.md`, and promote living capability specs (`.cooper/specs/barrel-config/spec.md` and `.cooper/specs/mcp-server/spec.md`).
+- [x] Task 4.1: Run full test suite with coverage validation (`go test -v -cover ./...`) ensuring coverage >80%. (f13ab28)
+- [x] Task 4.2: Update README, `docs/mcp-setup-guide.md`, and promote living capability specs (`.cooper/specs/barrel-config/spec.md` and `.cooper/specs/mcp-server/spec.md`). (f13ab28)
