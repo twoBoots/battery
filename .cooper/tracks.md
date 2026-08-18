@@ -6,6 +6,11 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
+- [x] **Track: CLI Self-Updater & Release Versioning Enhancement**
+  - Worktree: `.worktrees/track_cli_self_update_20260818`
+  - Link: [.cooper/active/track_cli_self_update_20260818/plan.md](./active/track_cli_self_update_20260818/plan.md)
+
+
 - [x] **Track: Fix Antigravity / agy MCP Configuration Target to mcp_config.json**
   - Worktree: `.worktrees/track_fix_antigravity_mcp_config_20260818`
   - Link: [.cooper/active/track_fix_antigravity_mcp_config_20260818/plan.md](./active/track_fix_antigravity_mcp_config_20260818/plan.md)

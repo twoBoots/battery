@@ -13,6 +13,7 @@
   - [Barrel Configuration](./specs/barrel-config/spec.md)
   - [Track Dispatch](./specs/track-dispatch/spec.md)
   - [MCP Server](./specs/mcp-server/spec.md)
+  - [CLI Self-Updater](./specs/cli-self-update/spec.md)
   - [CI & Release](./specs/ci-release/spec.md)
 
 ## Tracks

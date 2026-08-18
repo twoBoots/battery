@@ -243,4 +243,5 @@ echo "  battery barrel remove <name> - Remove a barrel from .batteryrc"
 echo "  battery init                 - Reconfigure project structure & discovered barrels"
 echo "  battery mcp                  - Start Model Context Protocol (MCP) server over stdio"
 echo "  battery mcp install          - Configure Battery MCP in AI coding assistants"
+echo "  battery update               - Self-update Battery binary to latest version"
 
