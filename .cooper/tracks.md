@@ -6,13 +6,17 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Synchronize Versioning Sources**
-  - Worktree: `.worktrees/track_sync_versioning_sources_20260819`
-  - Link: [.cooper/active/track_sync_versioning_sources_20260819/plan.md](./active/track_sync_versioning_sources_20260819/plan.md)
+- [ ] **Track: Fix CI Release Version Extraction Pattern**
+  - Worktree: `.worktrees/track_fix_ci_release_version_extraction_20260819`
+  - Link: [.cooper/active/track_fix_ci_release_version_extraction_20260819/plan.md](./active/track_fix_ci_release_version_extraction_20260819/plan.md)
 
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Synchronize Versioning Sources**
+  - Completed: 2026-08-19 (PR #11)
+  - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md)
 
 - [x] **Track: Fix Darwin Codesign & Atomic Binary Replacement**
   - Completed: 2026-08-19 (PR #10)
