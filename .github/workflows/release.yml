@@ -53,10 +53,14 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           mkdir -p dist
-          VERSION="1.0.0"
+          VERSION=$(grep 'Version = ' cmd/root.go | sed -E 's/.*"([^"]+)".*/\1/')
+          if [ -z "$VERSION" ]; then
+            VERSION="1.0.0"
+          fi
           if [ "$GITHUB_REF_TYPE" = "tag" ]; then
             VERSION="${GITHUB_REF_NAME#v}"
           fi
+          echo "Building Battery version: ${VERSION}"
           go build -ldflags="-s -w -X github.com/twoboots/battery/cmd.Version=${VERSION}" -o dist/${{ matrix.binary }} .
 
       - name: Upload Build Artifact

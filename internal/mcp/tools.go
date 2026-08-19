@@ -37,19 +37,23 @@ func RegisterDefaultTools(s *Server) {
 		tracks, _ := track.ListTracks(s.cwd)
 
 		type StatusReport struct {
-			Structure    config.ProjectStructure  `json:"structure"`
-			Version      string                   `json:"version"`
-			BarrelsCount int                      `json:"barrels_count"`
-			Barrels      []config.EffectiveBarrel `json:"barrels"`
-			ActiveTracks []track.TrackMetadata    `json:"active_tracks"`
+			Structure     config.ProjectStructure  `json:"structure"`
+			Version       string                   `json:"version"`
+			CLIVersion    string                   `json:"cli_version"`
+			ConfigVersion string                   `json:"config_version"`
+			BarrelsCount  int                      `json:"barrels_count"`
+			Barrels       []config.EffectiveBarrel `json:"barrels"`
+			ActiveTracks  []track.TrackMetadata    `json:"active_tracks"`
 		}
 
 		report := StatusReport{
-			Structure:    effCfg.Structure,
-			Version:      effCfg.Version,
-			BarrelsCount: len(effCfg.Barrels),
-			Barrels:      effCfg.Barrels,
-			ActiveTracks: tracks,
+			Structure:     effCfg.Structure,
+			Version:       effCfg.Version,
+			CLIVersion:    s.version,
+			ConfigVersion: effCfg.Version,
+			BarrelsCount:  len(effCfg.Barrels),
+			Barrels:       effCfg.Barrels,
+			ActiveTracks:  tracks,
 		}
 
 		data, err := json.MarshalIndent(report, "", "  ")
