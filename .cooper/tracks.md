@@ -6,13 +6,17 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Fix CI Release Version Extraction Pattern**
-  - Worktree: `.worktrees/track_fix_ci_release_version_extraction_20260819`
-  - Link: [.cooper/active/track_fix_ci_release_version_extraction_20260819/plan.md](./active/track_fix_ci_release_version_extraction_20260819/plan.md)
+- [ ] **Track: Upgrade GitHub Actions to Native Node 24 Versions**
+  - Worktree: `.worktrees/track_upgrade_github_actions_node24_20260819`
+  - Link: [.cooper/active/track_upgrade_github_actions_node24_20260819/plan.md](./active/track_upgrade_github_actions_node24_20260819/plan.md)
 
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Fix CI Release Version Extraction Pattern**
+  - Completed: 2026-08-19 (PR #12)
+  - Spec: [.cooper/specs/ci-release/spec.md](./specs/ci-release/spec.md)
 
 - [x] **Track: Synchronize Versioning Sources**
   - Completed: 2026-08-19 (PR #11)
