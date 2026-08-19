@@ -6,13 +6,17 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Fix Darwin Codesign & Atomic Binary Replacement**
-  - Worktree: `.worktrees/track_fix_darwin_install_codesign_20260819`
-  - Link: [.cooper/active/track_fix_darwin_install_codesign_20260819/plan.md](./active/track_fix_darwin_install_codesign_20260819/plan.md)
+- [ ] **Track: Synchronize Versioning Sources**
+  - Worktree: `.worktrees/track_sync_versioning_sources_20260819`
+  - Link: [.cooper/active/track_sync_versioning_sources_20260819/plan.md](./active/track_sync_versioning_sources_20260819/plan.md)
 
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Fix Darwin Codesign & Atomic Binary Replacement**
+  - Completed: 2026-08-19 (PR #10)
+  - Spec: [.cooper/specs/ci-release/spec.md](./specs/ci-release/spec.md)
 
 - [x] **Track: Preserve Existing Configuration on Battery Install & Init**
   - Completed: 2026-08-19 (PR #9)

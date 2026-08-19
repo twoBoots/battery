@@ -61,7 +61,7 @@ Supported clients:
 }
 
 func runMCPServer(in io.Reader, out io.Writer, cwd string) error {
-	srv := mcp.NewServer(cwd)
+	srv := mcp.NewServer(cwd, Version)
 	mcp.RegisterDefaultTools(srv)
 	mcp.RegisterDefaultResources(srv)
 	mcp.RegisterDefaultPrompts(srv)

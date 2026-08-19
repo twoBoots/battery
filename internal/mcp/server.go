@@ -40,15 +40,29 @@ type Server struct {
 	initialized bool
 }
 
-// NewServer creates a new MCP Server instance.
-func NewServer(cwd string) *Server {
+// NewServer creates a new MCP Server instance with an optional dynamic version.
+func NewServer(cwd string, versions ...string) *Server {
+	ver := "1.4.0"
+	if len(versions) > 0 && strings.TrimSpace(versions[0]) != "" {
+		ver = strings.TrimSpace(versions[0])
+	}
+	if !strings.HasPrefix(ver, "v") {
+		ver = "v" + ver
+	}
 	return &Server{
 		cwd:       cwd,
-		version:   "v1.2.1",
+		version:   ver,
 		tools:     make(map[string]toolEntry),
 		resources: make(map[string]resourceEntry),
 		prompts:   make(map[string]promptEntry),
 	}
+}
+
+// Version returns the server version.
+func (s *Server) Version() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.version
 }
 
 // RegisterTool adds a tool definition and its handler.
