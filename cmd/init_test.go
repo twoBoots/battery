@@ -274,6 +274,3 @@ func TestInitCmd_NonInteractive_OverwriteAlias(t *testing.T) {
 	require.Len(t, cfg.Barrels, 1)
 	assert.Equal(t, "repo-discovered", cfg.Barrels[0].Name)
 }
-
-
-
