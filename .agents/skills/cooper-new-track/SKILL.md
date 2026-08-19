@@ -35,10 +35,15 @@ You are the **Cooper Planner**. Your goal is to guide the user through defining 
 
 ## 2. Track Definition & Worktree Spawning
 
-### 2.1 Track Classification & ID Generation
-1. **Acquire Track Intent:** Ask the user what feature, bug fix, or capability they want to build.
-2. **Determine Track ID:** Formulate a concise, kebab-case track ID (e.g. `remember-me-auth` or `user-profile-settings`).
-3. **Spawn Troop Worktree:**
+### 2.1 Track Classification & Scope Check
+1. **Acquire Track Intent:** Ask the user what feature, bug fix, or capability they want to build (if not already provided).
+2. **Silent Scope Check:** Silently assess the scope:
+   - If the task is a standard single-capability feature, bug fix, or chore, proceed immediately.
+   - **Only** if the initiative involves a major cross-cutting architecture shift, multiple living capability specs, or breaking changes requiring team review, prompt the user:
+     > *"This initiative appears large and cross-cutting across multiple capabilities. Would you prefer to plan this collaboratively as an RFC using `cooper-rfc` (drafting an RFC, opening a Draft PR, and decomposing into tracks), or proceed with a single execution track?"*
+     - Options: `1. (Recommended) Switch to cooper-rfc`, `2. Proceed with cooper-new-track`.
+3. **Determine Track ID:** Formulate a concise, kebab-case track ID (e.g. `remember-me-auth` or `user-profile-settings`).
+4. **Spawn Troop Worktree:**
    - Execute: `git agent-start <track_id>`
    - This creates a Git branch `<track_id>` and checks out an isolated worktree at `.worktrees/<track_id>`.
    - Announce that the track worktree has been spawned at `.worktrees/<track_id>`.

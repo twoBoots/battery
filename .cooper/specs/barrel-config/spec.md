@@ -98,3 +98,11 @@ The system MUST provide automated discovery, inference, and generation of per-ba
 - **WHEN** `battery barrel init <path|name>` CLI command or scaffolding API is invoked
 - **THEN** it MUST create `<barrel_path>/.cooper/definition/tech-stack.md` formatted to Cooper specifications, protecting existing files unless `--force` is specified.
 
+### Requirement 7: Native Agent Skills & Two-Tier Planning Availability
+The system MUST provide the complete suite of 6 packaged project-local Cooper skills in `.agents/skills/cooper-{setup,rfc,new-track,implement,review,status}` supporting the Two-Tier SDD planning architecture (collaborative upstream RFCs and downstream tactical TDD tracks).
+
+#### Scenario 7.1: Project-Local Skills Discovery & RFC Support
+- **GIVEN** an AI coding assistant operating in the repository
+- **WHEN** discovering project capabilities
+- **THEN** skills in `.agents/skills/cooper-{setup,rfc,new-track,implement,review,status}` MUST be accessible and self-contained, enabling both `cooper-rfc` collaborative architectural workflows and `cooper-new-track` tactical implementation tracks.
+

@@ -11,6 +11,7 @@ your-project/
 ├── .agents/
 │   └── skills/                        # Packaged Project-Local Cooper Skills
 │       ├── cooper-setup/SKILL.md      # Project initialization & scaffolding
+│       ├── cooper-rfc/SKILL.md        # Upstream collaborative RFC & architectural design
 │       ├── cooper-new-track/SKILL.md  # Worktree spawning & spec delta planning
 │       ├── cooper-implement/SKILL.md  # TDD execution & phase sync
 │       ├── cooper-review/SKILL.md     # Code & spec delta review
@@ -39,6 +40,22 @@ your-project/
 ├── .worktrees/                        # Isolated Git worktrees for active tracks
 └── AGENTS.md                          # Universal agent guidelines
 ```
+
+---
+
+---
+
+## Planning Architecture: The Two-Tier Model
+
+Cooper cleanly isolates architectural design from tactical code execution:
+
+1. **Upstream Alignment (`cooper-rfc`)**:
+   - For epics, major refactors, multi-system changes, or initiatives requiring team consensus.
+   - Spawns `.worktrees/rfc-<name>`, drafts `rfc.md` + cross-capability `spec-deltas/`, and opens a **Draft Pull Request**.
+   - Review loop synthesizes PR comments, registers decomposed tracks in `.cooper/tracks.md`, and awaits user PR merge to `main`.
+2. **Downstream Execution (`cooper-new-track` & `workflow.md`)**:
+   - For single-capability features, bug fixes, or child tracks from an approved RFC.
+   - Spawns `.worktrees/<track_id>`, drafts tactical `plan.md`, runs strict TDD (Red -> Green -> Refactor), records Git Notes, and syncs checkpoints.
 
 ---
 
@@ -101,7 +118,7 @@ At the end of each Phase in `plan.md`:
 
 | Component | File Reference | Primary Role |
 | :--- | :--- | :--- |
-| **Cooper Skills** | `.agents/skills/cooper-*` | Executable agent skills for setup, planning, TDD, review, and status |
+| **Cooper Skills** | `.agents/skills/cooper-*` | Executable agent skills for setup, RFCs, planning, TDD, review, and status |
 | **Cooper Reference** | `.cooper/COOPER.md` | Spec-Driven Development (SDD) & track lifecycle cheatsheet |
 | **Troop** | `.cooper/TROOP.md` | Git worktree isolation (`git agent-start`, `git troop`, `git agent-stop`) |
 | **Workflow** | `.cooper/definition/workflow.md` | Project-specific quality and operational governance |
