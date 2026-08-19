@@ -1,0 +1,7 @@
+{
+  "track_id": "track_fix_darwin_install_codesign_20260819",
+  "type": "bugfix",
+  "status": "in_progress",
+  "created_at": "2026-08-19T19:23:00+10:00",
+  "description": "Fix macOS Killed 9 error during battery installation by using atomic binary replacement, quarantine removal, and ad-hoc code signing"
+}

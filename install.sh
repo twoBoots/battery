@@ -184,9 +184,15 @@ mkdir -p "$INSTALL_BIN_DIR"
 
 # Tier 1: Build locally if Go is available and source is present
 if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/main.go" ] && command -v go >/dev/null 2>&1; then
-    (cd "$SCRIPT_DIR" && go build -ldflags="-s -w" -o "${INSTALL_BIN_DIR}/battery" .) >/dev/null 2>&1 || true
-    if [ -f "${INSTALL_BIN_DIR}/battery" ]; then
-        chmod +x "${INSTALL_BIN_DIR}/battery"
+    TMP_BUILD="${INSTALL_BIN_DIR}/.battery.build.$$"
+    (cd "$SCRIPT_DIR" && go build -ldflags="-s -w" -o "$TMP_BUILD" .) >/dev/null 2>&1 || true
+    if [ -f "$TMP_BUILD" ]; then
+        chmod +x "$TMP_BUILD"
+        if [ "$OS" = "darwin" ]; then
+            xattr -d com.apple.quarantine "$TMP_BUILD" 2>/dev/null || true
+            codesign -s - --force "$TMP_BUILD" 2>/dev/null || true
+        fi
+        mv -f "$TMP_BUILD" "${INSTALL_BIN_DIR}/battery"
         CLI_INSTALLED=true
         echo "  [✓] Compiled and registered CLI globally with Go (${INSTALL_BIN_DIR}/battery)"
     fi
@@ -195,11 +201,32 @@ fi
 # Tier 2: Download prebuilt binary from GitHub Releases
 if [ "$CLI_INSTALLED" = false ]; then
     RELEASE_URL="https://github.com/${GITHUB_REPO}/releases/latest/download/${RELEASE_BINARY}"
+    TMP_DOWNLOAD="${INSTALL_BIN_DIR}/.battery.dl.$$"
     if command -v curl >/dev/null 2>&1; then
-        if curl -fsSL "$RELEASE_URL" -o "${INSTALL_BIN_DIR}/battery" 2>/dev/null; then
-            chmod +x "${INSTALL_BIN_DIR}/battery"
+        if curl -fsSL "$RELEASE_URL" -o "$TMP_DOWNLOAD" 2>/dev/null; then
+            chmod +x "$TMP_DOWNLOAD"
+            if [ "$OS" = "darwin" ]; then
+                xattr -d com.apple.quarantine "$TMP_DOWNLOAD" 2>/dev/null || true
+                codesign -s - --force "$TMP_DOWNLOAD" 2>/dev/null || true
+            fi
+            mv -f "$TMP_DOWNLOAD" "${INSTALL_BIN_DIR}/battery"
             CLI_INSTALLED=true
             echo "  [✓] Downloaded prebuilt binary from GitHub Releases to ${INSTALL_BIN_DIR}/battery"
+        else
+            rm -f "$TMP_DOWNLOAD"
+        fi
+    elif command -v wget >/dev/null 2>&1; then
+        if wget -qO "$TMP_DOWNLOAD" "$RELEASE_URL" 2>/dev/null; then
+            chmod +x "$TMP_DOWNLOAD"
+            if [ "$OS" = "darwin" ]; then
+                xattr -d com.apple.quarantine "$TMP_DOWNLOAD" 2>/dev/null || true
+                codesign -s - --force "$TMP_DOWNLOAD" 2>/dev/null || true
+            fi
+            mv -f "$TMP_DOWNLOAD" "${INSTALL_BIN_DIR}/battery"
+            CLI_INSTALLED=true
+            echo "  [✓] Downloaded prebuilt binary from GitHub Releases to ${INSTALL_BIN_DIR}/battery"
+        else
+            rm -f "$TMP_DOWNLOAD"
         fi
     fi
 fi
@@ -231,9 +258,9 @@ fi
 
 if command -v "$BATTERY_BIN" >/dev/null 2>&1 || [ -x "$BATTERY_BIN" ]; then
     if [ "$USE_TTY" = true ]; then
-        "$BATTERY_BIN" init "${INIT_ARGS[@]}" < /dev/tty
+        "$BATTERY_BIN" init "${INIT_ARGS[@]}" < /dev/tty || "$BATTERY_BIN" init "${INIT_ARGS[@]}" || true
     else
-        "$BATTERY_BIN" init "${INIT_ARGS[@]}"
+        "$BATTERY_BIN" init "${INIT_ARGS[@]}" || true
     fi
 else
     # Fallback default .batteryrc if binary is missing
