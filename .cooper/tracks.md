@@ -6,13 +6,17 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [x] **Track: Preserve Existing Configuration on Battery Install & Init**
-  - Worktree: `.worktrees/track_preserve_config_on_install_20260818`
-  - Link: [.cooper/active/track_preserve_config_on_install_20260818/plan.md](./active/track_preserve_config_on_install_20260818/plan.md)
+- [ ] **Track: Fix Darwin Codesign & Atomic Binary Replacement**
+  - Worktree: `.worktrees/track_fix_darwin_install_codesign_20260819`
+  - Link: [.cooper/active/track_fix_darwin_install_codesign_20260819/plan.md](./active/track_fix_darwin_install_codesign_20260819/plan.md)
 
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Preserve Existing Configuration on Battery Install & Init**
+  - Completed: 2026-08-19 (PR #9)
+  - Spec: [.cooper/specs/barrel-config/spec.md](./specs/barrel-config/spec.md)
 
 - [x] **Track: Sync Cooper RFC Skill & Two-Tier SDD Planning Architecture**
   - Completed: 2026-08-18 (PR #8)
