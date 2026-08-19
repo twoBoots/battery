@@ -1,0 +1,7 @@
+{
+  "track_id": "track_fix_ci_release_version_extraction_20260819",
+  "type": "bugfix",
+  "status": "in_progress",
+  "created_at": "2026-08-19T20:10:00+10:00",
+  "description": "Fix multi-line version extraction matching in GitHub Actions release workflow"
+}
