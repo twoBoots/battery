@@ -51,11 +51,12 @@ Cooper cleanly isolates architectural design from tactical code execution:
 
 1. **Upstream Alignment (`cooper-rfc`)**:
    - For epics, major refactors, multi-system changes, or initiatives requiring team consensus.
-   - Spawns `.worktrees/rfc-<name>`, drafts `rfc.md` + cross-capability `spec-deltas/`, and opens a **Draft Pull Request**.
-   - Review loop synthesizes PR comments, registers decomposed tracks in `.cooper/tracks.md`, and awaits user PR merge to `main`.
+   - Spawns `.worktrees/rfc-<name>`, drafts `rfc.md` + cross-capability `spec-deltas/`, and opens a **Draft Pull Request** with structured reviewer guidance.
+   - Review loop synthesizes PR discussions and automatically detects approval via GitHub Native Review (`reviewDecision == "APPROVED"`) or `/approve` comment triggers.
+   - Upon approval, the agent registers decomposed child tracks in `.cooper/tracks.md`, transitions the PR to Ready for Review (`gh pr ready`), and pauses for human maintainer merge to `main`.
 2. **Downstream Execution (`cooper-new-track` & `workflow.md`)**:
-   - For single-capability features, bug fixes, or child tracks from an approved RFC.
-   - Spawns `.worktrees/<track_id>`, drafts tactical `plan.md`, runs strict TDD (Red -> Green -> Refactor), records Git Notes, and syncs checkpoints.
+   - For single-capability features, bug fixes, or child tracks decomposed from an approved RFC.
+   - Spawns `.worktrees/<track_id>`, drafts tactical `plan.md` and spec deltas, runs strict TDD (Red -> Green -> Refactor), records Git Notes, and syncs checkpoints.
 
 ---
 
