@@ -6,6 +6,6 @@
 - [x] Task: Phase 1 Verification & Checkpoint
 
 ## Phase 2: Specification & Test Suite Verification
-- [ ] Task: Apply Spec Delta to `.cooper/specs/barrel-config/spec.md`
-- [ ] Task: Run Battery test suite (`go test ./...`)
-- [ ] Task: Phase 2 Verification & Checkpoint
+- [x] Task: Apply Spec Delta to `.cooper/specs/barrel-config/spec.md`
+- [x] Task: Run Battery test suite (`go test ./...`)
+- [x] Task: Phase 2 Verification & Checkpoint
