@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/twoboots/battery/internal/config"
+	"github.com/twoboots/battery/internal/framework"
 	"github.com/twoboots/battery/internal/techstack"
 	"github.com/twoboots/battery/internal/track"
 )
@@ -122,6 +123,59 @@ func RegisterDefaultResources(s *Server) {
 					URI:      uri,
 					MIMEType: "application/json",
 					Text:     string(data),
+				},
+			},
+		}, nil
+	})
+
+	// 4. battery://framework-status
+	s.RegisterResource(Resource{
+		URI:         "battery://framework-status",
+		Name:        "Battery Framework Alignment & Status",
+		Description: "Workspace standards and agent skills alignment status against canonical Cooper/Battery templates",
+		MIMEType:    "application/json",
+	}, func(ctx context.Context, uri string) (ReadResourceResult, error) {
+		rep, err := framework.InspectFrameworkStatus(s.cwd, "", s.version)
+		if err != nil {
+			return ReadResourceResult{}, fmt.Errorf("failed to inspect framework status: %w", err)
+		}
+		data, err := json.MarshalIndent(rep, "", "  ")
+		if err != nil {
+			return ReadResourceResult{}, fmt.Errorf("failed to marshal framework status: %w", err)
+		}
+		return ReadResourceResult{
+			Contents: []ResourceContent{
+				{
+					URI:      uri,
+					MIMEType: "application/json",
+					Text:     string(data),
+				},
+			},
+		}, nil
+	})
+
+	// 5. battery://templates/{name}
+	s.RegisterResource(Resource{
+		URI:         "battery://templates/{name}",
+		Name:        "Upstream Framework Template",
+		Description: "Canonical Cooper/Battery template content by name (e.g. skills/cooper-rfc, docs/BATTERY.md)",
+		MIMEType:    "text/markdown",
+	}, func(ctx context.Context, uri string) (ReadResourceResult, error) {
+		prefix := "battery://templates/"
+		if !strings.HasPrefix(uri, prefix) {
+			return ReadResourceResult{}, fmt.Errorf("invalid template uri: %s", uri)
+		}
+		tmplName := strings.TrimPrefix(uri, prefix)
+		content, err := framework.GetTemplate(tmplName)
+		if err != nil {
+			return ReadResourceResult{}, fmt.Errorf("failed to get template %q: %w", tmplName, err)
+		}
+		return ReadResourceResult{
+			Contents: []ResourceContent{
+				{
+					URI:      uri,
+					MIMEType: "text/markdown",
+					Text:     content,
 				},
 			},
 		}, nil
