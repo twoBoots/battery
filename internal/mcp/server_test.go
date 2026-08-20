@@ -301,6 +301,72 @@ func TestServer_ErrorResilience(t *testing.T) {
 	assert.Equal(t, "10", string(*validResp.ID))
 }
 
+func TestServer_EndToEndFrameworkUpgradeSession(t *testing.T) {
+	dir := setupTestWorkspace(t)
+	srv := NewServer(dir)
+	RegisterDefaultTools(srv)
+	RegisterDefaultResources(srv)
+	RegisterDefaultPrompts(srv)
+
+	inputRequests := []string{
+		// 1. initialize
+		`{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test-client","version":"1.0"}}}`,
+		// 2. notifications/initialized
+		`{"jsonrpc":"2.0","method":"notifications/initialized"}`,
+		// 3. tools/call battery_framework_status
+		`{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"battery_framework_status"}}`,
+		// 4. tools/call battery_get_template
+		`{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"battery_get_template","arguments":{"name":"skills/cooper-rfc"}}}`,
+		// 5. resources/read battery://framework-status
+		`{"jsonrpc":"2.0","id":4,"method":"resources/read","params":{"uri":"battery://framework-status"}}`,
+		// 6. prompts/get guide_framework_upgrade_track
+		`{"jsonrpc":"2.0","id":5,"method":"prompts/get","params":{"name":"guide_framework_upgrade_track","arguments":{"track_id":"track_upgrade_cooper_1_3_0"}}}`,
+	}
+
+	inBuf := bytes.NewBufferString(strings.Join(inputRequests, "\n") + "\n")
+	var outBuf bytes.Buffer
+
+	err := srv.Serve(context.Background(), inBuf, &outBuf)
+	require.NoError(t, err)
+
+	lines := strings.Split(strings.TrimSpace(outBuf.String()), "\n")
+	require.Len(t, lines, 5) // 5 responses (notification has no response)
+
+	// Check response 1 (initialize)
+	var resp1 Response
+	err = json.Unmarshal([]byte(lines[0]), &resp1)
+	require.NoError(t, err)
+	assert.Nil(t, resp1.Error)
+
+	// Check response 2 (battery_framework_status)
+	var resp2 Response
+	err = json.Unmarshal([]byte(lines[1]), &resp2)
+	require.NoError(t, err)
+	assert.Nil(t, resp2.Error)
+	assert.Contains(t, string(lines[1]), "cliVersion")
+
+	// Check response 3 (battery_get_template)
+	var resp3 Response
+	err = json.Unmarshal([]byte(lines[2]), &resp3)
+	require.NoError(t, err)
+	assert.Nil(t, resp3.Error)
+	assert.Contains(t, string(lines[2]), "cooper-rfc")
+
+	// Check response 4 (resources/read)
+	var resp4 Response
+	err = json.Unmarshal([]byte(lines[3]), &resp4)
+	require.NoError(t, err)
+	assert.Nil(t, resp4.Error)
+	assert.Contains(t, string(lines[3]), "cliVersion")
+
+	// Check response 5 (prompts/get)
+	var resp5 Response
+	err = json.Unmarshal([]byte(lines[4]), &resp5)
+	require.NoError(t, err)
+	assert.Nil(t, resp5.Error)
+	assert.Contains(t, string(lines[4]), "track_upgrade_cooper_1_3_0")
+}
+
 func rawID(id int) *json.RawMessage {
 	data, _ := json.Marshal(id)
 	msg := json.RawMessage(data)
