@@ -12,17 +12,17 @@
   - [x] Sub-task: Run unit tests and record git note checkpoint
 
 ## Phase 2: MCP Tools, Resources & Prompt Templates (`internal/mcp`)
-- [~] Task 2.1: MCP Tools & Resources Unit Tests (TDD - Red)
-  - [ ] Sub-task: Write unit tests in `internal/mcp/framework_tools_test.go` for `battery_framework_status` and `battery_get_template`
-  - [ ] Sub-task: Write unit tests for `battery://framework-status` and `battery://templates/{name}` resources
-  - [ ] Sub-task: Write unit tests for `guide_framework_upgrade_track` prompt template
-- [ ] Task 2.2: Implement MCP Handlers & Prompt Definition (TDD - Green)
-  - [ ] Sub-task: Register `battery_framework_status` and `battery_get_template` in `internal/mcp/tools.go`
-  - [ ] Sub-task: Register `battery://framework-status` and `battery://templates/{name}` in `internal/mcp/resources.go`
-  - [ ] Sub-task: Register `guide_framework_upgrade_track` in `internal/mcp/prompts.go`
-  - [ ] Sub-task: Enrich `battery_status` tool output with summary framework status metadata
-  - [ ] Sub-task: Refactor & ensure coverage >80% across `internal/mcp` (Refactor)
-- [ ] Task 2.3: Phase 2 Verification & Checkpoint
+- [x] Task 2.1: MCP Tools & Resources Unit Tests (TDD - Red) (eda3704)
+  - [x] Sub-task: Write unit tests in `internal/mcp/framework_tools_test.go` for `battery_framework_status` and `battery_get_template`
+  - [x] Sub-task: Write unit tests for `battery://framework-status` and `battery://templates/{name}` resources
+  - [x] Sub-task: Write unit tests for `guide_framework_upgrade_track` prompt template
+- [x] Task 2.2: Implement MCP Handlers & Prompt Definition (TDD - Green) (eda3704)
+  - [x] Sub-task: Register `battery_framework_status` and `battery_get_template` in `internal/mcp/tools.go`
+  - [x] Sub-task: Register `battery://framework-status` and `battery://templates/{name}` in `internal/mcp/resources.go`
+  - [x] Sub-task: Register `guide_framework_upgrade_track` in `internal/mcp/prompts.go`
+  - [x] Sub-task: Enrich `battery_status` tool output with summary framework status metadata
+  - [x] Sub-task: Refactor & ensure coverage >80% across `internal/mcp` (Refactor)
+- [~] Task 2.3: Phase 2 Verification & Checkpoint
   - [ ] Sub-task: Run full test suite and record git note checkpoint
 
 ## Phase 3: End-to-End Verification & Living Spec Consolidation
