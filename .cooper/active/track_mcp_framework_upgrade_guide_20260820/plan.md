@@ -26,10 +26,10 @@
   - [x] Sub-task: Run full test suite and record git note checkpoint
 
 ## Phase 3: End-to-End Verification & Living Spec Consolidation
-- [~] Task 3.1: Stdio MCP Protocol Integration Testing
-  - [ ] Sub-task: Write end-to-end stdio JSON-RPC test verifying tools, resources, and prompt retrieval in a simulated client session
-  - [ ] Sub-task: Run `go test ./...` with race detection and linter verification
-- [ ] Task 3.2: Living Capability Spec Update
-  - [ ] Sub-task: Merge spec delta into `.cooper/specs/mcp-server/spec.md`
-- [ ] Task 3.3: Phase 3 Verification & Final Checkpoint
-  - [ ] Sub-task: Verify all tests pass, stage track artifacts, and prepare track summary
+- [x] Task 3.1: Stdio MCP Protocol Integration Testing (40832e1)
+  - [x] Sub-task: Write end-to-end stdio JSON-RPC test verifying tools, resources, and prompt retrieval in a simulated client session
+  - [x] Sub-task: Run `go test ./...` with race detection and linter verification
+- [x] Task 3.2: Living Capability Spec Update (a7d2ee7)
+  - [x] Sub-task: Merge spec delta into `.cooper/specs/mcp-server/spec.md`
+- [x] Task 3.3: Phase 3 Verification & Final Checkpoint
+  - [x] Sub-task: Verify all tests pass, stage track artifacts, and prepare track summary
