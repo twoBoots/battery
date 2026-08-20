@@ -12,7 +12,7 @@
   - [x] Sub-task: Run unit tests and record git note checkpoint
 
 ## Phase 2: MCP Tools, Resources & Prompt Templates (`internal/mcp`)
-- [ ] Task 2.1: MCP Tools & Resources Unit Tests (TDD - Red)
+- [~] Task 2.1: MCP Tools & Resources Unit Tests (TDD - Red)
   - [ ] Sub-task: Write unit tests in `internal/mcp/framework_tools_test.go` for `battery_framework_status` and `battery_get_template`
   - [ ] Sub-task: Write unit tests for `battery://framework-status` and `battery://templates/{name}` resources
   - [ ] Sub-task: Write unit tests for `guide_framework_upgrade_track` prompt template
