@@ -31,12 +31,12 @@ type TemplateInfo struct {
 
 // FileStatus represents the inspection result for a single framework file in the workspace.
 type FileStatus struct {
-	TemplateName           string `json:"templateName"`
-	TargetPath             string `json:"targetPath"`
-	Category               string `json:"category"`
-	Status                 string `json:"status"` // up_to_date | customized_locally | outdated | missing
+	TemplateName          string `json:"templateName"`
+	TargetPath            string `json:"targetPath"`
+	Category              string `json:"category"`
+	Status                string `json:"status"` // up_to_date | customized_locally | outdated | missing
 	HasLocalModifications bool   `json:"hasLocalModifications"`
-	Details                string `json:"details,omitempty"`
+	Details               string `json:"details,omitempty"`
 }
 
 // FrameworkStatusReport aggregates the inspection results across the target workspace or barrel.
@@ -212,12 +212,12 @@ func InspectFrameworkStatus(cwd string, barrelRelPath string, cliVersion string)
 		}
 
 		report.Files = append(report.Files, FileStatus{
-			TemplateName:           tmpl.Name,
-			TargetPath:             tmpl.TargetPath,
-			Category:               tmpl.Category,
-			Status:                 status,
+			TemplateName:          tmpl.Name,
+			TargetPath:            tmpl.TargetPath,
+			Category:              tmpl.Category,
+			Status:                status,
 			HasLocalModifications: hasLocalMod,
-			Details:                details,
+			Details:               details,
 		})
 	}
 

@@ -39,13 +39,13 @@ func RegisterDefaultTools(s *Server) {
 		fwReport, _ := framework.InspectFrameworkStatus(s.cwd, "", s.version)
 
 		type StatusReport struct {
-			Structure       config.ProjectStructure         `json:"structure"`
-			Version         string                          `json:"version"`
-			CLIVersion      string                          `json:"cli_version"`
-			ConfigVersion   string                          `json:"config_version"`
-			BarrelsCount    int                             `json:"barrels_count"`
-			Barrels         []config.EffectiveBarrel        `json:"barrels"`
-			ActiveTracks    []track.TrackMetadata           `json:"active_tracks"`
+			Structure       config.ProjectStructure          `json:"structure"`
+			Version         string                           `json:"version"`
+			CLIVersion      string                           `json:"cli_version"`
+			ConfigVersion   string                           `json:"config_version"`
+			BarrelsCount    int                              `json:"barrels_count"`
+			Barrels         []config.EffectiveBarrel         `json:"barrels"`
+			ActiveTracks    []track.TrackMetadata            `json:"active_tracks"`
 			FrameworkStatus *framework.FrameworkStatusReport `json:"framework_status,omitempty"`
 		}
 
