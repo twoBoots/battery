@@ -6,10 +6,6 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: MCP Framework & Standards Upgrade Guide**
-  - Worktree: `.worktrees/track_mcp_framework_upgrade_guide_20260820`
-  - Link: [.cooper/active/track_mcp_framework_upgrade_guide_20260820/plan.md](./active/track_mcp_framework_upgrade_guide_20260820/plan.md)
-
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
@@ -21,6 +17,10 @@ All active and completed Cooper tracks are registered below.
 ---
 
 ## Completed Tracks
+
+- [x] **Track: MCP Framework & Standards Upgrade Guide**
+  - Completed: 2026-08-20
+  - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md)
 
 - [x] **Track: Fix CI Release Version Extraction Pattern**
   - Completed: 2026-08-19 (PR #12)
