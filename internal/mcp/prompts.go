@@ -66,4 +66,73 @@ func RegisterDefaultPrompts(s *Server) {
 			},
 		}, nil
 	})
+
+	// 2. guide_framework_upgrade_track
+	s.RegisterPrompt(Prompt{
+		Name:        "guide_framework_upgrade_track",
+		Description: "Guided prompt for AI agents to inspect Cooper/Battery framework alignment, preserve local customizations, and guide the user through adopting upgrades in an isolated track worktree.",
+		Arguments: []PromptArgument{
+			{
+				Name:        "track_id",
+				Description: "Suggested track identifier for the upgrade (e.g. track_upgrade_cooper_20260820)",
+				Required:    false,
+			},
+			{
+				Name:        "barrel",
+				Description: "Optional target barrel name or path to inspect and upgrade",
+				Required:    false,
+			},
+		},
+	}, func(ctx context.Context, args map[string]string) (GetPromptResult, error) {
+		trackID := strings.TrimSpace(args["track_id"])
+		if trackID == "" {
+			trackID = "track_upgrade_cooper_standards"
+		}
+		barrel := strings.TrimSpace(args["barrel"])
+		barrelContext := "workspace root"
+		if barrel != "" {
+			barrelContext = fmt.Sprintf("barrel '%s'", barrel)
+		}
+
+		promptText := fmt.Sprintf(`You are an autonomous AI software engineer guiding the adoption of updated Cooper SDD & Battery framework standards for %s.
+
+### Upgrade Context
+* **Track ID**: %s
+* **Target**: %s
+
+### Non-Destructive Framework Upgrade Protocol
+1. **Inspect Framework Status**:
+   - Call MCP tool 'battery_framework_status'%s to detect version alignment and identify which files are up to date, customized locally, or missing.
+2. **Retrieve Upstream Canonical Templates**:
+   - Call MCP tool 'battery_get_template' for any diverged or missing skills (e.g. 'skills/cooper-rfc', 'skills/cooper-review') or documents (e.g. 'docs/COOPER.md', 'docs/BATTERY.md').
+3. **Analyze Local Customizations (Crucial)**:
+   - Compare local workspace files against the retrieved upstream templates.
+   - Explicitly identify project-specific rules, linters, commands, and workflow modifications that MUST be preserved.
+4. **Propose Dedicated Upgrade Track**:
+   - Present a clear summary to the user outlining upstream improvements vs. local customizations.
+   - Propose initializing track '%s'.
+5. **Execute in Isolated Worktree**:
+   - Call 'battery_init_track' or use 'cooper-new-track' to scaffold the track under '.worktrees/%s/'.
+   - Perform a 3-way semantic merge: incorporate new upstream capabilities while preserving all team-specific customizations.
+   - Run project test and lint suites, then open a Pull Request for team review.
+`, barrelContext, trackID, barrelContext, func() string {
+			if barrel != "" {
+				return fmt.Sprintf(" with barrel: %q", barrel)
+			}
+			return ""
+		}(), trackID, trackID)
+
+		return GetPromptResult{
+			Description: fmt.Sprintf("Framework & Standards Upgrade Guide (%s)", barrelContext),
+			Messages: []PromptMessage{
+				{
+					Role: "user",
+					Content: ContentItem{
+						Type: "text",
+						Text: promptText,
+					},
+				},
+			},
+		}, nil
+	})
 }

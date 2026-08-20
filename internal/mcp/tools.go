@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/twoboots/battery/internal/config"
+	"github.com/twoboots/battery/internal/framework"
 	"github.com/twoboots/battery/internal/techstack"
 	"github.com/twoboots/battery/internal/track"
 )
@@ -18,7 +19,7 @@ func RegisterDefaultTools(s *Server) {
 	// 1. battery_status
 	s.RegisterTool(Tool{
 		Name:        "battery_status",
-		Description: "Returns workspace topology, merged canonical and local barrel configuration, barrel connectivity, and active tracks.",
+		Description: "Returns workspace topology, merged canonical and local barrel configuration, barrel connectivity, active tracks, and framework alignment status.",
 		InputSchema: ToolInputSchema{
 			Type: "object",
 			Properties: map[string]interface{}{
@@ -35,25 +36,28 @@ func RegisterDefaultTools(s *Server) {
 		}
 
 		tracks, _ := track.ListTracks(s.cwd)
+		fwReport, _ := framework.InspectFrameworkStatus(s.cwd, "", s.version)
 
 		type StatusReport struct {
-			Structure     config.ProjectStructure  `json:"structure"`
-			Version       string                   `json:"version"`
-			CLIVersion    string                   `json:"cli_version"`
-			ConfigVersion string                   `json:"config_version"`
-			BarrelsCount  int                      `json:"barrels_count"`
-			Barrels       []config.EffectiveBarrel `json:"barrels"`
-			ActiveTracks  []track.TrackMetadata    `json:"active_tracks"`
+			Structure       config.ProjectStructure          `json:"structure"`
+			Version         string                           `json:"version"`
+			CLIVersion      string                           `json:"cli_version"`
+			ConfigVersion   string                           `json:"config_version"`
+			BarrelsCount    int                              `json:"barrels_count"`
+			Barrels         []config.EffectiveBarrel         `json:"barrels"`
+			ActiveTracks    []track.TrackMetadata            `json:"active_tracks"`
+			FrameworkStatus *framework.FrameworkStatusReport `json:"framework_status,omitempty"`
 		}
 
 		report := StatusReport{
-			Structure:     effCfg.Structure,
-			Version:       effCfg.Version,
-			CLIVersion:    s.version,
-			ConfigVersion: effCfg.Version,
-			BarrelsCount:  len(effCfg.Barrels),
-			Barrels:       effCfg.Barrels,
-			ActiveTracks:  tracks,
+			Structure:       effCfg.Structure,
+			Version:         effCfg.Version,
+			CLIVersion:      s.version,
+			ConfigVersion:   effCfg.Version,
+			BarrelsCount:    len(effCfg.Barrels),
+			Barrels:         effCfg.Barrels,
+			ActiveTracks:    tracks,
+			FrameworkStatus: fwReport,
 		}
 
 		data, err := json.MarshalIndent(report, "", "  ")
@@ -305,7 +309,7 @@ func RegisterDefaultTools(s *Server) {
 		}
 
 		lang, _ := args["language"].(string)
-		framework, _ := args["framework"].(string)
+		frameworkName, _ := args["framework"].(string)
 		testRunner, _ := args["test_runner"].(string)
 		linter, _ := args["linter"].(string)
 		cov, _ := args["coverage_threshold"].(string)
@@ -313,7 +317,7 @@ func RegisterDefaultTools(s *Server) {
 
 		res, err := techstack.ScaffoldBarrelTechStack(targetPath, techstack.ScaffoldOptions{
 			Language:          lang,
-			Framework:         framework,
+			Framework:         frameworkName,
 			TestRunner:        testRunner,
 			Linter:            linter,
 			CoverageThreshold: cov,
@@ -328,5 +332,74 @@ func RegisterDefaultTools(s *Server) {
 			return NewErrorResult(fmt.Sprintf("failed to marshal scaffold result: %v", err)), nil
 		}
 		return NewTextResult(string(data), false), nil
+	})
+
+	// 7. battery_framework_status
+	s.RegisterTool(Tool{
+		Name:        "battery_framework_status",
+		Description: "Inspects workspace or barrel standards against canonical Cooper/Battery framework templates to detect version alignment and local customizations.",
+		InputSchema: ToolInputSchema{
+			Type: "object",
+			Properties: map[string]interface{}{
+				"barrel": map[string]interface{}{
+					"type":        "string",
+					"description": "Optional registered barrel name or directory path. If omitted, inspects workspace root.",
+				},
+			},
+		},
+	}, func(ctx context.Context, args map[string]interface{}) (CallToolResult, error) {
+		barrelArg, _ := args["barrel"].(string)
+		targetRelPath := barrelArg
+		if barrelArg != "" {
+			effCfg, err := config.GetEffectiveConfig(s.cwd)
+			if err == nil {
+				for _, b := range effCfg.Barrels {
+					if b.Name == barrelArg {
+						targetRelPath = b.Path
+						break
+					}
+				}
+			}
+		}
+
+		rep, err := framework.InspectFrameworkStatus(s.cwd, targetRelPath, s.version)
+		if err != nil {
+			return NewErrorResult(fmt.Sprintf("failed to inspect framework status: %v", err)), nil
+		}
+
+		data, err := json.MarshalIndent(rep, "", "  ")
+		if err != nil {
+			return NewErrorResult(fmt.Sprintf("failed to marshal framework status: %v", err)), nil
+		}
+		return NewTextResult(string(data), false), nil
+	})
+
+	// 8. battery_get_template
+	s.RegisterTool(Tool{
+		Name:        "battery_get_template",
+		Description: "Retrieves the upstream canonical markdown content of a Cooper skill or framework document by template name (e.g. 'skills/cooper-rfc', 'docs/BATTERY.md').",
+		InputSchema: ToolInputSchema{
+			Type: "object",
+			Properties: map[string]interface{}{
+				"name": map[string]interface{}{
+					"type":        "string",
+					"description": "Template identifier from canonical catalog (e.g. 'skills/cooper-review', 'docs/COOPER.md')",
+				},
+			},
+			Required: []string{"name"},
+		},
+	}, func(ctx context.Context, args map[string]interface{}) (CallToolResult, error) {
+		name, _ := args["name"].(string)
+		name = strings.TrimSpace(name)
+		if name == "" {
+			return NewErrorResult("name is required"), nil
+		}
+
+		content, err := framework.GetTemplate(name)
+		if err != nil {
+			return NewErrorResult(fmt.Sprintf("failed to get template %q: %v", name, err)), nil
+		}
+
+		return NewTextResult(content, false), nil
 	})
 }

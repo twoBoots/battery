@@ -18,6 +18,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Completed Tracks
 
+- [x] **Track: MCP Framework & Standards Upgrade Guide**
+  - Completed: 2026-08-20
+  - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md)
+
 - [x] **Track: Fix CI Release Version Extraction Pattern**
   - Completed: 2026-08-19 (PR #12)
   - Spec: [.cooper/specs/ci-release/spec.md](./specs/ci-release/spec.md)
