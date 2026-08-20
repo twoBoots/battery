@@ -1,0 +1,9 @@
+{
+  "track_id": "track_mcp_framework_upgrade_guide_20260820",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-08-20T19:28:30+10:00",
+  "updated_at": "2026-08-20T19:28:30+10:00",
+  "name": "MCP Framework & Standards Upgrade Guide",
+  "description": "Expose framework alignment inspection, upstream template access, and guided upgrade prompts over MCP to enable agents to safely adopt new Cooper/Battery standards as dedicated tracks."
+}
