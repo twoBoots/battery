@@ -1,0 +1,3 @@
+Task: Task 2.1 & Task 2.2: MCP Tools, Resources & Prompt Templates
+Scope: internal/mcp/tools.go, internal/mcp/resources.go, internal/mcp/prompts.go, internal/mcp/framework_tools_test.go
+Summary: Added battery_framework_status and battery_get_template MCP tools, battery://framework-status and battery://templates/{name} resources, enriched battery_status with framework status, and added guide_framework_upgrade_track prompt template with 86.7% coverage.
