@@ -26,7 +26,7 @@
   - [x] Sub-task: Run full test suite and record git note checkpoint
 
 ## Phase 3: End-to-End Verification & Living Spec Consolidation
-- [ ] Task 3.1: Stdio MCP Protocol Integration Testing
+- [~] Task 3.1: Stdio MCP Protocol Integration Testing
   - [ ] Sub-task: Write end-to-end stdio JSON-RPC test verifying tools, resources, and prompt retrieval in a simulated client session
   - [ ] Sub-task: Run `go test ./...` with race detection and linter verification
 - [ ] Task 3.2: Living Capability Spec Update
