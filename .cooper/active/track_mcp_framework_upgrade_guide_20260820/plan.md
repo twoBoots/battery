@@ -1,14 +1,14 @@
 # Implementation Plan: MCP Framework & Standards Upgrade Guide
 
 ## Phase 1: Embedded Framework Templates & Inspection Engine (`internal/framework`)
-- [~] Task 1.1: Framework Inspection Engine Unit Tests (TDD - Red)
-  - [ ] Sub-task: Write unit tests for embedded template catalog retrieval and missing template error handling in `internal/framework/framework_test.go`
-  - [ ] Sub-task: Write unit tests for workspace scanning and file status classification (`up_to_date`, `customized_locally`, `outdated`, `missing`)
-- [ ] Task 1.2: Implement Embedded Templates & Framework Engine (TDD - Green)
-  - [ ] Sub-task: Create `internal/framework/templates/` with embedded canonical Cooper skills and framework documentation
-  - [ ] Sub-task: Implement `GetTemplate`, `ListTemplates`, and `InspectFrameworkStatus` in `internal/framework/framework.go`
-  - [ ] Sub-task: Refactor & ensure coverage >80% in `internal/framework` (Refactor)
-- [ ] Task 1.3: Phase 1 Verification & Checkpoint
+- [x] Task 1.1: Framework Inspection Engine Unit Tests (TDD - Red) (1494314)
+  - [x] Sub-task: Write unit tests for embedded template catalog retrieval and missing template error handling in `internal/framework/framework_test.go`
+  - [x] Sub-task: Write unit tests for workspace scanning and file status classification (`up_to_date`, `customized_locally`, `outdated`, `missing`)
+- [x] Task 1.2: Implement Embedded Templates & Framework Engine (TDD - Green) (1494314)
+  - [x] Sub-task: Create `internal/framework/templates/` with embedded canonical Cooper skills and framework documentation
+  - [x] Sub-task: Implement `GetTemplate`, `ListTemplates`, and `InspectFrameworkStatus` in `internal/framework/framework.go`
+  - [x] Sub-task: Refactor & ensure coverage >80% in `internal/framework` (Refactor)
+- [~] Task 1.3: Phase 1 Verification & Checkpoint
   - [ ] Sub-task: Run unit tests and record git note checkpoint
 
 ## Phase 2: MCP Tools, Resources & Prompt Templates (`internal/mcp`)
