@@ -1,7 +1,7 @@
 # Implementation Plan: MCP Framework & Standards Upgrade Guide
 
 ## Phase 1: Embedded Framework Templates & Inspection Engine (`internal/framework`)
-- [ ] Task 1.1: Framework Inspection Engine Unit Tests (TDD - Red)
+- [~] Task 1.1: Framework Inspection Engine Unit Tests (TDD - Red)
   - [ ] Sub-task: Write unit tests for embedded template catalog retrieval and missing template error handling in `internal/framework/framework_test.go`
   - [ ] Sub-task: Write unit tests for workspace scanning and file status classification (`up_to_date`, `customized_locally`, `outdated`, `missing`)
 - [ ] Task 1.2: Implement Embedded Templates & Framework Engine (TDD - Green)
