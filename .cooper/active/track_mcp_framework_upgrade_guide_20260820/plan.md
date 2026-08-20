@@ -22,8 +22,8 @@
   - [x] Sub-task: Register `guide_framework_upgrade_track` in `internal/mcp/prompts.go`
   - [x] Sub-task: Enrich `battery_status` tool output with summary framework status metadata
   - [x] Sub-task: Refactor & ensure coverage >80% across `internal/mcp` (Refactor)
-- [~] Task 2.3: Phase 2 Verification & Checkpoint
-  - [ ] Sub-task: Run full test suite and record git note checkpoint
+- [x] Task 2.3: Phase 2 Verification & Checkpoint
+  - [x] Sub-task: Run full test suite and record git note checkpoint
 
 ## Phase 3: End-to-End Verification & Living Spec Consolidation
 - [ ] Task 3.1: Stdio MCP Protocol Integration Testing
