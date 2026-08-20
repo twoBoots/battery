@@ -6,6 +6,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
+- [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
+  - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
+  - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
+
 - [ ] **Track: Upgrade GitHub Actions to Native Node 24 Versions**
   - Worktree: `.worktrees/track_upgrade_github_actions_node24_20260819`
   - Link: [.cooper/active/track_upgrade_github_actions_node24_20260819/plan.md](./active/track_upgrade_github_actions_node24_20260819/plan.md)

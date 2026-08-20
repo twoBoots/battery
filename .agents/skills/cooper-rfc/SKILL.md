@@ -155,7 +155,27 @@ Once initial drafts are generated:
    git push -u origin <rfc_id>
    ```
 3. **Open Draft Pull Request:**
-   Generate temporary `prbody.md` summarizing the RFC, open questions, and affected specs, then execute:
+   Generate temporary `prbody.md` detailing the RFC overview, open questions, affected living specs, and explicit reviewer guidance:
+   ```markdown
+   ## RFC: <Initiative Title> (`<rfc_id>`)
+
+   ### Summary & Motivation
+   <Brief summary of the initiative and goals>
+
+   ### Proposed Architecture & Artifacts
+   - **RFC Document**: `.cooper/active/<rfc_id>/rfc.md`
+   - **Decomposed Tracks**: `.cooper/active/<rfc_id>/tracks-breakdown.md`
+   - **Impacted Living Specs**: `.cooper/specs/<capability>/spec.md`
+
+   ### Open Questions & Trade-offs
+   - <List open questions requiring team consensus>
+
+   ### Reviewer Actions
+   - **Feedback**: Leave line comments or general comments on open questions and architecture trade-offs.
+   - **Approve**: Submit a standard GitHub review approval (`Approve`) or comment `/approve` once architecture and living spec deltas are aligned.
+   - **Graduation**: Approval triggers track registration in `.cooper/tracks.md` and transitions the PR to Ready for Merge.
+   ```
+   Then execute:
    ```bash
    gh pr create --draft --title "[RFC] <Initiative Title>" --body-file prbody.md --label "rfc"
    rm prbody.md
@@ -167,21 +187,28 @@ Once initial drafts are generated:
 
 ## 6. Review Feedback Iteration & Track Graduation
 
-### 6.1 Review Comments Synthesis
-Allow agents or users to prompt a review of feedback and discussions on the PR at any time (e.g. *"Review PR comments and update the RFC artifacts"*):
+### 6.1 Review Feedback & Approval Detection
+Allow agents or users to inspect PR status and discussions at any time (e.g. *"Review PR comments and update RFC artifacts"* or *"Check if RFC PR is approved"*):
 
-1. **Fetch PR Comments & Discussions:**
-   - Use GitHub CLI to fetch all discussion comments:
+1. **Inspect PR Approval State (Native Review Decisions):**
+   - Execute GitHub CLI inspection to check PR state and review approvals:
+     ```bash
+     gh pr view --json state,reviews,reviewDecision --jq '{state: .state, decision: .reviewDecision, approvals: [.reviews[] | select(.state=="APPROVED") | .author.login]}'
+     ```
+   - If `reviewDecision == "APPROVED"` or approving reviews are present, recognize the RFC as approved and proceed immediately to **6.2 RFC Approval, Track Registration & User Merge Gate**.
+2. **Fetch PR Comments & Comment Triggers:**
+   - Fetch discussion threads and comments:
      ```bash
      gh pr view --comments
      ```
+   - Check if any maintainer or reviewer commented `/approve` or gave explicit written approval. If so, recognize the RFC as approved and proceed directly to **6.2**.
    - Alternatively, consume feedback threads directly provided by the user in chat.
-2. **Synthesize Feedback into Artifact Updates:**
+3. **Synthesize Feedback into Artifact Updates (If Not Yet Approved):**
    - Address architectural critiques, trade-offs, and resolved open questions.
    - Update `rfc.md` with revised decisions and updated diagrams.
    - Update `spec-deltas/<capability>/spec.md` with refined requirement diffs.
    - Update `tracks-breakdown.md` if scope boundaries or dependencies change.
-3. **Commit & Push Iterations:**
+4. **Commit & Push Iterations:**
    ```bash
    git add .cooper/active/<rfc_id>/
    git commit -m "docs(rfc): Address PR review feedback for <Initiative Title>"
@@ -191,7 +218,7 @@ Allow agents or users to prompt a review of feedback and discussions on the PR a
 ---
 
 ### 6.2 RFC Approval, Track Registration & User Merge Gate
-Once consensus is reached, all open questions are resolved, and reviewers approve the RFC:
+Once PR approval is detected (via GitHub native review approval, `/approve` comment trigger, or explicit user sign-off):
 
 1. **Mark RFC Approved:**
    - Update `metadata.json` status to `"approved"`.
@@ -210,7 +237,7 @@ Once consensus is reached, all open questions are resolved, and reviewers approv
    - Commit tracks registry update: `git commit -am "chore(cooper): Register RFC '<rfc_id>' tracks"`.
    - Push to remote: `git push origin <rfc_id>`.
 3. **User Merge Gate (Mandatory Human Sign-Off):**
-   - Mark the PR ready for review:
+   - Mark the PR ready for review/merge:
      ```bash
      gh pr ready
      ```
