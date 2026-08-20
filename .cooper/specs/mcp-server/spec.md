@@ -24,7 +24,7 @@ The system MUST expose Battery's core orchestration functions as callable MCP to
 #### Scenario 2.1: `battery_status` Tool
 - **GIVEN** a valid workspace directory
 - **WHEN** `tools/call` is invoked with `name: "battery_status"`
-- **THEN** it MUST return structured JSON detailing configuration status, registered barrels, connectivity, and active tracks.
+- **THEN** it MUST return structured JSON detailing configuration status, registered barrels, connectivity, active tracks, and framework alignment status.
 
 #### Scenario 2.2: `battery_list_barrels` Tool
 - **GIVEN** a valid workspace directory
@@ -51,6 +51,16 @@ The system MUST expose Battery's core orchestration functions as callable MCP to
 - **WHEN** `tools/call` is invoked with `name: "battery_init_barrel_tech_stack"`
 - **THEN** it MUST infer or apply the provided settings and scaffold `.cooper/definition/tech-stack.md` in the target barrel directory, returning structured confirmation of the generated files.
 
+#### Scenario 2.7: `battery_framework_status` Tool
+- **GIVEN** a workspace or registered barrel directory
+- **WHEN** `tools/call` is invoked with `name: "battery_framework_status"` (and optional `barrel`)
+- **THEN** it MUST compare local `.cooper/` and `.agents/skills/` against embedded upstream templates, returning structured status for each file (`up_to_date`, `customized_locally`, `outdated`, `missing`) and summary upgrade metadata.
+
+#### Scenario 2.8: `battery_get_template` Tool
+- **GIVEN** a valid template name (e.g. `skills/cooper-review`, `docs/BATTERY.md`)
+- **WHEN** `tools/call` is invoked with `name: "battery_get_template"`
+- **THEN** it MUST return the upstream template text content and description, or return a clear error if the template is not found.
+
 ### Requirement 3: MCP Resources for Living Context
 The system MUST expose queryable URIs under `battery://` for workspace inspection.
 
@@ -59,13 +69,23 @@ The system MUST expose queryable URIs under `battery://` for workspace inspectio
 - **WHEN** querying `resources/list` or `resources/read` for `battery://topology`, `battery://barrels/{name}/tech-stack`, or `battery://tracks/{track_id}`
 - **THEN** the server MUST return valid resource payloads with correct MIME types.
 
+#### Scenario 3.2: Framework Alignment and Template Resources
+- **GIVEN** an active MCP session
+- **WHEN** querying `resources/read` for `battery://framework-status` or `battery://templates/{name}`
+- **THEN** the server MUST return valid JSON framework status reports or raw template markdown content respectively.
+
 ### Requirement 4: MCP Prompts for Multi-Barrel Workflows
-The system MUST expose standard prompt templates for guiding AI agents through multi-barrel track inception.
+The system MUST expose standard prompt templates for guiding AI agents through multi-barrel track inception and framework upgrade workflows.
 
 #### Scenario 4.1: Planning Prompt
 - **GIVEN** a request for `prompts/get` with `name: "plan_multi_barrel_track"`
 - **WHEN** the prompt is retrieved with argument `track_id`
 - **THEN** it MUST return prompt messages instructing the agent on Cooper Hybrid and Troop multi-barrel protocols.
+
+#### Scenario 4.2: Framework Upgrade Guide Prompt
+- **GIVEN** a request for `prompts/get` with `name: "guide_framework_upgrade_track"`
+- **WHEN** the prompt is retrieved with optional `track_id` and `barrel`
+- **THEN** it MUST return prompt messages instructing the AI agent on how to inspect framework divergence, preserve local customizations, and guide the user through initializing an upgrade track in a Troop worktree.
 
 ### Requirement 5: MCP Client Auto-Configuration & Installation (`battery mcp install`)
 The system MUST support automatic detection, interactive selection, and safe JSON configuration insertion of Battery MCP into supported AI assistants.
@@ -84,4 +104,3 @@ The system MUST support automatic detection, interactive selection, and safe JSO
 - **GIVEN** an interactive `battery init` session
 - **WHEN** workspace topology configuration completes
 - **THEN** it MUST prompt the user whether to configure MCP for their AI assistant and invoke the installer upon confirmation.
-
