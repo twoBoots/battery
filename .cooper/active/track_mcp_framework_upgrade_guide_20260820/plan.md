@@ -8,8 +8,8 @@
   - [x] Sub-task: Create `internal/framework/templates/` with embedded canonical Cooper skills and framework documentation
   - [x] Sub-task: Implement `GetTemplate`, `ListTemplates`, and `InspectFrameworkStatus` in `internal/framework/framework.go`
   - [x] Sub-task: Refactor & ensure coverage >80% in `internal/framework` (Refactor)
-- [~] Task 1.3: Phase 1 Verification & Checkpoint
-  - [ ] Sub-task: Run unit tests and record git note checkpoint
+- [x] Task 1.3: Phase 1 Verification & Checkpoint
+  - [x] Sub-task: Run unit tests and record git note checkpoint
 
 ## Phase 2: MCP Tools, Resources & Prompt Templates (`internal/mcp`)
 - [ ] Task 2.1: MCP Tools & Resources Unit Tests (TDD - Red)
