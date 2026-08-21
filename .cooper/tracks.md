@@ -6,10 +6,6 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Battery Bender CLI Integration**
-  - Worktree: `.worktrees/battery-bender-integration`
-  - Link: [.cooper/active/battery-bender-integration/index.md](./active/battery-bender-integration/index.md)
-
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
@@ -21,6 +17,10 @@ All active and completed Cooper tracks are registered below.
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Battery Bender CLI Integration**
+  - Completed: 2026-08-21
+  - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md), [.cooper/specs/cli-self-update/spec.md](./specs/cli-self-update/spec.md)
 
 - [x] **Track: MCP Framework & Standards Upgrade Guide**
   - Completed: 2026-08-20
