@@ -1,0 +1,3 @@
+Task: Task 2.1 & Task 2.2: Refactor internal/mcp/server.go and verify domain registrations
+Scope: internal/mcp/server.go, internal/mcp/tools.go, internal/mcp/resources.go, internal/mcp/protocol.go
+Summary: Replaced internal MCP protocol engine with bender/pkg/mcp; adapted all domain tools, resources, and prompt templates to Bender server; verified 84.4% test coverage.
