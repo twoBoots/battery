@@ -11,13 +11,13 @@ Refactor `battery update` to use `bender/pkg/updater` and remove `internal/updat
   - [x] Sub-task: Add dependency in `go.mod` and run `go mod tidy`
   - [x] Sub-task: Verify package imports succeed
 
-- [~] Task 1.2: Refactor `cmd/update.go` to use `bender/pkg/updater`
-  - [ ] Sub-task: Write unit tests in `cmd/update_test.go` for Bender updater integration (Red)
-  - [ ] Sub-task: Update `cmd/update.go` with `updater.SelfUpdate` implementation (Green)
-  - [ ] Sub-task: Remove `internal/updater/` package and obsolete updater tests (Refactor)
-  - [ ] Sub-task: Verify all `cmd/` tests pass with coverage >80%
+- [x] Task 1.2: Refactor `cmd/update.go` to use `bender/pkg/updater` (8555ea1)
+  - [x] Sub-task: Write unit tests in `cmd/update_test.go` for Bender updater integration (Red)
+  - [x] Sub-task: Update `cmd/update.go` with `updater.SelfUpdate` implementation (Green)
+  - [x] Sub-task: Remove `internal/updater/` package and obsolete updater tests (Refactor)
+  - [x] Sub-task: Verify all `cmd/` tests pass with coverage >80%
 
-- [ ] Task 1.3: Phase 1 Verification & Checkpoint
+- [~] Task 1.3: Phase 1 Verification & Checkpoint
   - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
   - [ ] Sub-task: Run unit tests: `go test -v ./cmd/...`
   - [ ] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
