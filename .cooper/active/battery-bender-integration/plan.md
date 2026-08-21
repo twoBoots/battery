@@ -17,17 +17,17 @@ Refactor `battery update` to use `bender/pkg/updater` and remove `internal/updat
   - [x] Sub-task: Remove `internal/updater/` package and obsolete updater tests (Refactor)
   - [x] Sub-task: Verify all `cmd/` tests pass with coverage >80%
 
-- [~] Task 1.3: Phase 1 Verification & Checkpoint
-  - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
-  - [ ] Sub-task: Run unit tests: `go test -v ./cmd/...`
-  - [ ] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
+- [x] Task 1.3: Phase 1 Verification & Checkpoint [checkpoint: 95eb265]
+  - [x] Sub-task: Sync phase rules & specs (`git fetch origin main`)
+  - [x] Sub-task: Run unit tests: `go test -v ./cmd/...`
+  - [x] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
 
 ---
 
 ## Phase 2: MCP Server Engine & Protocol Migration
 Refactor `internal/mcp` to use `bender/pkg/mcp.Server` for JSON-RPC 2.0 stdio handling.
 
-- [ ] Task 2.1: Refactor `internal/mcp/server.go` to wrap `bender/pkg/mcp.Server`
+- [~] Task 2.1: Refactor `internal/mcp/server.go` to wrap `bender/pkg/mcp.Server`
   - [ ] Sub-task: Write/update unit tests in `internal/mcp/server_test.go` (Red)
   - [ ] Sub-task: Implement `internal/mcp/server.go` using Bender server (Green)
   - [ ] Sub-task: Remove redundant `internal/mcp/protocol.go` and `protocol_test.go` (Refactor)
