@@ -37,17 +37,17 @@ Refactor `internal/mcp` to use `bender/pkg/mcp.Server` for JSON-RPC 2.0 stdio ha
   - [x] Sub-task: Verify all domain tools execute correctly via `internal/mcp/tools_test.go`
   - [x] Sub-task: Verify framework status and template tools via `internal/mcp/framework_tools_test.go`
 
-- [~] Task 2.3: Phase 2 Verification & Checkpoint
-  - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
-  - [ ] Sub-task: Run unit tests: `go test -v ./internal/mcp/...`
-  - [ ] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
+- [x] Task 2.3: Phase 2 Verification & Checkpoint [checkpoint: 878808f]
+  - [x] Sub-task: Sync phase rules & specs (`git fetch origin main`)
+  - [x] Sub-task: Run unit tests: `go test -v ./internal/mcp/...`
+  - [x] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
 
 ---
 
 ## Phase 3: MCP Client Installer Migration & CLI Ergonomics
 Migrate `cmd/mcp.go` to use `bender/pkg/mcp` client installer and clean up redundant installer logic.
 
-- [ ] Task 3.1: Refactor `cmd/mcp.go` to use `mcp.InstallClients` & `mcp.GetSupportedClients`
+- [~] Task 3.1: Refactor `cmd/mcp.go` to use `mcp.InstallClients` & `mcp.GetSupportedClients`
   - [ ] Sub-task: Update `cmd/mcp_test.go` for Bender installer integration (Red)
   - [ ] Sub-task: Implement installer dispatch in `cmd/mcp.go` (Green)
   - [ ] Sub-task: Remove redundant `internal/mcp/installer.go` and `installer_test.go` (Refactor)
