@@ -7,9 +7,9 @@ Refactor Battery to import and standardize on `github.com/twoBoots/bender` for s
 ## Phase 1: Dependency Integration & Updater Refactoring
 Refactor `battery update` to use `bender/pkg/updater` and remove `internal/updater`.
 
-- [~] Task 1.1: Add `github.com/twoBoots/bender` dependency to `go.mod`
-  - [ ] Sub-task: Add dependency in `go.mod` and run `go mod tidy`
-  - [ ] Sub-task: Verify package imports succeed
+- [x] Task 1.1: Add `github.com/twoBoots/bender` dependency to `go.mod` (74a4997)
+  - [x] Sub-task: Add dependency in `go.mod` and run `go mod tidy`
+  - [x] Sub-task: Verify package imports succeed
 
 - [ ] Task 1.2: Refactor `cmd/update.go` to use `bender/pkg/updater`
   - [ ] Sub-task: Write unit tests in `cmd/update_test.go` for Bender updater integration (Red)
