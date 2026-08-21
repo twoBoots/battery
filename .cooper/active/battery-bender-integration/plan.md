@@ -62,16 +62,16 @@ Migrate `cmd/mcp.go` to use `bender/pkg/mcp` client installer and clean up redun
 ## Phase 4: Final Quality Verification & Spec Sync
 Verify end-to-end CLI behavior, test coverage, and update living capability specs.
 
-- [~] Task 4.1: Comprehensive Linting & Coverage Verification
-  - [ ] Sub-task: Run `gofmt -l .` and `go vet ./...`
-  - [ ] Sub-task: Verify total coverage exceeds 80%
-  - [ ] Sub-task: Verify binary compilation: `go build -o bin/battery .`
+- [x] Task 4.1: Comprehensive Linting & Coverage Verification (bef6261)
+  - [x] Sub-task: Run `gofmt -l .` and `go vet ./...`
+  - [x] Sub-task: Verify total coverage exceeds 80%
+  - [x] Sub-task: Verify binary compilation: `go build -o bin/battery .`
 
-- [ ] Task 4.2: Merge Spec Deltas into Living Specs
-  - [ ] Sub-task: Update `.cooper/specs/cli-self-update/spec.md` with Bender updater references
-  - [ ] Sub-task: Update `.cooper/specs/mcp-server/spec.md` with Bender MCP references
+- [x] Task 4.2: Merge Spec Deltas into Living Specs (bef6261)
+  - [x] Sub-task: Update `.cooper/specs/cli-self-update/spec.md` with Bender updater references
+  - [x] Sub-task: Update `.cooper/specs/mcp-server/spec.md` with Bender MCP references
 
-- [ ] Task 4.3: Final Phase Verification & Checkpoint
+- [~] Task 4.3: Final Phase Verification & Checkpoint
   - [ ] Sub-task: Record completion metadata in `.cooper/active/battery-bender-integration/metadata.json`
   - [ ] Sub-task: Update `.cooper/tracks.md` registry
   - [ ] Sub-task: Push final branch: `git push origin battery-bender-integration`
