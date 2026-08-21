@@ -22,7 +22,7 @@ func RegisterDefaultResources(s *Server) {
 		Description: "Merged active configuration representing canonical .batteryrc and local overrides",
 		MIMEType:    "application/json",
 	}, func(ctx context.Context, uri string) (ReadResourceResult, error) {
-		effCfg, err := config.GetEffectiveConfig(s.cwd)
+		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err != nil {
 			return ReadResourceResult{}, fmt.Errorf("failed to get effective config: %w", err)
 		}
@@ -56,7 +56,7 @@ func RegisterDefaultResources(s *Server) {
 		}
 		name := uri[len(prefix) : len(uri)-len(suffix)]
 
-		effCfg, err := config.GetEffectiveConfig(s.cwd)
+		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err != nil {
 			return ReadResourceResult{}, fmt.Errorf("failed to load configuration: %w", err)
 		}
@@ -74,7 +74,7 @@ func RegisterDefaultResources(s *Server) {
 
 		bPath := targetBarrel.Path
 		if !filepath.IsAbs(bPath) {
-			bPath = filepath.Join(s.cwd, bPath)
+			bPath = filepath.Join(s.Cwd(), bPath)
 		}
 
 		ts := techstack.ResolveBarrelTechStack(bPath)
@@ -107,7 +107,7 @@ func RegisterDefaultResources(s *Server) {
 		}
 		trackID := strings.TrimPrefix(uri, prefix)
 
-		st, err := track.GetMultiBarrelTrackStatus(s.cwd, trackID)
+		st, err := track.GetMultiBarrelTrackStatus(s.Cwd(), trackID)
 		if err != nil {
 			return ReadResourceResult{}, fmt.Errorf("failed to get track status: %w", err)
 		}
@@ -135,7 +135,7 @@ func RegisterDefaultResources(s *Server) {
 		Description: "Workspace standards and agent skills alignment status against canonical Cooper/Battery templates",
 		MIMEType:    "application/json",
 	}, func(ctx context.Context, uri string) (ReadResourceResult, error) {
-		rep, err := framework.InspectFrameworkStatus(s.cwd, "", s.version)
+		rep, err := framework.InspectFrameworkStatus(s.Cwd(), "", s.Version())
 		if err != nil {
 			return ReadResourceResult{}, fmt.Errorf("failed to inspect framework status: %w", err)
 		}
