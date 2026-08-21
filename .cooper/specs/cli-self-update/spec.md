@@ -1,7 +1,7 @@
 # Capability Specification: CLI Self-Updater
 
 ## Description
-Provides an in-CLI update mechanism (`battery update` and alias `battery self-update`) that discovers latest releases from GitHub, checks version status, downloads platform-compatible prebuilt binaries, and replaces the running binary.
+Provides an in-CLI update mechanism (`battery update` and alias `battery self-update`) powered by the standardized Bender updater engine (`bender/pkg/updater`) that discovers latest releases from GitHub, checks version status, downloads platform-compatible prebuilt binaries, and replaces the running binary with atomic rollback and macOS code-signing.
 
 ## Requirements
 
