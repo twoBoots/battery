@@ -71,7 +71,7 @@ Verify end-to-end CLI behavior, test coverage, and update living capability spec
   - [x] Sub-task: Update `.cooper/specs/cli-self-update/spec.md` with Bender updater references
   - [x] Sub-task: Update `.cooper/specs/mcp-server/spec.md` with Bender MCP references
 
-- [~] Task 4.3: Final Phase Verification & Checkpoint
-  - [ ] Sub-task: Record completion metadata in `.cooper/active/battery-bender-integration/metadata.json`
-  - [ ] Sub-task: Update `.cooper/tracks.md` registry
-  - [ ] Sub-task: Push final branch: `git push origin battery-bender-integration`
+- [x] Task 4.3: Final Phase Verification & Checkpoint [checkpoint: ed0ecf6]
+  - [x] Sub-task: Record completion metadata in `.cooper/active/battery-bender-integration/metadata.json`
+  - [x] Sub-task: Update `.cooper/tracks.md` registry
+  - [x] Sub-task: Push final branch: `git push origin battery-bender-integration`
