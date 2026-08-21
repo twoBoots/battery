@@ -1,0 +1,3 @@
+Task: Task 1.2: Refactor cmd/update.go to use bender/pkg/updater
+Scope: cmd/update.go, cmd/update_test.go, go.mod, go.sum, internal/updater/
+Summary: Refactored battery update command to delegate directly to bender/pkg/updater; removed redundant internal/updater package and test suite.
