@@ -39,6 +39,9 @@ type (
 	ReadResourceParams  = benderMCP.ReadResourceParams
 	ListPromptsResult   = benderMCP.ListPromptsResult
 	GetPromptParams     = benderMCP.GetPromptParams
+	ClientTarget        = benderMCP.ClientTarget
+	InstallResult       = benderMCP.InstallResult
+	InstallerOptions    = benderMCP.InstallerOptions
 )
 
 const (
@@ -52,10 +55,14 @@ const (
 )
 
 var (
-	NewTextResult    = benderMCP.NewTextResult
-	NewErrorResult   = benderMCP.NewErrorResult
-	NewResponse      = benderMCP.NewResponse
-	NewErrorResponse = benderMCP.NewErrorResponse
+	NewTextResult              = benderMCP.NewTextResult
+	NewErrorResult             = benderMCP.NewErrorResult
+	NewResponse                = benderMCP.NewResponse
+	NewErrorResponse           = benderMCP.NewErrorResponse
+	InstallClients             = benderMCP.InstallClients
+	GetSupportedClients        = benderMCP.GetSupportedClients
+	MergeMCPServerConfig       = benderMCP.MergeMCPServerConfig
+	GetClaudeDesktopConfigPath = benderMCP.GetClaudeDesktopConfigPath
 )
 
 // NewServer creates a new Battery MCP Server instance backed by Bender's MCP server engine.

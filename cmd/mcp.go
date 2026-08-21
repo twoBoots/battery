@@ -137,7 +137,14 @@ func runMCPInstall(out io.Writer, cwd string, homeDir string, clientIDs []string
 
 	fmt.Fprintln(out, "🔌 Configuring Battery MCP Server...")
 
-	results, err := mcp.InstallClients(cwd, homeDir, selectedIDs)
+	results, err := mcp.InstallClients(mcp.InstallerOptions{
+		ServerName: "battery",
+		Command:    "battery",
+		Args:       []string{"mcp"},
+		Cwd:        cwd,
+		HomeDir:    homeDir,
+		ClientIDs:  selectedIDs,
+	})
 	if err != nil {
 		return err
 	}
