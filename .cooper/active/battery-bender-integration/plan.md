@@ -11,7 +11,7 @@ Refactor `battery update` to use `bender/pkg/updater` and remove `internal/updat
   - [x] Sub-task: Add dependency in `go.mod` and run `go mod tidy`
   - [x] Sub-task: Verify package imports succeed
 
-- [ ] Task 1.2: Refactor `cmd/update.go` to use `bender/pkg/updater`
+- [~] Task 1.2: Refactor `cmd/update.go` to use `bender/pkg/updater`
   - [ ] Sub-task: Write unit tests in `cmd/update_test.go` for Bender updater integration (Red)
   - [ ] Sub-task: Update `cmd/update.go` with `updater.SelfUpdate` implementation (Green)
   - [ ] Sub-task: Remove `internal/updater/` package and obsolete updater tests (Refactor)
