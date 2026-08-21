@@ -12,7 +12,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/internal/updater"
+	"github.com/twoBoots/bender/pkg/updater"
 )
 
 func TestUpdateCmd_Help(t *testing.T) {
@@ -94,7 +94,7 @@ func TestUpdateCmd_ApplyUpdate(t *testing.T) {
 	err := os.WriteFile(execPath, []byte("legacy-binary"), 0755)
 	require.NoError(t, err)
 
-	platformAsset, err := updater.GetCurrentPlatformBinaryName()
+	platformAsset, err := updater.GetCurrentPlatformBinaryName("battery")
 	require.NoError(t, err)
 
 	newBinary := []byte("new-upgraded-binary")

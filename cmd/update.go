@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/twoboots/battery/internal/updater"
+	"github.com/twoBoots/bender/pkg/updater"
 )
 
 var (
@@ -33,11 +33,13 @@ appropriate platform binary, and updates the local installation in place.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		opts := updater.Options{
 			Repo:           updateRepoFlag,
+			BinaryName:     "battery",
 			TargetVersion:  updateTargetVersionFlag,
 			CurrentVersion: Version,
 			ExecutablePath: updateExecPathFlag,
 			Force:          updateForceFlag,
 			CheckOnly:      updateCheckFlag,
+			Client:         updaterClientOverride,
 		}
 		return RunUpdate(cmd.OutOrStdout(), cmd.ErrOrStderr(), opts, updaterClientOverride)
 	},
@@ -47,7 +49,7 @@ func init() {
 	UpdateCmd.Flags().BoolVarP(&updateCheckFlag, "check", "c", false, "Check for available updates without applying")
 	UpdateCmd.Flags().BoolVarP(&updateForceFlag, "force", "f", false, "Force re-download and reinstall even if up to date")
 	UpdateCmd.Flags().StringVarP(&updateTargetVersionFlag, "target-version", "t", "", "Target a specific release version tag (e.g. v1.3.0)")
-	UpdateCmd.Flags().StringVar(&updateRepoFlag, "repo", updater.DefaultRepo, "GitHub repository to check for releases")
+	UpdateCmd.Flags().StringVar(&updateRepoFlag, "repo", "twoBoots/battery", "GitHub repository to check for releases")
 	UpdateCmd.Flags().StringVar(&updateExecPathFlag, "exec-path", "", "Target executable path to overwrite (advanced)")
 	_ = UpdateCmd.Flags().MarkHidden("exec-path")
 	_ = UpdateCmd.Flags().MarkHidden("repo")
@@ -57,8 +59,14 @@ func init() {
 
 // RunUpdate performs the update operation and writes user-friendly logs to the provided output writers.
 func RunUpdate(out, errOut io.Writer, opts updater.Options, client *updater.Client) error {
-	if client == nil {
-		client = updater.NewClient()
+	if client != nil {
+		opts.Client = client
+	}
+	if opts.Repo == "" {
+		opts.Repo = "twoBoots/battery"
+	}
+	if opts.BinaryName == "" {
+		opts.BinaryName = "battery"
 	}
 	if opts.CurrentVersion == "" {
 		opts.CurrentVersion = Version
@@ -66,7 +74,7 @@ func RunUpdate(out, errOut io.Writer, opts updater.Options, client *updater.Clie
 
 	fmt.Fprintf(out, "🔋 Checking for updates (current version: v%s)...\n", opts.CurrentVersion)
 
-	res, err := updater.SelfUpdateWithClient(client, opts)
+	res, err := updater.SelfUpdate(opts)
 	if err != nil {
 		return fmt.Errorf("update failed: %w", err)
 	}
