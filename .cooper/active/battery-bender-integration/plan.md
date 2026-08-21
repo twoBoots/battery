@@ -27,17 +27,17 @@ Refactor `battery update` to use `bender/pkg/updater` and remove `internal/updat
 ## Phase 2: MCP Server Engine & Protocol Migration
 Refactor `internal/mcp` to use `bender/pkg/mcp.Server` for JSON-RPC 2.0 stdio handling.
 
-- [~] Task 2.1: Refactor `internal/mcp/server.go` to wrap `bender/pkg/mcp.Server`
-  - [ ] Sub-task: Write/update unit tests in `internal/mcp/server_test.go` (Red)
-  - [ ] Sub-task: Implement `internal/mcp/server.go` using Bender server (Green)
-  - [ ] Sub-task: Remove redundant `internal/mcp/protocol.go` and `protocol_test.go` (Refactor)
+- [x] Task 2.1: Refactor `internal/mcp/server.go` to wrap `bender/pkg/mcp.Server` (cc716b6)
+  - [x] Sub-task: Write/update unit tests in `internal/mcp/server_test.go` (Red)
+  - [x] Sub-task: Implement `internal/mcp/server.go` using Bender server (Green)
+  - [x] Sub-task: Remove redundant `internal/mcp/protocol.go` and `protocol_test.go` (Refactor)
 
-- [ ] Task 2.2: Verify domain tools, resources, and prompts registration
-  - [ ] Sub-task: Adapt `internal/mcp/tools.go`, `resources.go`, `prompts.go` to Bender handler signatures (Red/Green)
-  - [ ] Sub-task: Verify all domain tools execute correctly via `internal/mcp/tools_test.go`
-  - [ ] Sub-task: Verify framework status and template tools via `internal/mcp/framework_tools_test.go`
+- [x] Task 2.2: Verify domain tools, resources, and prompts registration (cc716b6)
+  - [x] Sub-task: Adapt `internal/mcp/tools.go`, `resources.go`, `prompts.go` to Bender handler signatures (Red/Green)
+  - [x] Sub-task: Verify all domain tools execute correctly via `internal/mcp/tools_test.go`
+  - [x] Sub-task: Verify framework status and template tools via `internal/mcp/framework_tools_test.go`
 
-- [ ] Task 2.3: Phase 2 Verification & Checkpoint
+- [~] Task 2.3: Phase 2 Verification & Checkpoint
   - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
   - [ ] Sub-task: Run unit tests: `go test -v ./internal/mcp/...`
   - [ ] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
