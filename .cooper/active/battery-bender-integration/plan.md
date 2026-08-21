@@ -52,17 +52,17 @@ Migrate `cmd/mcp.go` to use `bender/pkg/mcp` client installer and clean up redun
   - [x] Sub-task: Implement installer dispatch in `cmd/mcp.go` (Green)
   - [x] Sub-task: Remove redundant `internal/mcp/installer.go` and `installer_test.go` (Refactor)
 
-- [~] Task 3.2: Phase 3 Verification & Checkpoint
-  - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
-  - [ ] Sub-task: Run full test suite: `go test -v -coverprofile=coverage.out ./...`
-  - [ ] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
+- [x] Task 3.2: Phase 3 Verification & Checkpoint [checkpoint: 6e66665]
+  - [x] Sub-task: Sync phase rules & specs (`git fetch origin main`)
+  - [x] Sub-task: Run full test suite: `go test -v -coverprofile=coverage.out ./...`
+  - [x] Sub-task: Push checkpoint: `git push origin battery-bender-integration`
 
 ---
 
 ## Phase 4: Final Quality Verification & Spec Sync
 Verify end-to-end CLI behavior, test coverage, and update living capability specs.
 
-- [ ] Task 4.1: Comprehensive Linting & Coverage Verification
+- [~] Task 4.1: Comprehensive Linting & Coverage Verification
   - [ ] Sub-task: Run `gofmt -l .` and `go vet ./...`
   - [ ] Sub-task: Verify total coverage exceeds 80%
   - [ ] Sub-task: Verify binary compilation: `go build -o bin/battery .`
