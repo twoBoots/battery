@@ -18,6 +18,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Completed Tracks
 
+- [x] **Track: Battery Bender CLI Integration**
+  - Completed: 2026-08-21
+  - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md), [.cooper/specs/cli-self-update/spec.md](./specs/cli-self-update/spec.md)
+
 - [x] **Track: MCP Framework & Standards Upgrade Guide**
   - Completed: 2026-08-20
   - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md)

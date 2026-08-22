@@ -1,7 +1,7 @@
 # Capability Specification: Model Context Protocol (MCP) Server
 
 ## Description
-Provides a native Model Context Protocol (MCP) server over standard input/output (stdio) conforming to the Model Context Protocol (JSON-RPC 2.0). Exposes battery orchestration tools, living context resources, and prompt templates to AI coding assistants (e.g. Antigravity, Claude Code, Cursor, Windsurf).
+Provides a native Model Context Protocol (MCP) server over standard input/output (stdio) conforming to the Model Context Protocol (JSON-RPC 2.0) powered by the standardized Bender MCP engine (`bender/pkg/mcp`). Exposes battery orchestration tools, living context resources, and prompt templates to AI coding assistants (e.g. Antigravity, Claude Code, Cursor, Windsurf).
 
 ## Requirements
 

@@ -4,8 +4,10 @@ go 1.23.0
 
 require (
 	github.com/charmbracelet/huh v0.6.0
-	github.com/spf13/cobra v1.8.1
+	github.com/spf13/cobra v1.10.2
+	github.com/spf13/pflag v1.0.9
 	github.com/stretchr/testify v1.10.0
+	github.com/twoBoots/bender v1.0.1-0.20260821132508-2dc60c2cbe75
 )
 
 require (
@@ -32,7 +34,6 @@ require (
 	github.com/muesli/termenv v0.15.3-0.20240618155329-98d742f6907a // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.20.0 // indirect

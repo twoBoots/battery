@@ -30,13 +30,13 @@ func RegisterDefaultTools(s *Server) {
 			},
 		},
 	}, func(ctx context.Context, args map[string]interface{}) (CallToolResult, error) {
-		effCfg, err := config.GetEffectiveConfig(s.cwd)
+		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err != nil {
 			return NewErrorResult(fmt.Sprintf("failed to get effective config: %v", err)), nil
 		}
 
-		tracks, _ := track.ListTracks(s.cwd)
-		fwReport, _ := framework.InspectFrameworkStatus(s.cwd, "", s.version)
+		tracks, _ := track.ListTracks(s.Cwd())
+		fwReport, _ := framework.InspectFrameworkStatus(s.Cwd(), "", s.Version())
 
 		type StatusReport struct {
 			Structure       config.ProjectStructure          `json:"structure"`
@@ -52,7 +52,7 @@ func RegisterDefaultTools(s *Server) {
 		report := StatusReport{
 			Structure:       effCfg.Structure,
 			Version:         effCfg.Version,
-			CLIVersion:      s.version,
+			CLIVersion:      s.Version(),
 			ConfigVersion:   effCfg.Version,
 			BarrelsCount:    len(effCfg.Barrels),
 			Barrels:         effCfg.Barrels,
@@ -76,7 +76,7 @@ func RegisterDefaultTools(s *Server) {
 			Properties: map[string]interface{}{},
 		},
 	}, func(ctx context.Context, args map[string]interface{}) (CallToolResult, error) {
-		effCfg, err := config.GetEffectiveConfig(s.cwd)
+		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err != nil {
 			return NewErrorResult(fmt.Sprintf("failed to get effective config: %v", err)), nil
 		}
@@ -94,7 +94,7 @@ func RegisterDefaultTools(s *Server) {
 		for _, b := range effCfg.Barrels {
 			bPath := b.Path
 			if !filepath.IsAbs(bPath) {
-				bPath = filepath.Join(s.cwd, bPath)
+				bPath = filepath.Join(s.Cwd(), bPath)
 			}
 			_, statErr := os.Stat(bPath)
 			exists := statErr == nil
@@ -167,7 +167,7 @@ func RegisterDefaultTools(s *Server) {
 		name, _ := args["name"].(string)
 		force, _ := args["force"].(bool)
 
-		meta, err := track.InitTrack(s.cwd, trackID, barrels, track.InitTrackOptions{
+		meta, err := track.InitTrack(s.Cwd(), trackID, barrels, track.InitTrackOptions{
 			Name:  name,
 			Force: force,
 		})
@@ -203,7 +203,7 @@ func RegisterDefaultTools(s *Server) {
 		}
 		force, _ := args["force"].(bool)
 
-		results, err := track.DispatchTrack(s.cwd, trackID, track.DispatchTrackOptions{
+		results, err := track.DispatchTrack(s.Cwd(), trackID, track.DispatchTrackOptions{
 			Force: force,
 		})
 		if err != nil {
@@ -237,7 +237,7 @@ func RegisterDefaultTools(s *Server) {
 			return NewErrorResult("track_id is required"), nil
 		}
 
-		st, err := track.GetMultiBarrelTrackStatus(s.cwd, trackID)
+		st, err := track.GetMultiBarrelTrackStatus(s.Cwd(), trackID)
 		if err != nil {
 			return NewErrorResult(fmt.Sprintf("failed to get track status: %v", err)), nil
 		}
@@ -294,7 +294,7 @@ func RegisterDefaultTools(s *Server) {
 		}
 
 		targetPath := barrelArg
-		effCfg, err := config.GetEffectiveConfig(s.cwd)
+		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err == nil {
 			for _, b := range effCfg.Barrels {
 				if b.Name == barrelArg {
@@ -305,7 +305,7 @@ func RegisterDefaultTools(s *Server) {
 		}
 
 		if !filepath.IsAbs(targetPath) {
-			targetPath = filepath.Join(s.cwd, targetPath)
+			targetPath = filepath.Join(s.Cwd(), targetPath)
 		}
 
 		lang, _ := args["language"].(string)
@@ -351,7 +351,7 @@ func RegisterDefaultTools(s *Server) {
 		barrelArg, _ := args["barrel"].(string)
 		targetRelPath := barrelArg
 		if barrelArg != "" {
-			effCfg, err := config.GetEffectiveConfig(s.cwd)
+			effCfg, err := config.GetEffectiveConfig(s.Cwd())
 			if err == nil {
 				for _, b := range effCfg.Barrels {
 					if b.Name == barrelArg {
@@ -362,7 +362,7 @@ func RegisterDefaultTools(s *Server) {
 			}
 		}
 
-		rep, err := framework.InspectFrameworkStatus(s.cwd, targetRelPath, s.version)
+		rep, err := framework.InspectFrameworkStatus(s.Cwd(), targetRelPath, s.Version())
 		if err != nil {
 			return NewErrorResult(fmt.Sprintf("failed to inspect framework status: %v", err)), nil
 		}
