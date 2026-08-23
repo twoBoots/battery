@@ -1,6 +1,6 @@
 # Track: Battery Auto-Tag Release Pipeline (`battery-auto-tag-release`)
 
-- **Status**: Planned
+- **Status**: Completed
 - **Type**: Feature
 - **Worktree**: `.worktrees/battery-auto-tag-release`
 - **Metadata**: [metadata.json](./metadata.json)

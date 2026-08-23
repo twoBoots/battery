@@ -6,10 +6,6 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Battery Auto-Tag Release Pipeline**
-  - Worktree: `.worktrees/battery-auto-tag-release`
-  - Link: [.cooper/active/battery-auto-tag-release/index.md](./active/battery-auto-tag-release/index.md)
-
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
@@ -21,6 +17,10 @@ All active and completed Cooper tracks are registered below.
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Battery Auto-Tag Release Pipeline**
+  - Completed: 2026-08-23
+  - Spec: [.cooper/specs/ci-release/spec.md](./specs/ci-release/spec.md)
 
 - [x] **Track: Battery Bender CLI Integration**
   - Completed: 2026-08-21
