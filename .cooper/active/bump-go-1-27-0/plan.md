@@ -14,10 +14,10 @@ Update Go module version directive, GitHub Actions CI & Release workflows, and t
   - [x] Sub-task: Update `go.mod` to `go 1.27.0`
   - [x] Sub-task: Update `go-version: "1.27"` in `.github/workflows/ci.yml` and `.github/workflows/release.yml`
   - [x] Sub-task: Update `.cooper/definition/tech-stack.md` to `Go 1.27+`
-- [ ] Task 1.2: Phase 1 Verification & Checkpoint
-  - [ ] Sub-task: Fetch origin rules and sync living specs (`git fetch origin main`)
-  - [ ] Sub-task: Run unit tests and format checks (`go vet ./...` & `go test -v ./...`)
-  - [ ] Sub-task: Create checkpoint commit and push: `git push origin bump-go-1-27-0`
+- [x] Task 1.2: Phase 1 Verification & Checkpoint [checkpoint: 959e11f]
+  - [x] Sub-task: Fetch origin rules and sync living specs (`git fetch origin main`)
+  - [x] Sub-task: Run unit tests and format checks (`go vet ./...` & `go test -v ./...`)
+  - [x] Sub-task: Create checkpoint commit and push: `git push origin bump-go-1-27-0`
 
 ---
 
