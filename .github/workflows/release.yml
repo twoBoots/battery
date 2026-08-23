@@ -14,8 +14,40 @@ jobs:
   ci:
     uses: ./.github/workflows/ci.yml
 
-  build-and-release:
+  auto-tag:
     needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check and push Git tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(grep -E '^\s*Version\s*=' cmd/root.go | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+          if [ -z "$VERSION" ]; then
+            echo "Could not detect Version in cmd/root.go, falling back to 1.0.0"
+            VERSION="1.0.0"
+          fi
+          TAG="v${VERSION}"
+          echo "Checking if tag ${TAG} exists on origin..."
+          if git ls-remote --tags origin "refs/tags/${TAG}" | grep -q "${TAG}"; then
+            echo "Tag ${TAG} already exists on origin. Proceeding..."
+          else
+            echo "Tag ${TAG} does not exist on origin. Creating and pushing tag ${TAG}..."
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag -a "${TAG}" -m "Release ${TAG}"
+            git push origin "${TAG}"
+          fi
+
+  build-and-release:
+    needs: [ci, auto-tag]
+    if: always() && needs.ci.result == 'success' && (needs.auto-tag.result == 'success' || needs.auto-tag.result == 'skipped')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -86,16 +118,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="${GITHUB_REF_NAME}"
-          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
-            TAG="latest"
+          VERSION=$(grep -E '^\s*Version\s*=' cmd/root.go | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+          if [ -z "$VERSION" ]; then
+            VERSION="1.0.0"
           fi
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          TAG="v${VERSION}"
           
-          echo "Publishing release assets for tag: $TAG"
+          echo "Publishing release assets for semantic tag: $TAG"
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Release for $TAG exists. Updating release assets..."
             gh release upload "$TAG" release-assets/* --clobber
           else
             echo "Release for $TAG does not exist. Creating release with assets..."
-            gh release create "$TAG" release-assets/* --title "Battery $TAG" --notes "Automated Go binary release for Battery"
+            gh release create "$TAG" release-assets/* --title "Battery $TAG" --notes "Automated Go binary release for Battery $TAG"
+          fi
+          
+          echo "Publishing release assets for tag: latest"
+          if gh release view "latest" >/dev/null 2>&1; then
+            echo "Release for latest exists. Updating release assets..."
+            gh release upload "latest" release-assets/* --clobber
+          else
+            echo "Release for latest does not exist. Creating release with assets..."
+            gh release create "latest" release-assets/* --title "Battery latest" --notes "Latest automated Go binary release for Battery"
           fi
