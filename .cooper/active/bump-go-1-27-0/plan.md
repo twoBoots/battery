@@ -28,7 +28,7 @@ Update Barrel tech stack auto-inference logic and tests to standardise on Go 1.2
   - [x] Sub-task: Update `internal/techstack/scaffold_test.go` to assert `"Go 1.27+"`
   - [x] Sub-task: Update `internal/techstack/techstack_test.go` to assert `"Go 1.27+"`
   - [x] Sub-task: Run tests to confirm red failure state
-- [ ] Task 2.2: Implement Scaffolding Inference Update (Green & Refactor)
+- [~] Task 2.2: Implement Scaffolding Inference Update (Green & Refactor)
   - [ ] Sub-task: Update `InferTechStack` in `internal/techstack/scaffold.go` to return `"Go 1.27+"`
   - [ ] Sub-task: Run tests to confirm green state with coverage >80%
 - [ ] Task 2.3: Phase 2 Verification & Checkpoint
