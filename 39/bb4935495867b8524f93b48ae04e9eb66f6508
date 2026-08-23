@@ -1,0 +1,3 @@
+Task: Update Internal package imports
+Scope: internal/**/*.go
+Summary: Updated all internal package imports and unit tests to github.com/twoBoots/battery.
