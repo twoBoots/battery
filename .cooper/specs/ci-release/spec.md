@@ -19,4 +19,9 @@ The release pipeline MUST compile binaries for Linux, macOS, and Windows matrix 
 #### Scenario 2.1: Release Asset Creation and Update
 - **GIVEN** a push to `main` or a semantic tag `v*`
 - **WHEN** `publish-release` runs
-- **THEN** it MUST check if the release exists, creating it if absent (`gh release create`) or updating assets with clobber (`gh release upload --clobber`) if present, without invalid CLI flags.
+- **THEN** it MUST check if the release exists, creating it if absent (`gh release create`) or updating assets with clobber (`gh release upload --clobber`) if present, without invalid CLI flags, publishing assets under both `v<Version>` and `latest`.
+
+#### Scenario 2.2: Automated Git SemVer Tagging on Merge to Main
+- **GIVEN** a commit merged to `main` with `cmd.Version` set in `cmd/root.go`
+- **WHEN** the `auto-tag` job executes in GitHub Actions
+- **THEN** it MUST verify if `v<Version>` exists on `origin`, create and push tag `v<Version>` if missing, and proceed to build and publish release assets under `v<Version>` and `latest`.

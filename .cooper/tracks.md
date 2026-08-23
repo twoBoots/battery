@@ -18,6 +18,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Completed Tracks
 
+- [x] **Track: Battery Auto-Tag Release Pipeline**
+  - Completed: 2026-08-23
+  - Spec: [.cooper/specs/ci-release/spec.md](./specs/ci-release/spec.md)
+
 - [x] **Track: Battery Bender CLI Integration**
   - Completed: 2026-08-21
   - Spec: [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md), [.cooper/specs/cli-self-update/spec.md](./specs/cli-self-update/spec.md)
