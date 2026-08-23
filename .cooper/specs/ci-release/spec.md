@@ -11,7 +11,7 @@ The CI pipeline MUST validate formatting, linting, and test suites across all PR
 #### Scenario 1.1: PR Lint and Test Check
 - **GIVEN** a commit pushed to a branch or pull request targeting `main`
 - **WHEN** GitHub Actions CI runs
-- **THEN** it MUST use modern Node 24-compatible actions (`actions/checkout@v6`), verify `deno fmt`, `deno lint`, and execute tests with coverage >80%.
+- **THEN** it MUST use modern Go 1.27 setup (`actions/setup-go@v6` with `go-version: "1.27"`), check formatting (`gofmt`), run linter (`go vet`), and execute tests with race detection and coverage >80%.
 
 ### Requirement 2: Automated Cross-Platform Binary Releases
 The release pipeline MUST compile binaries for Linux, macOS, and Windows matrix targets and publish them to GitHub Releases.
@@ -25,3 +25,8 @@ The release pipeline MUST compile binaries for Linux, macOS, and Windows matrix 
 - **GIVEN** a commit merged to `main` with `cmd.Version` set in `cmd/root.go`
 - **WHEN** the `auto-tag` job executes in GitHub Actions
 - **THEN** it MUST verify if `v<Version>` exists on `origin`, create and push tag `v<Version>` if missing, and proceed to build and publish release assets under `v<Version>` and `latest`.
+
+#### Scenario 2.3: Go 1.27 Matrix Compilation
+- **GIVEN** a semantic tag `v*` or commit pushed to `main`
+- **WHEN** the release pipeline executes matrix compilation
+- **THEN** it MUST build cross-platform binaries (Linux x86_64/aarch64, macOS x86_64/arm64, Windows x86_64) using the Go 1.27 compiler.
