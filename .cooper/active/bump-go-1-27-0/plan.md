@@ -41,7 +41,7 @@ Update Barrel tech stack auto-inference logic and tests to standardise on Go 1.2
 ## Phase 3: Final Quality Verification & Spec Synchronization
 Verify all quality gates, synchronize living capability specs, and register final track state.
 
-- [ ] Task 3.1: Final Quality Verification & Spec Sync
+- [~] Task 3.1: Final Quality Verification & Spec Sync
   - [ ] Sub-task: Run `gofmt -l .` and verify clean formatting
   - [ ] Sub-task: Run `go vet ./...` and `go test -race ./...`
   - [ ] Sub-task: Merge spec deltas into `.cooper/specs/ci-release/spec.md` and `.cooper/specs/barrel-config/spec.md`
