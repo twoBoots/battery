@@ -24,7 +24,7 @@ Update Go module version directive, GitHub Actions CI & Release workflows, and t
 ## Phase 2: Tech Stack Scaffolding Inference Engine Update (TDD)
 Update Barrel tech stack auto-inference logic and tests to standardise on Go 1.27+.
 
-- [ ] Task 2.1: Write Failing Tests for Go 1.27+ Inference (Red)
+- [~] Task 2.1: Write Failing Tests for Go 1.27+ Inference (Red)
   - [ ] Sub-task: Update `internal/techstack/scaffold_test.go` to assert `"Go 1.27+"`
   - [ ] Sub-task: Update `internal/techstack/techstack_test.go` to assert `"Go 1.27+"`
   - [ ] Sub-task: Run tests to confirm red failure state
