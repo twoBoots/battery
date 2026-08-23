@@ -1,0 +1,3 @@
+Task: Task 2.1: Write Failing Tests for Go 1.27+ Inference (Red)
+Scope: internal/techstack/scaffold_test.go
+Summary: Updated TestInferTechStack_Go to assert Go 1.27+ inference and confirmed failure against current Go 1.23+ implementation.
