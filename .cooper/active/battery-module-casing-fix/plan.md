@@ -6,8 +6,8 @@ Standardize Go module path to `github.com/twoBoots/battery` across `go.mod`, int
 - [x] Task 1.1: Update `go.mod` declaration and CI workflow ldflags (35d2be2)
   - [x] Sub-task: Update `go.mod` line 1 to `module github.com/twoBoots/battery`
   - [x] Sub-task: Update `.github/workflows/release.yml` ldflags target to `-X github.com/twoBoots/battery/cmd.Version=${VERSION}`
-- [ ] Task 1.2: Phase 1 Verification & Checkpoint
-  - [ ] Sub-task: Verify `go.mod` syntax and `.github/workflows/release.yml` formatting
+- [x] Task 1.2: Phase 1 Verification & Checkpoint [checkpoint: f7a140c]
+  - [x] Sub-task: Verify `go.mod` syntax and `.github/workflows/release.yml` formatting
 
 ## Phase 2: Internal Package Import Migration
 - [ ] Task 2.1: Update CLI package imports (`cmd/` and `main.go`)
