@@ -10,7 +10,7 @@ Standardize Go module path to `github.com/twoBoots/battery` across `go.mod`, int
   - [x] Sub-task: Verify `go.mod` syntax and `.github/workflows/release.yml` formatting
 
 ## Phase 2: Internal Package Import Migration
-- [ ] Task 2.1: Update CLI package imports (`cmd/` and `main.go`)
+- [~] Task 2.1: Update CLI package imports (`cmd/` and `main.go`)
   - [ ] Sub-task: Update `main.go` and `cmd/*.go` imports to `github.com/twoBoots/battery/...`
   - [ ] Sub-task: Update `cmd/*_test.go` imports to `github.com/twoBoots/battery/...`
 - [ ] Task 2.2: Update Internal package imports (`internal/` packages and unit tests)
