@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/framework"
-	"github.com/twoboots/battery/internal/techstack"
-	"github.com/twoboots/battery/internal/track"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/framework"
+	"github.com/twoBoots/battery/internal/techstack"
+	"github.com/twoBoots/battery/internal/track"
 )
 
 // RegisterDefaultTools registers all battery orchestration tools onto the MCP server.

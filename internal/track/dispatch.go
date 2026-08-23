@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/twoboots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/config"
 )
 
 // DispatchTrackOptions configures track dispatching.

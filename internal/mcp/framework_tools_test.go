@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/internal/framework"
+	"github.com/twoBoots/battery/internal/framework"
 )
 
 func TestTools_FrameworkStatusAndGetTemplate(t *testing.T) {

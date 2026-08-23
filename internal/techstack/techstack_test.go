@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/internal/techstack"
+	"github.com/twoBoots/battery/internal/techstack"
 )
 
 func TestIsSubBattery(t *testing.T) {

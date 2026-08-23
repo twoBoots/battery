@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/twoboots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/config"
 )
 
 var ProjectMarkers = []string{
