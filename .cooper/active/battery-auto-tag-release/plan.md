@@ -10,7 +10,7 @@
 ## Phase 1: Auto-Tag Job Implementation & Workflow Refactoring
 Implement `auto-tag` job and dual-release publishing in `.github/workflows/release.yml`.
 
-- [ ] Task 1.1: Add `auto-tag` Job to `release.yml`
+- [~] Task 1.1: Add `auto-tag` Job to `release.yml`
   - [ ] Sub-task: Add `auto-tag` job with `fetch-depth: 0` and `git ls-remote` tag detection
   - [ ] Sub-task: Configure Git author and automated tag push
   - [ ] Sub-task: Update `build-and-release` job dependencies to `[ci, auto-tag]`
