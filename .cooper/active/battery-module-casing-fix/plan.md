@@ -3,9 +3,9 @@
 Standardize Go module path to `github.com/twoBoots/battery` across `go.mod`, internal package imports, and CI release workflow linker flags.
 
 ## Phase 1: Module Declaration & CI Workflow Configuration
-- [~] Task 1.1: Update `go.mod` declaration and CI workflow ldflags
-  - [ ] Sub-task: Update `go.mod` line 1 to `module github.com/twoBoots/battery`
-  - [ ] Sub-task: Update `.github/workflows/release.yml` ldflags target to `-X github.com/twoBoots/battery/cmd.Version=${VERSION}`
+- [x] Task 1.1: Update `go.mod` declaration and CI workflow ldflags (35d2be2)
+  - [x] Sub-task: Update `go.mod` line 1 to `module github.com/twoBoots/battery`
+  - [x] Sub-task: Update `.github/workflows/release.yml` ldflags target to `-X github.com/twoBoots/battery/cmd.Version=${VERSION}`
 - [ ] Task 1.2: Phase 1 Verification & Checkpoint
   - [ ] Sub-task: Verify `go.mod` syntax and `.github/workflows/release.yml` formatting
 
