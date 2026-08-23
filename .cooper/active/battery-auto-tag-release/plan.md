@@ -29,10 +29,10 @@ Implement `auto-tag` job and dual-release publishing in `.github/workflows/relea
 ## Phase 2: Spec Sync & Final Quality Verification
 Verify repository consistency, sync living specs, and finalize track.
 
-- [~] Task 2.1: Final Quality Verification & Spec Sync
-  - [ ] Sub-task: Run `gofmt -l .` and `go vet ./...`
-  - [ ] Sub-task: Run full test suite with coverage (`go test -coverprofile=coverage.out ./...`)
-  - [ ] Sub-task: Merge spec delta into `.cooper/specs/ci-release/spec.md`
-  - [ ] Sub-task: Record completion metadata in `.cooper/active/battery-auto-tag-release/metadata.json`
-  - [ ] Sub-task: Update `.cooper/tracks.md` registry
-  - [ ] Sub-task: Push final branch: `git push origin battery-auto-tag-release`
+- [x] Task 2.1: Final Quality Verification & Spec Sync [checkpoint: 1f53bf8]
+  - [x] Sub-task: Run `gofmt -l .` and `go vet ./...`
+  - [x] Sub-task: Run full test suite with coverage (`go test -coverprofile=coverage.out ./...`)
+  - [x] Sub-task: Merge spec delta into `.cooper/specs/ci-release/spec.md`
+  - [x] Sub-task: Record completion metadata in `.cooper/active/battery-auto-tag-release/metadata.json`
+  - [x] Sub-task: Update `.cooper/tracks.md` registry
+  - [x] Sub-task: Push final branch: `git push origin battery-auto-tag-release`
