@@ -19,17 +19,17 @@ Implement `auto-tag` job and dual-release publishing in `.github/workflows/relea
   - [x] Sub-task: Update `publish-release` to publish/clobber both `v<Version>` and `latest` releases
   - [x] Sub-task: Verify YAML syntax and action versions (`@v6`, `@v7`, `@v8`)
 
-- [~] Task 1.3: Phase 1 Verification & Checkpoint
-  - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
-  - [ ] Sub-task: Run unit tests across all packages (`go test -v ./...`)
-  - [ ] Sub-task: Push checkpoint: `git push origin battery-auto-tag-release`
+- [x] Task 1.3: Phase 1 Verification & Checkpoint [checkpoint: 385e683]
+  - [x] Sub-task: Sync phase rules & specs (`git fetch origin main`)
+  - [x] Sub-task: Run unit tests across all packages (`go test -v ./...`)
+  - [x] Sub-task: Push checkpoint: `git push origin battery-auto-tag-release`
 
 ---
 
 ## Phase 2: Spec Sync & Final Quality Verification
 Verify repository consistency, sync living specs, and finalize track.
 
-- [ ] Task 2.1: Final Quality Verification & Spec Sync
+- [~] Task 2.1: Final Quality Verification & Spec Sync
   - [ ] Sub-task: Run `gofmt -l .` and `go vet ./...`
   - [ ] Sub-task: Run full test suite with coverage (`go test -coverprofile=coverage.out ./...`)
   - [ ] Sub-task: Merge spec delta into `.cooper/specs/ci-release/spec.md`
