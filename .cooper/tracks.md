@@ -4,7 +4,7 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Battery Go Module Casing Standardization**
+- [x] **Track: Battery Go Module Casing Standardization**
   - Worktree: `.worktrees/battery-module-casing-fix`
   - Link: [.cooper/active/battery-module-casing-fix/plan.md](./active/battery-module-casing-fix/plan.md)
 
