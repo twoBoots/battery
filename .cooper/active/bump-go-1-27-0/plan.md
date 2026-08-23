@@ -10,10 +10,10 @@
 ## Phase 1: Go Module & CI/Release Toolchain Upgrade
 Update Go module version directive, GitHub Actions CI & Release workflows, and tech stack specification.
 
-- [~] Task 1.1: Update Go Module & GitHub Actions Workflows
-  - [ ] Sub-task: Update `go.mod` to `go 1.27.0`
-  - [ ] Sub-task: Update `go-version: "1.27"` in `.github/workflows/ci.yml` and `.github/workflows/release.yml`
-  - [ ] Sub-task: Update `.cooper/definition/tech-stack.md` to `Go 1.27+`
+- [x] Task 1.1: Update Go Module & GitHub Actions Workflows (7ebe6af)
+  - [x] Sub-task: Update `go.mod` to `go 1.27.0`
+  - [x] Sub-task: Update `go-version: "1.27"` in `.github/workflows/ci.yml` and `.github/workflows/release.yml`
+  - [x] Sub-task: Update `.cooper/definition/tech-stack.md` to `Go 1.27+`
 - [ ] Task 1.2: Phase 1 Verification & Checkpoint
   - [ ] Sub-task: Fetch origin rules and sync living specs (`git fetch origin main`)
   - [ ] Sub-task: Run unit tests and format checks (`go vet ./...` & `go test -v ./...`)
