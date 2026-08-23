@@ -21,7 +21,7 @@ Standardize Go module path to `github.com/twoBoots/battery` across `go.mod`, int
   - [x] Sub-task: Build local binary `go build -o bin/battery .` and verify execution
 
 ## Phase 3: Final Quality Gate & Spec Sync Checkpoint
-- [ ] Task 3.1: Full Test Suite & Coverage Verification
+- [~] Task 3.1: Full Test Suite & Coverage Verification
   - [ ] Sub-task: Execute `CI=true go test -v -cover ./...` ensuring all packages pass and test coverage remains >80%
   - [ ] Sub-task: Verify zero linting or compiler warnings with `go vet ./...`
 - [ ] Task 3.2: Phase 3 Verification & Checkpoint
