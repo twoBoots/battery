@@ -8,8 +8,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/cmd"
-	"github.com/twoboots/battery/internal/config"
+	"github.com/twoBoots/battery/cmd"
+	"github.com/twoBoots/battery/internal/config"
 )
 
 func TestBarrelListCmd_Empty(t *testing.T) {

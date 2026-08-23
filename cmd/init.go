@@ -9,8 +9,8 @@ import (
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/discovery"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/discovery"
 )
 
 type InitOptions struct {

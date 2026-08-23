@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/track"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/track"
 )
 
 var trackCmd = &cobra.Command{
