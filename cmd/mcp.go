@@ -9,7 +9,7 @@ import (
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
-	"github.com/twoboots/battery/internal/mcp"
+	"github.com/twoBoots/battery/internal/mcp"
 )
 
 var (

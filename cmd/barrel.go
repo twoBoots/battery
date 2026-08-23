@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/techstack"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/techstack"
 )
 
 var barrelCmd = &cobra.Command{

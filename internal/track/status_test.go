@@ -7,8 +7,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/track"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/track"
 )
 
 func TestParsePlanTasks(t *testing.T) {

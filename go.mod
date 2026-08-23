@@ -1,4 +1,4 @@
-module github.com/twoboots/battery
+module github.com/twoBoots/battery
 
 go 1.27.0
 

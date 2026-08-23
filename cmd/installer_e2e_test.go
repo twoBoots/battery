@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/config"
 )
 
 func getInstallScriptPath(t *testing.T) string {

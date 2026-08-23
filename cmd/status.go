@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/techstack"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/techstack"
 )
 
 var statusCmd = &cobra.Command{

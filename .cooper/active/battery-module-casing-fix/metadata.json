@@ -1,0 +1,11 @@
+{
+  "track_id": "battery-module-casing-fix",
+  "name": "Battery Go Module Casing Standardization",
+  "status": "completed",
+  "created_at": "2026-08-23T06:56:34.88523Z",
+  "updated_at": "2026-08-23T07:26:00.00000Z",
+  "type": "chore",
+  "capabilities": [
+    "module"
+  ]
+}

@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/twoboots/battery/internal/config"
-	"github.com/twoboots/battery/internal/mcp"
+	"github.com/twoBoots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/mcp"
 )
 
 func TestMCPCmd_Execution(t *testing.T) {

@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/twoboots/battery/internal/config"
+	"github.com/twoBoots/battery/internal/config"
 )
 
 // PlanTaskSummary contains counts of tasks in a plan.md file.

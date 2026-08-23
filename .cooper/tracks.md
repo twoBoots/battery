@@ -4,6 +4,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
+- [x] **Track: Battery Go Module Casing Standardization**
+  - Worktree: `.worktrees/battery-module-casing-fix`
+  - Link: [.cooper/active/battery-module-casing-fix/plan.md](./active/battery-module-casing-fix/plan.md)
+
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)

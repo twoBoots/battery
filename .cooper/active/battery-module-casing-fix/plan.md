@@ -1,0 +1,29 @@
+# Implementation Plan: Battery Go Module Casing Standardization
+
+Standardize Go module path to `github.com/twoBoots/battery` across `go.mod`, internal package imports, and CI release workflow linker flags.
+
+## Phase 1: Module Declaration & CI Workflow Configuration
+- [x] Task 1.1: Update `go.mod` declaration and CI workflow ldflags (35d2be2)
+  - [x] Sub-task: Update `go.mod` line 1 to `module github.com/twoBoots/battery`
+  - [x] Sub-task: Update `.github/workflows/release.yml` ldflags target to `-X github.com/twoBoots/battery/cmd.Version=${VERSION}`
+- [x] Task 1.2: Phase 1 Verification & Checkpoint [checkpoint: f7a140c]
+  - [x] Sub-task: Verify `go.mod` syntax and `.github/workflows/release.yml` formatting
+
+## Phase 2: Internal Package Import Migration
+- [x] Task 2.1: Update CLI package imports (`cmd/` and `main.go`) (1161717)
+  - [x] Sub-task: Update `main.go` and `cmd/*.go` imports to `github.com/twoBoots/battery/...`
+  - [x] Sub-task: Update `cmd/*_test.go` imports to `github.com/twoBoots/battery/...`
+- [x] Task 2.2: Update Internal package imports (`internal/` packages and unit tests) (39bb493)
+  - [x] Sub-task: Update `internal/config`, `internal/discovery`, `internal/mcp`, `internal/techstack`, `internal/track` imports to `github.com/twoBoots/battery/...`
+  - [x] Sub-task: Update all unit tests in `internal/**/` to import `github.com/twoBoots/battery/...`
+- [x] Task 2.3: Phase 2 Verification & Checkpoint [checkpoint: 59b049a]
+  - [x] Sub-task: Run `go vet ./...` and `go test ./...`
+  - [x] Sub-task: Build local binary `go build -o bin/battery .` and verify execution
+
+## Phase 3: Final Quality Gate & Spec Sync Checkpoint
+- [x] Task 3.1: Full Test Suite & Coverage Verification (verified)
+  - [x] Sub-task: Execute `CI=true go test -v -cover ./...` ensuring all packages pass and test coverage remains >80%
+  - [x] Sub-task: Verify zero linting or compiler warnings with `go vet ./...`
+- [x] Task 3.2: Phase 3 Verification & Checkpoint [checkpoint: 0552421]
+  - [x] Sub-task: Synchronize living specs and workflow rules (`git fetch origin main`)
+  - [x] Sub-task: Prepare PR and handoff for merge

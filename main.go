@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/twoboots/battery/cmd"
+	"github.com/twoBoots/battery/cmd"
 )
 
 func main() {
