@@ -5,7 +5,7 @@
 | Component | Role | Metaphor | Tech Stack / Tooling |
 | :--- | :--- | :--- | :--- |
 | **Multi-Barrel Orchestration** | `battery` | Collection of Barrels | Cooper SDD Framework (`.cooper/`), Living Specs & Plan Templates |
-| **CLI & Runtime** | `battery` CLI | Tooling Engine | Go 1.23+ (`spf13/cobra`, `charmbracelet/huh`, `charmbracelet/lipgloss`, `go test`, `go vet`, `gofmt`) |
+| **CLI & Runtime** | `battery` CLI | Tooling Engine | Go 1.27+ (`spf13/cobra`, `charmbracelet/huh`, `charmbracelet/lipgloss`, `go test`, `go vet`, `gofmt`) |
 | **Worktree Manager & SDD** | `twoBoots/cooper` | The Barrel Maker | Cooper Hybrid SDD Workflow, Troop Git Worktree Aliases |
 | **Individual Repos** | `barrel` | Single Barrel | Repositories / Microservices (independent tech stacks defined in their own `.cooper/`) |
 | **Configuration** | `battery` Config | Local / Team Registry | JSON (`.batteryrc` committed, `.batteryrc.local` git-ignored) |
