@@ -13,7 +13,7 @@ import (
 )
 
 func TestServer_InitializeAndPing(t *testing.T) {
-	srv := NewServer(t.TempDir())
+	srv := NewServer(t.TempDir(), "1.4.1")
 
 	// 1. Initialize
 	initReq := Request{
@@ -32,7 +32,7 @@ func TestServer_InitializeAndPing(t *testing.T) {
 	require.True(t, ok)
 	assert.Equal(t, LatestProtocolVersion, resultMap.ProtocolVersion)
 	assert.Equal(t, "battery-mcp", resultMap.ServerInfo.Name)
-	assert.Equal(t, "v1.4.0", resultMap.ServerInfo.Version)
+	assert.Equal(t, "v1.4.1", resultMap.ServerInfo.Version)
 	assert.NotNil(t, resultMap.Capabilities.Tools)
 
 	// 2. Initialized notification

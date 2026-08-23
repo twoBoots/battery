@@ -41,7 +41,7 @@ func setupTestWorkspace(t *testing.T) string {
 
 func TestTools_BatteryStatusAndListBarrels(t *testing.T) {
 	dir := setupTestWorkspace(t)
-	srv := NewServer(dir)
+	srv := NewServer(dir, "1.4.1")
 	RegisterDefaultTools(srv)
 
 	// 1. Check tools/list has all registered tools
@@ -65,7 +65,7 @@ func TestTools_BatteryStatusAndListBarrels(t *testing.T) {
 	statusResult := statusResp.Result.(CallToolResult)
 	assert.False(t, statusResult.IsError)
 	assert.Contains(t, statusResult.Content[0].Text, `"structure": "multi-repo"`)
-	assert.Contains(t, statusResult.Content[0].Text, `"cli_version": "v1.4.0"`)
+	assert.Contains(t, statusResult.Content[0].Text, `"cli_version": "v1.4.1"`)
 	assert.Contains(t, statusResult.Content[0].Text, `"config_version": "1.0.0"`)
 	assert.Contains(t, statusResult.Content[0].Text, `"barrels":`)
 

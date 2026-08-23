@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	Version = "1.4.0"
+	Version = "1.4.1"
 )
 
 // RootCmd represents the base command when called without any subcommands.

@@ -67,7 +67,7 @@ var (
 
 // NewServer creates a new Battery MCP Server instance backed by Bender's MCP server engine.
 func NewServer(cwd string, versions ...string) *Server {
-	ver := "1.4.0"
+	ver := "dev"
 	if len(versions) > 0 && strings.TrimSpace(versions[0]) != "" {
 		ver = strings.TrimSpace(versions[0])
 	}
