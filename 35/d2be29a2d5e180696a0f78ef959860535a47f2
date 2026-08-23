@@ -1,0 +1,3 @@
+Task: Update go.mod declaration and CI workflow ldflags
+Scope: go.mod, .github/workflows/release.yml
+Summary: Updated module declaration and CI release build ldflags to canonical github.com/twoBoots/battery casing.
