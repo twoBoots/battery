@@ -42,7 +42,7 @@ func InferTechStack(barrelPath string) InferredTechStack {
 	// 1. Go
 	if fileExists(filepath.Join(barrelPath, "go.mod")) {
 		return InferredTechStack{
-			Language:          "Go 1.23+",
+			Language:          "Go 1.27+",
 			TestRunner:        "go test -v -cover ./...",
 			Linter:            "golangci-lint run",
 			CoverageThreshold: ">80%",

@@ -2,8 +2,6 @@
 
 All active and completed Cooper tracks are registered below.
 
----
-
 ## Active Tracks
 
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
@@ -17,6 +15,10 @@ All active and completed Cooper tracks are registered below.
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Bump to Go 1.27.0**
+  - Completed: 2026-08-23
+  - Spec: [.cooper/specs/ci-release/spec.md](./specs/ci-release/spec.md), [.cooper/specs/barrel-config/spec.md](./specs/barrel-config/spec.md)
 
 - [x] **Track: Battery Auto-Tag Release Pipeline**
   - Completed: 2026-08-23

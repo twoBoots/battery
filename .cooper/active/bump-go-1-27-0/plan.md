@@ -1,0 +1,50 @@
+# Implementation Plan: Bump to Go 1.27.0
+
+## Track Information
+- **Track ID**: `bump-go-1-27-0`
+- **Type**: Chore / Infrastructure
+- **Worktree**: `.worktrees/bump-go-1-27-0`
+
+---
+
+## Phase 1: Go Module & CI/Release Toolchain Upgrade
+Update Go module version directive, GitHub Actions CI & Release workflows, and tech stack specification.
+
+- [x] Task 1.1: Update Go Module & GitHub Actions Workflows (7ebe6af)
+  - [x] Sub-task: Update `go.mod` to `go 1.27.0`
+  - [x] Sub-task: Update `go-version: "1.27"` in `.github/workflows/ci.yml` and `.github/workflows/release.yml`
+  - [x] Sub-task: Update `.cooper/definition/tech-stack.md` to `Go 1.27+`
+- [x] Task 1.2: Phase 1 Verification & Checkpoint [checkpoint: 959e11f]
+  - [x] Sub-task: Fetch origin rules and sync living specs (`git fetch origin main`)
+  - [x] Sub-task: Run unit tests and format checks (`go vet ./...` & `go test -v ./...`)
+  - [x] Sub-task: Create checkpoint commit and push: `git push origin bump-go-1-27-0`
+
+---
+
+## Phase 2: Tech Stack Scaffolding Inference Engine Update (TDD)
+Update Barrel tech stack auto-inference logic and tests to standardise on Go 1.27+.
+
+- [x] Task 2.1: Write Failing Tests for Go 1.27+ Inference (Red) (719c267)
+  - [x] Sub-task: Update `internal/techstack/scaffold_test.go` to assert `"Go 1.27+"`
+  - [x] Sub-task: Update `internal/techstack/techstack_test.go` to assert `"Go 1.27+"`
+  - [x] Sub-task: Run tests to confirm red failure state
+- [x] Task 2.2: Implement Scaffolding Inference Update (Green & Refactor) (3693ba7)
+  - [x] Sub-task: Update `InferTechStack` in `internal/techstack/scaffold.go` to return `"Go 1.27+"`
+  - [x] Sub-task: Run tests to confirm green state with coverage >80%
+- [x] Task 2.3: Phase 2 Verification & Checkpoint [checkpoint: a06f933]
+  - [x] Sub-task: Fetch origin rules (`git fetch origin main`)
+  - [x] Sub-task: Run full test suite with coverage (`go test -coverprofile=coverage.out ./...`)
+  - [x] Sub-task: Create checkpoint commit and push: `git push origin bump-go-1-27-0`
+
+---
+
+## Phase 3: Final Quality Verification & Spec Synchronization
+Verify all quality gates, synchronize living capability specs, and register final track state.
+
+- [x] Task 3.1: Final Quality Verification & Spec Sync (b486613)
+  - [x] Sub-task: Run `gofmt -l .` and verify clean formatting
+  - [x] Sub-task: Run `go vet ./...` and `go test -race ./...`
+  - [x] Sub-task: Merge spec deltas into `.cooper/specs/ci-release/spec.md` and `.cooper/specs/barrel-config/spec.md`
+  - [x] Sub-task: Update `metadata.json` status to `completed`
+  - [x] Sub-task: Update `.cooper/tracks.md` registry
+  - [x] Sub-task: Push final branch: `git push origin bump-go-1-27-0`
