@@ -10,16 +10,16 @@
 ## Phase 1: Auto-Tag Job Implementation & Workflow Refactoring
 Implement `auto-tag` job and dual-release publishing in `.github/workflows/release.yml`.
 
-- [~] Task 1.1: Add `auto-tag` Job to `release.yml`
-  - [ ] Sub-task: Add `auto-tag` job with `fetch-depth: 0` and `git ls-remote` tag detection
-  - [ ] Sub-task: Configure Git author and automated tag push
-  - [ ] Sub-task: Update `build-and-release` job dependencies to `[ci, auto-tag]`
+- [x] Task 1.1: Add `auto-tag` Job to `release.yml` (aab12a1)
+  - [x] Sub-task: Add `auto-tag` job with `fetch-depth: 0` and `git ls-remote` tag detection
+  - [x] Sub-task: Configure Git author and automated tag push
+  - [x] Sub-task: Update `build-and-release` job dependencies to `[ci, auto-tag]`
 
-- [ ] Task 1.2: Implement Dual Release Publishing (`v<Version>` and `latest`)
-  - [ ] Sub-task: Update `publish-release` to publish/clobber both `v<Version>` and `latest` releases
-  - [ ] Sub-task: Verify YAML syntax and action versions (`@v6`, `@v7`, `@v8`)
+- [x] Task 1.2: Implement Dual Release Publishing (`v<Version>` and `latest`) (aab12a1)
+  - [x] Sub-task: Update `publish-release` to publish/clobber both `v<Version>` and `latest` releases
+  - [x] Sub-task: Verify YAML syntax and action versions (`@v6`, `@v7`, `@v8`)
 
-- [ ] Task 1.3: Phase 1 Verification & Checkpoint
+- [~] Task 1.3: Phase 1 Verification & Checkpoint
   - [ ] Sub-task: Sync phase rules & specs (`git fetch origin main`)
   - [ ] Sub-task: Run unit tests across all packages (`go test -v ./...`)
   - [ ] Sub-task: Push checkpoint: `git push origin battery-auto-tag-release`
