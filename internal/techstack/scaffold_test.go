@@ -11,11 +11,11 @@ import (
 
 func TestInferTechStack_Go(t *testing.T) {
 	dir := t.TempDir()
-	err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module myapp\n\ngo 1.23.0\n"), 0644)
+	err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module myapp\n\ngo 1.27.0\n"), 0644)
 	require.NoError(t, err)
 
 	inferred := InferTechStack(dir)
-	assert.Contains(t, inferred.Language, "Go")
+	assert.Equal(t, "Go 1.27+", inferred.Language)
 	assert.Contains(t, inferred.TestRunner, "go test")
 	assert.Equal(t, ">80%", inferred.CoverageThreshold)
 }
