@@ -31,10 +31,10 @@ Update Barrel tech stack auto-inference logic and tests to standardise on Go 1.2
 - [x] Task 2.2: Implement Scaffolding Inference Update (Green & Refactor) (3693ba7)
   - [x] Sub-task: Update `InferTechStack` in `internal/techstack/scaffold.go` to return `"Go 1.27+"`
   - [x] Sub-task: Run tests to confirm green state with coverage >80%
-- [ ] Task 2.3: Phase 2 Verification & Checkpoint
-  - [ ] Sub-task: Fetch origin rules (`git fetch origin main`)
-  - [ ] Sub-task: Run full test suite with coverage (`go test -coverprofile=coverage.out ./...`)
-  - [ ] Sub-task: Create checkpoint commit and push: `git push origin bump-go-1-27-0`
+- [x] Task 2.3: Phase 2 Verification & Checkpoint [checkpoint: a06f933]
+  - [x] Sub-task: Fetch origin rules (`git fetch origin main`)
+  - [x] Sub-task: Run full test suite with coverage (`go test -coverprofile=coverage.out ./...`)
+  - [x] Sub-task: Create checkpoint commit and push: `git push origin bump-go-1-27-0`
 
 ---
 
