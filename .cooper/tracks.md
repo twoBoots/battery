@@ -2,9 +2,11 @@
 
 All active and completed Cooper tracks are registered below.
 
----
-
 ## Active Tracks
+
+- [ ] **Track: Bump to Go 1.27.0**
+  - Worktree: `.worktrees/bump-go-1-27-0`
+  - Link: [.cooper/active/bump-go-1-27-0/index.md](./active/bump-go-1-27-0/index.md)
 
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
