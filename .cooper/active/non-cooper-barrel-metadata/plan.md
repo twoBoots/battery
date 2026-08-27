@@ -36,11 +36,11 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
   - [x] Sub-task: Write CLI unit tests for profile initialization and `--force` flag (Red)
   - [x] Sub-task: Implement `battery barrel doc init` subcommand (Green)
   - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [~] Task: Enhance `battery status` and `battery barrel list` Output Displays
-  - [ ] Sub-task: Write CLI unit tests verifying display of metadata attributes and hybrid summaries (Red)
-  - [ ] Sub-task: Update output formatting in `cmd/status.go` and `cmd/barrel.go` (Green)
-  - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [ ] Task: Phase 3 Verification & Checkpoint
+- [x] Task: Enhance `battery status` and `battery barrel list` Output Displays (9880d20)
+  - [x] Sub-task: Write CLI unit tests verifying display of metadata attributes and hybrid summaries (Red)
+  - [x] Sub-task: Update output formatting in `cmd/status.go` and `cmd/barrel.go` (Green)
+  - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
+- [~] Task: Phase 3 Verification & Checkpoint
 
 ## Phase 4: MCP Server Resources & Tools (`internal/mcp`)
 
