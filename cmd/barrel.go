@@ -278,17 +278,32 @@ func runBarrelList(out io.Writer, cwd string) error {
 		}
 
 		subBat := ""
-		techInfo := techstack.CooperTechStackInfo{Summary: "N/A"}
+		summary := "N/A"
+		label := "Cooper"
 		if exists {
-			techInfo = techstack.ResolveBarrelTechStack(absPath)
 			if techstack.IsSubBattery(absPath) {
 				subBat = " [contains .batteryrc]"
+			}
+			ctxInfo := techstack.ResolveBarrelContext(cwd, absPath, barrel)
+			summary = ctxInfo.Summary
+			if !ctxInfo.HasCooperSpec {
+				if ctxInfo.HasProfile {
+					label = "Profile"
+				} else {
+					label = "Context"
+				}
 			}
 		}
 
 		fmt.Fprintf(out, "  • %s %s%s%s\n", barrel.Name, sourceTag, typeTag, subBat)
 		fmt.Fprintf(out, "    Path   : %s (%s)\n", barrel.Path, existsTag)
-		fmt.Fprintf(out, "    Cooper : %s\n\n", techInfo.Summary)
+		if barrel.Role != "" {
+			fmt.Fprintf(out, "    Role   : %s\n", barrel.Role)
+		}
+		if barrel.Jira != "" {
+			fmt.Fprintf(out, "    Jira   : %s\n", barrel.Jira)
+		}
+		fmt.Fprintf(out, "    %-7s: %s\n\n", label, summary)
 	}
 
 	return nil

@@ -227,3 +227,44 @@ func TestBarrelDocInitCmd_Scaffolding(t *testing.T) {
 	require.NoError(t, err)
 	assert.Contains(t, buf.String(), "Updated barrel profile")
 }
+
+func TestBarrelListCmd_WithMetadataAndProfile(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	// Non-cooper barrel directory
+	firmwareDir := filepath.Join(tempDir, "firmware")
+	err := os.MkdirAll(firmwareDir, 0o755)
+	require.NoError(t, err)
+
+	cfg := config.BatteryConfig{
+		Version:   "1.0.0",
+		Structure: config.StructureMultiRepo,
+		Barrels: []config.BarrelConfig{
+			{
+				Name: "firmware",
+				Path: "./firmware",
+				Role: "Microcontroller C Firmware",
+				Tech: "C / ARM GCC",
+				Docs: "docs/barrels/firmware.md",
+				Jira: "EMB-101",
+			},
+		},
+	}
+	_, err = config.SaveConfig(cfg, tempDir, false)
+	require.NoError(t, err)
+
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetArgs([]string{"barrel", "list"})
+	err = cmd.Execute()
+	require.NoError(t, err)
+
+	out := buf.String()
+	assert.Contains(t, out, "firmware [canonical]")
+	assert.Contains(t, out, "Role   : Microcontroller C Firmware")
+	assert.Contains(t, out, "Jira   : EMB-101")
+	assert.Contains(t, out, "C / ARM GCC (Microcontroller C Firmware)")
+}
