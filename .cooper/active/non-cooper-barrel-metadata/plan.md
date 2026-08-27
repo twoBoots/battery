@@ -28,11 +28,11 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 3: CLI Command Enhancements (`cmd/`)
 
-- [~] Task: Extend `battery barrel add` with Metadata Flags
-  - [ ] Sub-task: Write CLI unit tests for `battery barrel add` with `--role`, `--tech`, `--docs`, `--jira` (Red)
-  - [ ] Sub-task: Implement Cobra flags and config invocation in `cmd/barrel.go` (Green)
-  - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [ ] Task: Add `battery barrel doc init <name>` / `battery barrel profile init <name>` Subcommand
+- [x] Task: Extend `battery barrel add` with Metadata Flags (372934f)
+  - [x] Sub-task: Write CLI unit tests for `battery barrel add` with `--role`, `--tech`, `--docs`, `--jira` (Red)
+  - [x] Sub-task: Implement Cobra flags and config invocation in `cmd/barrel.go` (Green)
+  - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
+- [~] Task: Add `battery barrel doc init <name>` / `battery barrel profile init <name>` Subcommand
   - [ ] Sub-task: Write CLI unit tests for profile initialization and `--force` flag (Red)
   - [ ] Sub-task: Implement `battery barrel doc init` subcommand (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
