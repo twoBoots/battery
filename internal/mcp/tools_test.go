@@ -217,3 +217,50 @@ func TestTools_InitBarrelTechStack(t *testing.T) {
 	assert.Contains(t, string(data), "Express")
 	assert.Contains(t, string(data), "jest")
 }
+
+func TestTools_ListBarrelsWithMetadataAndNonCooperProfile(t *testing.T) {
+	dir := setupTestWorkspace(t)
+
+	// Add non-Cooper barrel with profile doc
+	docsDir := filepath.Join(dir, "docs", "barrels")
+	err := os.MkdirAll(docsDir, 0o755)
+	require.NoError(t, err)
+
+	profileMarkdown := "# Embedded C Driver\n\n- C / ARM GCC\n"
+	err = os.WriteFile(filepath.Join(docsDir, "firmware.md"), []byte(profileMarkdown), 0o644)
+	require.NoError(t, err)
+
+	firmwareDir := filepath.Join(dir, "barrels", "firmware")
+	err = os.MkdirAll(firmwareDir, 0o755)
+	require.NoError(t, err)
+
+	_, err = config.AddBarrel(config.BarrelConfig{
+		Name: "firmware",
+		Path: "./barrels/firmware",
+		Role: "Low-level hardware driver",
+		Tech: "C / ARM GCC",
+		Docs: "docs/barrels/firmware.md",
+		Jira: "HW-101",
+	}, dir, false)
+	require.NoError(t, err)
+
+	srv := NewServer(dir)
+	RegisterDefaultTools(srv)
+
+	res := srv.HandleRequest(context.Background(), Request{
+		JSONRPC: JSONRPCVersion,
+		ID:      rawID(40),
+		Method:  "tools/call",
+		Params:  json.RawMessage(`{"name":"battery_list_barrels"}`),
+	})
+	require.Nil(t, res.Error)
+	callRes := res.Result.(CallToolResult)
+	assert.False(t, callRes.IsError)
+
+	outJSON := callRes.Content[0].Text
+	assert.Contains(t, outJSON, `"role": "Low-level hardware driver"`)
+	assert.Contains(t, outJSON, `"tech": "C / ARM GCC"`)
+	assert.Contains(t, outJSON, `"docs": "docs/barrels/firmware.md"`)
+	assert.Contains(t, outJSON, `"jira": "HW-101"`)
+	assert.Contains(t, outJSON, `"hasProfile": true`)
+}

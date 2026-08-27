@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -25,6 +26,21 @@ func RegisterDefaultResources(s *Server) {
 		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err != nil {
 			return ReadResourceResult{}, fmt.Errorf("failed to get effective config: %w", err)
+		}
+		for i := range effCfg.Barrels {
+			b := &effCfg.Barrels[i]
+			bPath := b.Path
+			if !filepath.IsAbs(bPath) {
+				bPath = filepath.Join(s.Cwd(), bPath)
+			}
+			b.AbsolutePath = bPath
+			if fi, statErr := os.Stat(bPath); statErr == nil && fi.IsDir() {
+				b.Exists = true
+				ctxInfo := techstack.ResolveBarrelContext(s.Cwd(), bPath, *b)
+				b.CooperTechStack = ctxInfo.Summary
+				b.HasProfile = ctxInfo.HasProfile
+				b.ProfilePath = ctxInfo.ProfilePath
+			}
 		}
 		data, err := json.MarshalIndent(effCfg, "", "  ")
 		if err != nil {
