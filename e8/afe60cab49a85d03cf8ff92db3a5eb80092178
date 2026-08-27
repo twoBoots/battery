@@ -1,0 +1,3 @@
+Task: Hybrid Context & Fallback Resolver
+Scope: internal/techstack/context.go, internal/techstack/context_test.go
+Summary: Implemented ResolveBarrelContext adhering to the fallback resolution hierarchy: Cooper tech-stack.md -> inline .batteryrc tech/role metadata -> profile markdown summary -> default fallback notice.
