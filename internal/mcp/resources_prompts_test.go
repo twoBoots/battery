@@ -3,10 +3,13 @@ package mcp
 import (
 	"context"
 	"encoding/json"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/twoBoots/battery/internal/config"
 	"github.com/twoBoots/battery/internal/track"
 )
 
@@ -95,4 +98,56 @@ func TestPrompts_DefaultPrompts(t *testing.T) {
 	assert.NotEmpty(t, pGet.Messages)
 	assert.Contains(t, pGet.Messages[0].Content.Text, "track_demo")
 	assert.Contains(t, pGet.Messages[0].Content.Text, "Add OAuth authentication")
+}
+
+func TestResources_BarrelDocsAndTechStackFallback(t *testing.T) {
+	dir := setupTestWorkspace(t)
+
+	// Add non-Cooper barrel with profile doc
+	docsDir := filepath.Join(dir, "docs", "barrels")
+	err := os.MkdirAll(docsDir, 0o755)
+	require.NoError(t, err)
+
+	profileMarkdown := "# ROS 2 Robotics Node Profile\n\n- Rust 1.78\n- ROS 2 Humble\n"
+	err = os.WriteFile(filepath.Join(docsDir, "ros2-node.md"), []byte(profileMarkdown), 0o644)
+	require.NoError(t, err)
+
+	_, err = config.AddBarrel(config.BarrelConfig{
+		Name: "ros2-node",
+		Path: "./ros2-node",
+		Role: "Robotics node",
+		Tech: "Rust / ROS 2",
+		Docs: "docs/barrels/ros2-node.md",
+		Jira: "ROBOT-10",
+	}, dir, false)
+	require.NoError(t, err)
+
+	srv := NewServer(dir)
+	RegisterDefaultResources(srv)
+
+	// 1. Read battery://barrels/ros2-node/docs
+	readDocResp := srv.HandleRequest(context.Background(), Request{
+		JSONRPC: JSONRPCVersion,
+		ID:      rawID(20),
+		Method:  "resources/read",
+		Params:  json.RawMessage(`{"uri":"battery://barrels/ros2-node/docs"}`),
+	})
+	require.Nil(t, readDocResp.Error)
+	docResult := readDocResp.Result.(ReadResourceResult)
+	assert.Len(t, docResult.Contents, 1)
+	assert.Equal(t, "text/markdown", docResult.Contents[0].MIMEType)
+	assert.Equal(t, profileMarkdown, docResult.Contents[0].Text)
+
+	// 2. Read battery://barrels/ros2-node/tech-stack (fallback to profile/metadata)
+	readTechResp := srv.HandleRequest(context.Background(), Request{
+		JSONRPC: JSONRPCVersion,
+		ID:      rawID(21),
+		Method:  "resources/read",
+		Params:  json.RawMessage(`{"uri":"battery://barrels/ros2-node/tech-stack"}`),
+	})
+	require.Nil(t, readTechResp.Error)
+	techResult := readTechResp.Result.(ReadResourceResult)
+	assert.Len(t, techResult.Contents, 1)
+	assert.Equal(t, "text/markdown", techResult.Contents[0].MIMEType)
+	assert.Contains(t, techResult.Contents[0].Text, "ROS 2 Robotics Node Profile")
 }
