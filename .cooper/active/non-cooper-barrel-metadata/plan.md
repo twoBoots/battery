@@ -40,7 +40,7 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
   - [x] Sub-task: Write CLI unit tests verifying display of metadata attributes and hybrid summaries (Red)
   - [x] Sub-task: Update output formatting in `cmd/status.go` and `cmd/barrel.go` (Green)
   - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [~] Task: Phase 3 Verification & Checkpoint
+- [x] Task: Phase 3 Verification & Checkpoint [checkpoint: 35ccb7e]
 
 ## Phase 4: MCP Server Resources & Tools (`internal/mcp`)
 
