@@ -1,6 +1,7 @@
 package config
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -34,9 +35,82 @@ const (
 
 // BarrelConfig represents a single barrel entry in configuration.
 type BarrelConfig struct {
-	Name string     `json:"name"`
-	Path string     `json:"path"`
-	Type BarrelType `json:"type,omitempty"`
+	Name  string                     `json:"name"`
+	Path  string                     `json:"path"`
+	Type  BarrelType                 `json:"type,omitempty"`
+	Role  string                     `json:"role,omitempty"`
+	Tech  string                     `json:"tech,omitempty"`
+	Docs  string                     `json:"docs,omitempty"`
+	Jira  string                     `json:"jira,omitempty"`
+	Extra map[string]json.RawMessage `json:"-"`
+}
+
+// UnmarshalJSON handles unmarshaling BarrelConfig and capturing dynamic extra fields.
+func (b *BarrelConfig) UnmarshalJSON(data []byte) error {
+	type Alias BarrelConfig
+	var a struct {
+		Alias
+	}
+	if err := json.Unmarshal(data, &a.Alias); err != nil {
+		return err
+	}
+	*b = BarrelConfig(a.Alias)
+
+	var rawMap map[string]json.RawMessage
+	if err := json.Unmarshal(data, &rawMap); err != nil {
+		return err
+	}
+
+	delete(rawMap, "name")
+	delete(rawMap, "path")
+	delete(rawMap, "type")
+	delete(rawMap, "role")
+	delete(rawMap, "tech")
+	delete(rawMap, "docs")
+	delete(rawMap, "jira")
+
+	if len(rawMap) > 0 {
+		b.Extra = rawMap
+	}
+	return nil
+}
+
+// MarshalJSON handles marshaling BarrelConfig including any dynamic extra fields.
+func (b BarrelConfig) MarshalJSON() ([]byte, error) {
+	type Alias BarrelConfig
+	a := Alias(b)
+
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	if err := enc.Encode(a); err != nil {
+		return nil, err
+	}
+	data := bytes.TrimSpace(buf.Bytes())
+
+	if len(b.Extra) == 0 {
+		return data, nil
+	}
+
+	var rawMap map[string]json.RawMessage
+	if err := json.Unmarshal(data, &rawMap); err != nil {
+		return nil, err
+	}
+	if rawMap == nil {
+		rawMap = make(map[string]json.RawMessage)
+	}
+
+	for k, v := range b.Extra {
+		rawMap[k] = v
+	}
+
+	buf.Reset()
+	enc = json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	if err := enc.Encode(rawMap); err != nil {
+		return nil, err
+	}
+	return bytes.TrimSpace(buf.Bytes()), nil
 }
 
 // BatteryConfig represents the canonical .batteryrc file format.
@@ -55,13 +129,20 @@ type LocalBatteryConfig struct {
 
 // EffectiveBarrel combines canonical and local configurations with metadata.
 type EffectiveBarrel struct {
-	Name            string     `json:"name"`
-	Path            string     `json:"path"`
-	Type            BarrelType `json:"type,omitempty"`
-	Source          string     `json:"source"` // "canonical" or "local"
-	Exists          bool       `json:"exists,omitempty"`
-	AbsolutePath    string     `json:"absolutePath,omitempty"`
-	CooperTechStack string     `json:"cooperTechStack,omitempty"`
+	Name            string                     `json:"name"`
+	Path            string                     `json:"path"`
+	Type            BarrelType                 `json:"type,omitempty"`
+	Source          string                     `json:"source"` // "canonical" or "local"
+	Role            string                     `json:"role,omitempty"`
+	Tech            string                     `json:"tech,omitempty"`
+	Docs            string                     `json:"docs,omitempty"`
+	Jira            string                     `json:"jira,omitempty"`
+	Exists          bool                       `json:"exists,omitempty"`
+	AbsolutePath    string                     `json:"absolutePath,omitempty"`
+	CooperTechStack string                     `json:"cooperTechStack,omitempty"`
+	ProfilePath     string                     `json:"profilePath,omitempty"`
+	HasProfile      bool                       `json:"hasProfile,omitempty"`
+	Extra           map[string]json.RawMessage `json:"extra,omitempty"`
 }
 
 // EffectiveBatteryConfig represents the final merged configuration.
@@ -137,13 +218,15 @@ func SaveConfig(cfg interface{}, cwd string, isLocal bool) (string, error) {
 	}
 	targetFile := filepath.Join(cwd, filename)
 
-	data, err := json.MarshalIndent(cfg, "", "  ")
-	if err != nil {
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	if err := enc.Encode(cfg); err != nil {
 		return "", fmt.Errorf("failed to marshal configuration: %w", err)
 	}
-	data = append(data, '\n')
 
-	if err := os.WriteFile(targetFile, data, 0o644); err != nil {
+	if err := os.WriteFile(targetFile, buf.Bytes(), 0o644); err != nil {
 		return "", fmt.Errorf("failed to write %s: %w", filename, err)
 	}
 
@@ -172,6 +255,11 @@ func GetEffectiveConfig(cwd string) (*EffectiveBatteryConfig, error) {
 			Path:   b.Path,
 			Type:   b.Type,
 			Source: "canonical",
+			Role:   b.Role,
+			Tech:   b.Tech,
+			Docs:   b.Docs,
+			Jira:   b.Jira,
+			Extra:  b.Extra,
 		}
 		order = append(order, b.Name)
 	}
@@ -182,11 +270,44 @@ func GetEffectiveConfig(cwd string) (*EffectiveBatteryConfig, error) {
 			if _, exists := effectiveMap[b.Name]; !exists {
 				order = append(order, b.Name)
 			}
+			existing := effectiveMap[b.Name]
+			role := b.Role
+			if role == "" {
+				role = existing.Role
+			}
+			tech := b.Tech
+			if tech == "" {
+				tech = existing.Tech
+			}
+			docs := b.Docs
+			if docs == "" {
+				docs = existing.Docs
+			}
+			jira := b.Jira
+			if jira == "" {
+				jira = existing.Jira
+			}
+			extra := make(map[string]json.RawMessage)
+			for k, v := range existing.Extra {
+				extra[k] = v
+			}
+			for k, v := range b.Extra {
+				extra[k] = v
+			}
+			if len(extra) == 0 {
+				extra = nil
+			}
+
 			effectiveMap[b.Name] = EffectiveBarrel{
 				Name:   b.Name,
 				Path:   b.Path,
 				Type:   b.Type,
 				Source: "local",
+				Role:   role,
+				Tech:   tech,
+				Docs:   docs,
+				Jira:   jira,
+				Extra:  extra,
 			}
 		}
 	}
