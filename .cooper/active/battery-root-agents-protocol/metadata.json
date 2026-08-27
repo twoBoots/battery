@@ -1,0 +1,8 @@
+{
+  "track_id": "battery-root-agents-protocol",
+  "type": "architecture",
+  "status": "new",
+  "created_at": "2026-08-27T12:45:00+10:00",
+  "updated_at": "2026-08-27T12:45:00+10:00",
+  "description": "Standardize Battery root AGENTS.md protocol to govern Cooper SDD lifecycle when track skills are called from a Battery root"
+}
