@@ -1,0 +1,3 @@
+Task: Barrel Profile Discovery & Scaffolding Engine
+Scope: internal/techstack/profile.go, internal/techstack/profile_test.go
+Summary: Implemented ResolveBarrelProfile to discover barrel profiles in docs/barrels/<name>.md, .cooper/barrels/<name>.md, or custom docs path. Implemented ScaffoldBarrelProfile to generate standardized Markdown profiles with role, tech, commands, and AI agent guidelines.
