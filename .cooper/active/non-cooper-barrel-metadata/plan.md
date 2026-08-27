@@ -16,7 +16,7 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 2: Tech Stack & Barrel Profile Resolution Engine (`internal/techstack`)
 
-- [ ] Task: Barrel Profile Discovery & Scaffolding Engine
+- [~] Task: Barrel Profile Discovery & Scaffolding Engine
   - [ ] Sub-task: Write unit tests for discovering profiles in `docs/barrels/`, `.cooper/barrels/`, and custom `docs` paths, plus starter template generation (Red)
   - [ ] Sub-task: Implement `ResolveBarrelProfile` and `ScaffoldBarrelProfile` with embedded starter template (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
