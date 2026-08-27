@@ -22,10 +22,10 @@
 
 ## Phase 2: Capability Spec Integration & Final Verification
 
-- [ ] Task 2.1: Merge Spec Delta into Living Capability Spec
-  - [ ] Sub-task: Update `.cooper/specs/track-dispatch/spec.md` with Requirement 4 (Green)
+- [x] Task 2.1: Merge Spec Delta into Living Capability Spec
+  - [x] Sub-task: Update `.cooper/specs/track-dispatch/spec.md` with Requirement 4 (Green)
 
-- [ ] Task 2.2: Comprehensive Validation & Quality Gates
-  - [ ] Sub-task: Run full test suite (`go test -v -race ./...`)
-  - [ ] Sub-task: Verify clean status and formatting
-  - [ ] Sub-task: Record Phase 2 Git Notes and push branch
+- [x] Task 2.2: Comprehensive Validation & Quality Gates
+  - [x] Sub-task: Run full test suite (`go test -v -race ./...`)
+  - [x] Sub-task: Verify clean status and formatting
+  - [x] Sub-task: Record Phase 2 Git Notes and push branch
