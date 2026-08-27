@@ -20,11 +20,11 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
   - [x] Sub-task: Write unit tests for discovering profiles in `docs/barrels/`, `.cooper/barrels/`, and custom `docs` paths, plus starter template generation (Red)
   - [x] Sub-task: Implement `ResolveBarrelProfile` and `ScaffoldBarrelProfile` with embedded starter template (Green)
   - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [~] Task: Hybrid Context & Fallback Resolver
-  - [ ] Sub-task: Write unit tests for fallback resolution hierarchy (Cooper `tech-stack.md` -> `.batteryrc` `tech`/`role` -> profile markdown auto-summary -> default fallback) (Red)
-  - [ ] Sub-task: Implement `ResolveBarrelContext` and markdown summary extraction in `internal/techstack/` (Green)
-  - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [ ] Task: Phase 2 Verification & Checkpoint
+- [x] Task: Hybrid Context & Fallback Resolver (e8afe60)
+  - [x] Sub-task: Write unit tests for fallback resolution hierarchy (Cooper `tech-stack.md` -> `.batteryrc` `tech`/`role` -> profile markdown auto-summary -> default fallback) (Red)
+  - [x] Sub-task: Implement `ResolveBarrelContext` and markdown summary extraction in `internal/techstack/` (Green)
+  - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
+- [~] Task: Phase 2 Verification & Checkpoint
 
 ## Phase 3: CLI Command Enhancements (`cmd/`)
 
