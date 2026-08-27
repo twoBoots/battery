@@ -76,8 +76,8 @@ func runStatus(out io.Writer, cwd string) error {
 			if techstack.IsSubBattery(absPath) {
 				subBattery = " [Sub-Battery Orchestrator]"
 			}
-			techInfo := techstack.ResolveBarrelTechStack(absPath)
-			techSummary = techInfo.Summary
+			ctxInfo := techstack.ResolveBarrelContext(cwd, absPath, barrel)
+			techSummary = ctxInfo.Summary
 		}
 
 		fmt.Fprintf(out, "  %s %s (%s)%s\n", statusIcon, barrel.Name, barrel.Path, subBattery)

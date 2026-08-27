@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -25,6 +26,21 @@ func RegisterDefaultResources(s *Server) {
 		effCfg, err := config.GetEffectiveConfig(s.Cwd())
 		if err != nil {
 			return ReadResourceResult{}, fmt.Errorf("failed to get effective config: %w", err)
+		}
+		for i := range effCfg.Barrels {
+			b := &effCfg.Barrels[i]
+			bPath := b.Path
+			if !filepath.IsAbs(bPath) {
+				bPath = filepath.Join(s.Cwd(), bPath)
+			}
+			b.AbsolutePath = bPath
+			if fi, statErr := os.Stat(bPath); statErr == nil && fi.IsDir() {
+				b.Exists = true
+				ctxInfo := techstack.ResolveBarrelContext(s.Cwd(), bPath, *b)
+				b.CooperTechStack = ctxInfo.Summary
+				b.HasProfile = ctxInfo.HasProfile
+				b.ProfilePath = ctxInfo.ProfilePath
+			}
 		}
 		data, err := json.MarshalIndent(effCfg, "", "  ")
 		if err != nil {
@@ -80,7 +96,22 @@ func RegisterDefaultResources(s *Server) {
 		ts := techstack.ResolveBarrelTechStack(bPath)
 		techContent := ts.Content
 		if techContent == "" {
-			techContent = fmt.Sprintf("# Tech Stack for %s\n%s\n", name, ts.Summary)
+			profile := techstack.ResolveBarrelProfile(s.Cwd(), *targetBarrel)
+			if profile.Content != "" {
+				techContent = profile.Content
+			} else if targetBarrel.Tech != "" || targetBarrel.Role != "" {
+				var sb strings.Builder
+				sb.WriteString(fmt.Sprintf("# Tech Stack & Context for %s\n\n", name))
+				if targetBarrel.Tech != "" {
+					sb.WriteString(fmt.Sprintf("- Tech: %s\n", targetBarrel.Tech))
+				}
+				if targetBarrel.Role != "" {
+					sb.WriteString(fmt.Sprintf("- Role: %s\n", targetBarrel.Role))
+				}
+				techContent = sb.String()
+			} else {
+				techContent = fmt.Sprintf("# Tech Stack for %s\n%s\n", name, ts.Summary)
+			}
 		}
 
 		return ReadResourceResult{
@@ -89,6 +120,53 @@ func RegisterDefaultResources(s *Server) {
 					URI:      uri,
 					MIMEType: "text/markdown",
 					Text:     techContent,
+				},
+			},
+		}, nil
+	})
+
+	// 3. battery://barrels/{name}/docs
+	s.RegisterResource(Resource{
+		URI:         "battery://barrels/{name}/docs",
+		Name:        "Barrel Documentation Profile",
+		Description: "Orchestrator-level architectural profile, commands, and agent guidelines for a specific barrel",
+		MIMEType:    "text/markdown",
+	}, func(ctx context.Context, uri string) (ReadResourceResult, error) {
+		prefix := "battery://barrels/"
+		suffix := "/docs"
+		if !strings.HasPrefix(uri, prefix) || !strings.HasSuffix(uri, suffix) {
+			return ReadResourceResult{}, fmt.Errorf("invalid barrel docs uri: %s", uri)
+		}
+		name := uri[len(prefix) : len(uri)-len(suffix)]
+
+		effCfg, err := config.GetEffectiveConfig(s.Cwd())
+		if err != nil {
+			return ReadResourceResult{}, fmt.Errorf("failed to load configuration: %w", err)
+		}
+
+		var targetBarrel *config.EffectiveBarrel
+		for _, b := range effCfg.Barrels {
+			if b.Name == name {
+				targetBarrel = &b
+				break
+			}
+		}
+		if targetBarrel == nil {
+			return ReadResourceResult{}, fmt.Errorf("barrel %q not found in configuration", name)
+		}
+
+		profile := techstack.ResolveBarrelProfile(s.Cwd(), *targetBarrel)
+		docContent := profile.Content
+		if docContent == "" {
+			docContent = fmt.Sprintf("# Barrel Profile: %s\n\nNo barrel documentation profile found at docs/barrels/%s.md\n", name, name)
+		}
+
+		return ReadResourceResult{
+			Contents: []ResourceContent{
+				{
+					URI:      uri,
+					MIMEType: "text/markdown",
+					Text:     docContent,
 				},
 			},
 		}, nil

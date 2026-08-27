@@ -204,3 +204,155 @@ func TestInvalidConfigJSON(t *testing.T) {
 	_, err = config.LoadLocalConfig(tempDir)
 	assert.Error(t, err)
 }
+
+func TestBarrelConfig_MetadataRoundtripAndDynamicFields(t *testing.T) {
+	tempDir := t.TempDir()
+
+	rawJSON := `{
+  "version": "1.0.0",
+  "structure": "multi-repo",
+  "barrels": [
+    {
+      "name": "ros2-rust",
+      "path": "../ros2-rust",
+      "type": "barrel",
+      "role": "ROS 2 robotics node bindings & hardware interfacing",
+      "tech": "Rust / ROS 2 Humble / Cargo",
+      "docs": "docs/barrels/ros2-rust.md",
+      "jira": "ROBOT-123",
+      "team": "robotics",
+      "ci_badge": "https://ci.example.com/badge"
+    }
+  ]
+}`
+
+	err := os.WriteFile(filepath.Join(tempDir, config.ConfigFilename), []byte(rawJSON), 0o644)
+	require.NoError(t, err)
+
+	cfg, err := config.LoadConfig(tempDir)
+	require.NoError(t, err)
+	require.Len(t, cfg.Barrels, 1)
+
+	b := cfg.Barrels[0]
+	assert.Equal(t, "ros2-rust", b.Name)
+	assert.Equal(t, "../ros2-rust", b.Path)
+	assert.Equal(t, "ROS 2 robotics node bindings & hardware interfacing", b.Role)
+	assert.Equal(t, "Rust / ROS 2 Humble / Cargo", b.Tech)
+	assert.Equal(t, "docs/barrels/ros2-rust.md", b.Docs)
+	assert.Equal(t, "ROBOT-123", b.Jira)
+
+	// Verify custom dynamic fields are captured
+	require.NotNil(t, b.Extra)
+	assert.Contains(t, string(b.Extra["team"]), "robotics")
+	assert.Contains(t, string(b.Extra["ci_badge"]), "https://ci.example.com/badge")
+
+	// Save back and verify the JSON output still has team and ci_badge
+	savedPath, err := config.SaveConfig(cfg, tempDir, false)
+	require.NoError(t, err)
+
+	savedData, err := os.ReadFile(savedPath)
+	require.NoError(t, err)
+	assert.Contains(t, string(savedData), `"role": "ROS 2 robotics node bindings & hardware interfacing"`)
+	assert.Contains(t, string(savedData), `"tech": "Rust / ROS 2 Humble / Cargo"`)
+	assert.Contains(t, string(savedData), `"docs": "docs/barrels/ros2-rust.md"`)
+	assert.Contains(t, string(savedData), `"jira": "ROBOT-123"`)
+	assert.Contains(t, string(savedData), `"team": "robotics"`)
+	assert.Contains(t, string(savedData), `"ci_badge": "https://ci.example.com/badge"`)
+}
+
+func TestGetEffectiveConfig_PreservesMetadataAndCustomFields(t *testing.T) {
+	tempDir := t.TempDir()
+
+	canonical := config.BatteryConfig{
+		Version:   "1.0.0",
+		Structure: config.StructureMultiRepo,
+		Barrels: []config.BarrelConfig{
+			{
+				Name: "firmware",
+				Path: "../firmware-repo",
+				Role: "Microcontroller C firmware",
+				Tech: "C / ARM GCC",
+				Docs: "docs/barrels/firmware.md",
+				Jira: "EMB-45",
+			},
+		},
+	}
+
+	_, err := config.SaveConfig(canonical, tempDir, false)
+	require.NoError(t, err)
+
+	effective, err := config.GetEffectiveConfig(tempDir)
+	require.NoError(t, err)
+	require.Len(t, effective.Barrels, 1)
+
+	eb := effective.Barrels[0]
+	assert.Equal(t, "firmware", eb.Name)
+	assert.Equal(t, "Microcontroller C firmware", eb.Role)
+	assert.Equal(t, "C / ARM GCC", eb.Tech)
+	assert.Equal(t, "docs/barrels/firmware.md", eb.Docs)
+	assert.Equal(t, "EMB-45", eb.Jira)
+}
+
+func TestAddBarrel_WithMetadataAndPreserveOtherBarrels(t *testing.T) {
+	tempDir := t.TempDir()
+
+	// Initial barrel with custom attributes
+	rawJSON := `{
+  "version": "1.0.0",
+  "structure": "multi-repo",
+  "barrels": [
+    {
+      "name": "existing-barrel",
+      "path": "../existing",
+      "team": "core-infra"
+    }
+  ]
+}`
+	err := os.WriteFile(filepath.Join(tempDir, config.ConfigFilename), []byte(rawJSON), 0o644)
+	require.NoError(t, err)
+
+	// Add new barrel with metadata
+	newBarrel := config.BarrelConfig{
+		Name: "robot-driver",
+		Path: "../driver",
+		Role: "Hardware driver",
+		Tech: "C++20",
+		Docs: "docs/barrels/robot-driver.md",
+		Jira: "DRV-1",
+	}
+
+	effective, err := config.AddBarrel(newBarrel, tempDir, false)
+	require.NoError(t, err)
+	require.Len(t, effective.Barrels, 2)
+
+	// Verify new barrel has metadata
+	var addedBarrel *config.EffectiveBarrel
+	var existingBarrel *config.EffectiveBarrel
+	for i := range effective.Barrels {
+		if effective.Barrels[i].Name == "robot-driver" {
+			addedBarrel = &effective.Barrels[i]
+		}
+		if effective.Barrels[i].Name == "existing-barrel" {
+			existingBarrel = &effective.Barrels[i]
+		}
+	}
+
+	require.NotNil(t, addedBarrel)
+	assert.Equal(t, "Hardware driver", addedBarrel.Role)
+	assert.Equal(t, "C++20", addedBarrel.Tech)
+	assert.Equal(t, "docs/barrels/robot-driver.md", addedBarrel.Docs)
+	assert.Equal(t, "DRV-1", addedBarrel.Jira)
+
+	require.NotNil(t, existingBarrel)
+	assert.Contains(t, string(existingBarrel.Extra["team"]), "core-infra")
+
+	// Verify canonical file persisted properly
+	loaded, err := config.LoadConfig(tempDir)
+	require.NoError(t, err)
+	require.Len(t, loaded.Barrels, 2)
+	assert.Equal(t, "Hardware driver", loaded.Barrels[1].Role)
+	assert.Equal(t, "C++20", loaded.Barrels[1].Tech)
+	assert.Equal(t, "docs/barrels/robot-driver.md", loaded.Barrels[1].Docs)
+	assert.Equal(t, "DRV-1", loaded.Barrels[1].Jira)
+	assert.Contains(t, string(loaded.Barrels[0].Extra["team"]), "core-infra")
+}

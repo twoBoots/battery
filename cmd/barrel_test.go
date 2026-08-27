@@ -159,3 +159,112 @@ func TestBarrelInitCmd_Scaffolding(t *testing.T) {
 	assert.Contains(t, string(content), "Chi")
 	assert.Contains(t, string(content), "go test")
 }
+
+func TestBarrelAdd_WithMetadataFlags(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetArgs([]string{
+		"barrel", "add", "../ros2-node",
+		"--name", "ros2-node",
+		"--role", "ROS 2 robotics node bindings",
+		"--tech", "Rust / ROS 2 Humble",
+		"--docs", "docs/barrels/ros2-node.md",
+		"--jira", "ROBOT-42",
+	})
+	err := cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Added barrel 'ros2-node'")
+
+	cfg, err := config.LoadConfig(tempDir)
+	require.NoError(t, err)
+	require.Len(t, cfg.Barrels, 1)
+
+	b := cfg.Barrels[0]
+	assert.Equal(t, "ros2-node", b.Name)
+	assert.Equal(t, "ROS 2 robotics node bindings", b.Role)
+	assert.Equal(t, "Rust / ROS 2 Humble", b.Tech)
+	assert.Equal(t, "docs/barrels/ros2-node.md", b.Docs)
+	assert.Equal(t, "ROBOT-42", b.Jira)
+}
+
+func TestBarrelDocInitCmd_Scaffolding(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	// Scaffold profile using 'barrel doc init'
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetErr(buf)
+	cmd.RootCmd.SetArgs([]string{"barrel", "doc", "init", "robotics-firmware"})
+	err := cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Created barrel profile")
+
+	profileFile := filepath.Join(tempDir, "docs", "barrels", "robotics-firmware.md")
+	assert.FileExists(t, profileFile)
+
+	content, err := os.ReadFile(profileFile)
+	require.NoError(t, err)
+	assert.Contains(t, string(content), "# Barrel Profile: robotics-firmware")
+
+	// Attempting without --force should fail
+	buf.Reset()
+	cmd.RootCmd.SetArgs([]string{"barrel", "profile", "init", "robotics-firmware"})
+	err = cmd.Execute()
+	assert.Error(t, err)
+
+	// Overwriting with --force
+	buf.Reset()
+	cmd.RootCmd.SetArgs([]string{"barrel", "doc", "init", "robotics-firmware", "--force"})
+	err = cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Updated barrel profile")
+}
+
+func TestBarrelListCmd_WithMetadataAndProfile(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	// Non-cooper barrel directory
+	firmwareDir := filepath.Join(tempDir, "firmware")
+	err := os.MkdirAll(firmwareDir, 0o755)
+	require.NoError(t, err)
+
+	cfg := config.BatteryConfig{
+		Version:   "1.0.0",
+		Structure: config.StructureMultiRepo,
+		Barrels: []config.BarrelConfig{
+			{
+				Name: "firmware",
+				Path: "./firmware",
+				Role: "Microcontroller C Firmware",
+				Tech: "C / ARM GCC",
+				Docs: "docs/barrels/firmware.md",
+				Jira: "EMB-101",
+			},
+		},
+	}
+	_, err = config.SaveConfig(cfg, tempDir, false)
+	require.NoError(t, err)
+
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetArgs([]string{"barrel", "list"})
+	err = cmd.Execute()
+	require.NoError(t, err)
+
+	out := buf.String()
+	assert.Contains(t, out, "firmware [canonical]")
+	assert.Contains(t, out, "Role   : Microcontroller C Firmware")
+	assert.Contains(t, out, "Jira   : EMB-101")
+	assert.Contains(t, out, "C / ARM GCC (Microcontroller C Firmware)")
+}

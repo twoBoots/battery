@@ -33,6 +33,10 @@ var barrelListCmd = &cobra.Command{
 var (
 	addName  string
 	addType  string
+	addRole  string
+	addTech  string
+	addDocs  string
+	addJira  string
 	addLocal bool
 )
 
@@ -56,6 +60,10 @@ var barrelAddCmd = &cobra.Command{
 			Name: name,
 			Path: pathArg,
 			Type: barrelType,
+			Role: strings.TrimSpace(addRole),
+			Tech: strings.TrimSpace(addTech),
+			Docs: strings.TrimSpace(addDocs),
+			Jira: strings.TrimSpace(addJira),
 		}
 
 		cwd := getWorkingDir()
@@ -121,9 +129,61 @@ var barrelInitCmd = &cobra.Command{
 	},
 }
 
+var (
+	barrelDocForce bool
+)
+
+var barrelDocCmd = &cobra.Command{
+	Use:     "doc",
+	Aliases: []string{"docs", "profile", "profiles"},
+	Short:   "Manage orchestrator-level documentation profiles for barrels",
+}
+
+var barrelDocInitCmd = &cobra.Command{
+	Use:   "init <name>",
+	Short: "Scaffold docs/barrels/<name>.md starter profile for a non-Cooper barrel",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		target := strings.TrimSpace(args[0])
+		barrelName := config.InferBarrelName(target)
+
+		effCfg, err := config.GetEffectiveConfig(getWorkingDir())
+		if err == nil {
+			for _, b := range effCfg.Barrels {
+				if b.Name == target || b.Path == target {
+					barrelName = b.Name
+					break
+				}
+			}
+		}
+
+		profileFile := filepath.Join(getWorkingDir(), "docs", "barrels", barrelName+".md")
+		alreadyExists := false
+		if fi, err := os.Stat(profileFile); err == nil && !fi.IsDir() {
+			alreadyExists = true
+		}
+
+		savedPath, err := techstack.ScaffoldBarrelProfile(getWorkingDir(), barrelName, barrelDocForce)
+		if err != nil {
+			return err
+		}
+
+		status := "Created"
+		if alreadyExists {
+			status = "Updated"
+		}
+		fmt.Fprintf(cmd.OutOrStdout(), "✓ %s barrel profile at %s\n", status, savedPath)
+		return nil
+	},
+}
+
 func init() {
 	barrelAddCmd.Flags().StringVarP(&addName, "name", "n", "", "Custom name for the barrel")
 	barrelAddCmd.Flags().StringVarP(&addType, "type", "t", "barrel", "Specify barrel type ('barrel' or 'battery')")
+	barrelAddCmd.Flags().StringVar(&addRole, "role", "", "Domain role and responsibility description")
+	barrelAddCmd.Flags().StringVar(&addTech, "tech", "", "Primary tech stack and runtime summary")
+	barrelAddCmd.Flags().StringVar(&addDocs, "docs", "", "Path to orchestrator barrel documentation profile")
+	barrelAddCmd.Flags().StringVar(&addJira, "jira", "", "Jira project or issue tracker mapping")
 	barrelAddCmd.Flags().BoolVar(&addLocal, "local", false, "Add to local developer overrides (.batteryrc.local)")
 
 	barrelRemoveCmd.Flags().BoolVar(&removeLocal, "local", false, "Remove from local developer overrides (.batteryrc.local)")
@@ -135,10 +195,14 @@ func init() {
 	barrelInitCmd.Flags().StringVar(&barrelInitCov, "coverage-threshold", "", "Override coverage threshold (e.g. '>80%')")
 	barrelInitCmd.Flags().BoolVarP(&barrelInitForce, "force", "f", false, "Overwrite existing tech-stack.md")
 
+	barrelDocInitCmd.Flags().BoolVarP(&barrelDocForce, "force", "f", false, "Overwrite existing profile")
+	barrelDocCmd.AddCommand(barrelDocInitCmd)
+
 	barrelCmd.AddCommand(barrelListCmd)
 	barrelCmd.AddCommand(barrelAddCmd)
 	barrelCmd.AddCommand(barrelRemoveCmd)
 	barrelCmd.AddCommand(barrelInitCmd)
+	barrelCmd.AddCommand(barrelDocCmd)
 
 	RootCmd.AddCommand(barrelCmd)
 }
@@ -214,17 +278,32 @@ func runBarrelList(out io.Writer, cwd string) error {
 		}
 
 		subBat := ""
-		techInfo := techstack.CooperTechStackInfo{Summary: "N/A"}
+		summary := "N/A"
+		label := "Cooper"
 		if exists {
-			techInfo = techstack.ResolveBarrelTechStack(absPath)
 			if techstack.IsSubBattery(absPath) {
 				subBat = " [contains .batteryrc]"
+			}
+			ctxInfo := techstack.ResolveBarrelContext(cwd, absPath, barrel)
+			summary = ctxInfo.Summary
+			if !ctxInfo.HasCooperSpec {
+				if ctxInfo.HasProfile {
+					label = "Profile"
+				} else {
+					label = "Context"
+				}
 			}
 		}
 
 		fmt.Fprintf(out, "  • %s %s%s%s\n", barrel.Name, sourceTag, typeTag, subBat)
 		fmt.Fprintf(out, "    Path   : %s (%s)\n", barrel.Path, existsTag)
-		fmt.Fprintf(out, "    Cooper : %s\n\n", techInfo.Summary)
+		if barrel.Role != "" {
+			fmt.Fprintf(out, "    Role   : %s\n", barrel.Role)
+		}
+		if barrel.Jira != "" {
+			fmt.Fprintf(out, "    Jira   : %s\n", barrel.Jira)
+		}
+		fmt.Fprintf(out, "    %-7s: %s\n\n", label, summary)
 	}
 
 	return nil

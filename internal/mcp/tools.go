@@ -82,12 +82,21 @@ func RegisterDefaultTools(s *Server) {
 		}
 
 		type BarrelDetail struct {
-			Name            string            `json:"name"`
-			Path            string            `json:"path"`
-			Type            config.BarrelType `json:"type,omitempty"`
-			Source          string            `json:"source"`
-			Exists          bool              `json:"exists"`
-			CooperTechStack string            `json:"cooper_tech_stack,omitempty"`
+			Name            string                     `json:"name"`
+			Path            string                     `json:"path"`
+			Type            config.BarrelType          `json:"type,omitempty"`
+			Source          string                     `json:"source"`
+			Exists          bool                       `json:"exists"`
+			Role            string                     `json:"role,omitempty"`
+			Tech            string                     `json:"tech,omitempty"`
+			Docs            string                     `json:"docs,omitempty"`
+			Jira            string                     `json:"jira,omitempty"`
+			HasProfile      bool                       `json:"hasProfile"`
+			ProfilePath     string                     `json:"profilePath,omitempty"`
+			CooperTechStack string                     `json:"cooper_tech_stack,omitempty"`
+			ContextSummary  string                     `json:"context_summary,omitempty"`
+			ContextSource   string                     `json:"context_source,omitempty"`
+			Extra           map[string]json.RawMessage `json:"extra,omitempty"`
 		}
 
 		var list []BarrelDetail
@@ -99,10 +108,19 @@ func RegisterDefaultTools(s *Server) {
 			_, statErr := os.Stat(bPath)
 			exists := statErr == nil
 
+			var ctxSummary, ctxSource, profilePath string
+			hasProfile := false
 			tsSummary := ""
+
 			if exists {
-				ts := techstack.ResolveBarrelTechStack(bPath)
-				tsSummary = ts.Summary
+				ctxInfo := techstack.ResolveBarrelContext(s.Cwd(), bPath, b)
+				ctxSummary = ctxInfo.Summary
+				ctxSource = ctxInfo.Source
+				hasProfile = ctxInfo.HasProfile
+				profilePath = ctxInfo.ProfilePath
+				if ctxInfo.HasCooperSpec {
+					tsSummary = ctxInfo.Summary
+				}
 			}
 
 			list = append(list, BarrelDetail{
@@ -111,7 +129,16 @@ func RegisterDefaultTools(s *Server) {
 				Type:            b.Type,
 				Source:          b.Source,
 				Exists:          exists,
+				Role:            b.Role,
+				Tech:            b.Tech,
+				Docs:            b.Docs,
+				Jira:            b.Jira,
+				HasProfile:      hasProfile,
+				ProfilePath:     profilePath,
 				CooperTechStack: tsSummary,
+				ContextSummary:  ctxSummary,
+				ContextSource:   ctxSource,
+				Extra:           b.Extra,
 			})
 		}
 

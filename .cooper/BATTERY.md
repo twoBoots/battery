@@ -29,8 +29,21 @@ Stored at the workspace root and committed to Git:
   "version": "1.0.0",
   "structure": "multi-repo",
   "barrels": [
-    { "name": "auth-service", "path": "../auth-service" },
-    { "name": "web-dashboard", "path": "../web-dashboard" }
+    {
+      "name": "auth-service",
+      "path": "../auth-service",
+      "role": "User authentication & JWT issuer",
+      "tech": "Go 1.23 / Gin",
+      "jira": "AUTH"
+    },
+    {
+      "name": "ros2-node",
+      "path": "../ros2-node",
+      "role": "Robotics hardware node & telemetry",
+      "tech": "Rust 1.78 / ROS 2 Humble",
+      "docs": "docs/barrels/ros2-node.md",
+      "jira": "ROBOT"
+    }
   ]
 }
 ```
@@ -39,6 +52,36 @@ Stored at the workspace root and committed to Git:
 Stored at the workspace root and **ignored by Git** (`.gitignore`). Allows individual engineers to:
 - Remap barrel paths to match custom local disk layouts
 - Point to local stubs or experimental forks without polluting team commits
+- Override or augment barrel metadata and environment settings
+
+---
+
+## 📄 Non-Cooper Barrels & Zero-Intrusion Documentation Profiles
+
+Battery natively accommodates barrels that do **not** use Cooper (e.g. ROS 2 nodes, C/C++ firmware repositories, external vendor forks, or legacy services) with **zero modifications** required inside the target barrel repository.
+
+### 1. Metadata in `.batteryrc`
+Lightweight inline metadata can be configured directly in `.batteryrc` / `.batteryrc.local`:
+- `role`: Domain role and responsibility description.
+- `tech`: Primary tech stack and runtime summary.
+- `docs`: Custom path to the orchestrator-level documentation profile.
+- `jira`: Jira project key or issue tracker mapping.
+- Arbitrary custom properties (e.g. `"lead"`, `"tier"`) are preserved automatically.
+
+### 2. Markdown Barrel Profiles (`docs/barrels/<name>.md`)
+For rich architectural documentation, Battery maintains orchestrator-level Markdown profile documents under `docs/barrels/<name>.md` with standardized sections:
+1. **Role & Responsibilities**: Service boundary, domain domain rules, and upstream dependencies.
+2. **Tech Stack & Runtime**: Languages, toolchains, compilers, and hardware constraints.
+3. **Development & Build Commands**: Build, test, lint, and run instructions.
+4. **Interface Contracts**: Exposed APIs, ROS topics/services, message formats, and protocols.
+5. **AI Agent Guidelines**: Conventions, caveats, and safety protocols for autonomous agents.
+
+### 3. Hybrid Context Resolution Hierarchy
+When resolving context for a barrel across CLI commands and MCP servers:
+1. **Cooper Living Spec** (`<barrel>/.cooper/definition/tech-stack.md` or `.cooper/specs/`): Highest priority if present.
+2. **Battery Metadata** (`.batteryrc` `tech` & `role`): Second priority when Cooper is absent.
+3. **Profile Document Highlights** (`docs/barrels/<name>.md`): Third priority, summarizing headings/lists.
+4. **Default Guidance**: Clean fallback prompt to scaffold profiles or Cooper specs.
 
 ---
 
@@ -71,6 +114,8 @@ flowchart TD
 ### 1. Decoupled Barrel Tech Stacks
 `battery` does **not** enforce a global language or runtime across barrels. Instead, `battery` reads and respects each target barrel's individual Cooper definition:
 - `<barrel_path>/.cooper/definition/tech-stack.md`
+Or its resolved documentation profile:
+- `docs/barrels/<name>.md`
 
 ### 2. Track ID Alignment Across Repositories
 - A unified `<track_id>` (e.g. `auth-flow-v2`) is authored in `battery`.
@@ -103,18 +148,33 @@ In monorepo setups or orchestrator roots where `.cooper/index.md` is absent at `
 ## 💻 CLI Commands
 
 ```bash
-# Workspace status and barrel connectivity
+# Workspace status and barrel connectivity (with hybrid tech/context summaries)
 battery status
 
-# List all registered barrels and resolved Cooper tech stacks
+# List all registered barrels, metadata, roles, and profiles
 battery barrel list
 
-# Add a barrel to .batteryrc (or .batteryrc.local via --local)
-battery barrel add <path> [--name <name>] [--type <barrel|battery>] [--local]
+# Add a barrel with metadata to .batteryrc (or .batteryrc.local via --local)
+battery barrel add <path> [--name <name>] [--role <role>] [--tech <tech>] [--docs <path>] [--jira <key>] [--local]
+
+# Scaffold a starter Markdown documentation profile for a non-Cooper barrel
+battery barrel doc init <name> [--force]
+# (aliases: battery barrel profile init <name>)
 
 # Remove a barrel from configuration
 battery barrel remove <name_or_path> [--local]
 
 # Reconfigure workspace structure or auto-discover barrels
 battery init [--structure <multi-repo|monorepo|custom>] [--non-interactive] [-y]
+```
+
+---
+
+## 🔌 MCP Server Resources & Tools
+
+Battery provides Model Context Protocol (MCP) support for AI coding assistants:
+- **`battery://topology`**: Merged active topology including barrel paths, roles, tech stacks, Jira mappings, and profile paths.
+- **`battery://barrels/{name}/docs`**: Serves full orchestrator documentation profiles (`docs/barrels/<name>.md`).
+- **`battery://barrels/{name}/tech-stack`**: Serves Cooper tech stacks with automatic fallback to barrel profiles and inline metadata.
+- **`battery_list_barrels`**: Returns structured JSON barrel details with metadata and context summaries.
 ```
