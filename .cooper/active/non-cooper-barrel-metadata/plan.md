@@ -12,7 +12,7 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
   - [x] Sub-task: Write unit tests for adding barrels with metadata and removing barrels while preserving metadata and custom fields in `.batteryrc` / `.batteryrc.local` (Red)
   - [x] Sub-task: Implement metadata plumbing in `AddBarrel` and `RemoveBarrel` (Green)
   - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [~] Task: Phase 1 Verification & Checkpoint
+- [x] Task: Phase 1 Verification & Checkpoint [checkpoint: 78ad73c]
 
 ## Phase 2: Tech Stack & Barrel Profile Resolution Engine (`internal/techstack`)
 
