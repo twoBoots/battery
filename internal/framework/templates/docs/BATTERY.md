@@ -79,6 +79,27 @@ flowchart TD
 
 ---
 
+## 🤖 Root Agent Protocol & Cooper SDD Lifecycle Governance
+
+When an AI coding assistant or human developer invokes Cooper lifecycle skills (`cooper-new-track`, `cooper-implement`, `cooper-rfc`, `cooper-review`) from the Battery root:
+
+### 1. Non-Bypassable Spec-Driven Development (SDD)
+In monorepo setups or orchestrator roots where `.cooper/index.md` is absent at `./`, agents MUST NOT bypass SDD to begin raw implementation. Agents must resolve the target barrel and enforce the full SDD artifact lifecycle (`proposal.md` -> `design.md` -> `spec-deltas/` -> `plan.md`).
+
+### 2. Target Barrel Resolution
+1. Read `.batteryrc` / `.batteryrc.local` to resolve candidate barrels.
+2. Prompt or identify the target barrel (e.g. `packages/<barrel>` or sibling repository).
+3. Switch execution context into the target barrel's worktree (`<barrel>/.worktrees/<track_id>`).
+
+### 3. Track Scope & Dispatch Decision Matrix
+
+| Scope | Mechanism | Workflow & Artifacts |
+| :--- | :--- | :--- |
+| **Multi-Barrel / Cross-Cutting Epic** | `battery track init` + `battery track dispatch` | 1. Initialize macro track in Battery root (`.cooper/active/<track_id>/`).<br>2. Author macro contracts, shared schemas, and initial Spec Deltas in Battery.<br>3. Dispatch track spec deltas to target barrels via `battery track dispatch <track_id>`.<br>4. Barrel agents spawn worktrees (`git agent-start <track_id>`) and autonomously author local `plan.md` + execute TDD. |
+| **Single-Barrel Feature / Bug Fix** | Targeted Cooper Track (`cooper-new-track` in target barrel) | 1. Identify target barrel from `.batteryrc`.<br>2. Spawn worktree in target barrel (`<barrel>/.worktrees/<track_id>`).<br>3. Author local `proposal.md`, `design.md`, `spec-deltas/`, and TDD `plan.md`.<br>4. Execute TDD Red -> Green -> Refactor and submit barrel PR. |
+
+---
+
 ## 💻 CLI Commands
 
 ```bash

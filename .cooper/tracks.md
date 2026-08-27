@@ -4,10 +4,6 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [x] **Track: Battery Go Module Casing Standardization**
-  - Worktree: `.worktrees/battery-module-casing-fix`
-  - Link: [.cooper/active/battery-module-casing-fix/plan.md](./active/battery-module-casing-fix/plan.md)
-
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
@@ -19,6 +15,10 @@ All active and completed Cooper tracks are registered below.
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Standardize Battery Root AGENTS.md Protocol for Cooper SDD Lifecycle**
+  - Completed: 2026-08-27
+  - Spec: [.cooper/specs/track-dispatch/spec.md](./specs/track-dispatch/spec.md)
 
 - [x] **Track: Bump to Go 1.27.0**
   - Completed: 2026-08-23
