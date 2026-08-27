@@ -33,6 +33,10 @@ var barrelListCmd = &cobra.Command{
 var (
 	addName  string
 	addType  string
+	addRole  string
+	addTech  string
+	addDocs  string
+	addJira  string
 	addLocal bool
 )
 
@@ -56,6 +60,10 @@ var barrelAddCmd = &cobra.Command{
 			Name: name,
 			Path: pathArg,
 			Type: barrelType,
+			Role: strings.TrimSpace(addRole),
+			Tech: strings.TrimSpace(addTech),
+			Docs: strings.TrimSpace(addDocs),
+			Jira: strings.TrimSpace(addJira),
 		}
 
 		cwd := getWorkingDir()
@@ -124,6 +132,10 @@ var barrelInitCmd = &cobra.Command{
 func init() {
 	barrelAddCmd.Flags().StringVarP(&addName, "name", "n", "", "Custom name for the barrel")
 	barrelAddCmd.Flags().StringVarP(&addType, "type", "t", "barrel", "Specify barrel type ('barrel' or 'battery')")
+	barrelAddCmd.Flags().StringVar(&addRole, "role", "", "Domain role and responsibility description")
+	barrelAddCmd.Flags().StringVar(&addTech, "tech", "", "Primary tech stack and runtime summary")
+	barrelAddCmd.Flags().StringVar(&addDocs, "docs", "", "Path to orchestrator barrel documentation profile")
+	barrelAddCmd.Flags().StringVar(&addJira, "jira", "", "Jira project or issue tracker mapping")
 	barrelAddCmd.Flags().BoolVar(&addLocal, "local", false, "Add to local developer overrides (.batteryrc.local)")
 
 	barrelRemoveCmd.Flags().BoolVar(&removeLocal, "local", false, "Remove from local developer overrides (.batteryrc.local)")

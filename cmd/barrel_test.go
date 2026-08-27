@@ -159,3 +159,35 @@ func TestBarrelInitCmd_Scaffolding(t *testing.T) {
 	assert.Contains(t, string(content), "Chi")
 	assert.Contains(t, string(content), "go test")
 }
+
+func TestBarrelAdd_WithMetadataFlags(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetArgs([]string{
+		"barrel", "add", "../ros2-node",
+		"--name", "ros2-node",
+		"--role", "ROS 2 robotics node bindings",
+		"--tech", "Rust / ROS 2 Humble",
+		"--docs", "docs/barrels/ros2-node.md",
+		"--jira", "ROBOT-42",
+	})
+	err := cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Added barrel 'ros2-node'")
+
+	cfg, err := config.LoadConfig(tempDir)
+	require.NoError(t, err)
+	require.Len(t, cfg.Barrels, 1)
+
+	b := cfg.Barrels[0]
+	assert.Equal(t, "ros2-node", b.Name)
+	assert.Equal(t, "ROS 2 robotics node bindings", b.Role)
+	assert.Equal(t, "Rust / ROS 2 Humble", b.Tech)
+	assert.Equal(t, "docs/barrels/ros2-node.md", b.Docs)
+	assert.Equal(t, "ROBOT-42", b.Jira)
+}
