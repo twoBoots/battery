@@ -44,7 +44,7 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 4: MCP Server Resources & Tools (`internal/mcp`)
 
-- [ ] Task: Expose `battery://barrels/{name}/docs` & Fallback `tech-stack` MCP Resources
+- [~] Task: Expose `battery://barrels/{name}/docs` & Fallback `tech-stack` MCP Resources
   - [ ] Sub-task: Write MCP unit tests for reading barrel documentation profiles and fallback tech-stack payloads (Red)
   - [ ] Sub-task: Implement resource registration in `internal/mcp/resources.go` (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
