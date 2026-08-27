@@ -4,10 +4,6 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
-- [ ] **Track: Lightweight Documentation & Context Metadata for Non-Cooper Barrels**
-  - Worktree: `.worktrees/non-cooper-barrel-metadata`
-  - Link: [.cooper/active/non-cooper-barrel-metadata/plan.md](./active/non-cooper-barrel-metadata/plan.md)
-
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
@@ -19,6 +15,10 @@ All active and completed Cooper tracks are registered below.
 ---
 
 ## Completed Tracks
+
+- [x] **Track: Lightweight Documentation & Context Metadata for Non-Cooper Barrels**
+  - Completed: 2026-08-27
+  - Spec: [.cooper/specs/barrel-config/spec.md](./specs/barrel-config/spec.md), [.cooper/specs/mcp-server/spec.md](./specs/mcp-server/spec.md)
 
 - [x] **Track: Standardize Battery Root AGENTS.md Protocol for Cooper SDD Lifecycle**
   - Completed: 2026-08-27
