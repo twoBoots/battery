@@ -4,7 +4,7 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 1: Configuration Schema & Dynamic Metadata Preservation (`internal/config`)
 
-- [ ] Task: Extend `BarrelConfig` & `EffectiveBarrel` with Metadata Fields & Dynamic Property Preservation
+- [~] Task: Extend `BarrelConfig` & `EffectiveBarrel` with Metadata Fields & Dynamic Property Preservation
   - [ ] Sub-task: Write unit tests for JSON marshaling/unmarshaling of `role`, `tech`, `docs`, `jira`, and preservation of unknown custom attributes across round-trips (Red)
   - [ ] Sub-task: Implement metadata fields, custom unmarshaler/marshaler, and effective configuration merging in `internal/config/config.go` (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
