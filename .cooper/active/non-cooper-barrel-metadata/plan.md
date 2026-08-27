@@ -4,11 +4,11 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 1: Configuration Schema & Dynamic Metadata Preservation (`internal/config`)
 
-- [~] Task: Extend `BarrelConfig` & `EffectiveBarrel` with Metadata Fields & Dynamic Property Preservation
-  - [ ] Sub-task: Write unit tests for JSON marshaling/unmarshaling of `role`, `tech`, `docs`, `jira`, and preservation of unknown custom attributes across round-trips (Red)
-  - [ ] Sub-task: Implement metadata fields, custom unmarshaler/marshaler, and effective configuration merging in `internal/config/config.go` (Green)
-  - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [ ] Task: Update `AddBarrel` & `RemoveBarrel` APIs to Support Metadata Attributes
+- [x] Task: Extend `BarrelConfig` & `EffectiveBarrel` with Metadata Fields & Dynamic Property Preservation (84720cc)
+  - [x] Sub-task: Write unit tests for JSON marshaling/unmarshaling of `role`, `tech`, `docs`, `jira`, and preservation of unknown custom attributes across round-trips (Red)
+  - [x] Sub-task: Implement metadata fields, custom unmarshaler/marshaler, and effective configuration merging in `internal/config/config.go` (Green)
+  - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
+- [~] Task: Update `AddBarrel` & `RemoveBarrel` APIs to Support Metadata Attributes
   - [ ] Sub-task: Write unit tests for adding barrels with metadata and removing barrels while preserving metadata and custom fields in `.batteryrc` / `.batteryrc.local` (Red)
   - [ ] Sub-task: Implement metadata plumbing in `AddBarrel` and `RemoveBarrel` (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
