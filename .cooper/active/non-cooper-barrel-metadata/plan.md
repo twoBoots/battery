@@ -44,11 +44,11 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 4: MCP Server Resources & Tools (`internal/mcp`)
 
-- [~] Task: Expose `battery://barrels/{name}/docs` & Fallback `tech-stack` MCP Resources
-  - [ ] Sub-task: Write MCP unit tests for reading barrel documentation profiles and fallback tech-stack payloads (Red)
-  - [ ] Sub-task: Implement resource registration in `internal/mcp/resources.go` (Green)
-  - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
-- [ ] Task: Enrich `battery_list_barrels` Tool & `battery://topology` Resource with Metadata
+- [x] Task: Expose `battery://barrels/{name}/docs` & Fallback `tech-stack` MCP Resources (1715c83)
+  - [x] Sub-task: Write MCP unit tests for reading barrel documentation profiles and fallback tech-stack payloads (Red)
+  - [x] Sub-task: Implement resource registration in `internal/mcp/resources.go` (Green)
+  - [x] Sub-task: Refactor & verify coverage >80% (Refactor)
+- [~] Task: Enrich `battery_list_barrels` Tool & `battery://topology` Resource with Metadata
   - [ ] Sub-task: Write MCP unit tests verifying JSON payloads include `role`, `tech`, `docs`, `jira`, `hasProfile` (Red)
   - [ ] Sub-task: Update `internal/mcp/tools.go` and topology handler (Green)
   - [ ] Sub-task: Refactor & verify coverage >80% (Refactor)
