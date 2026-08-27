@@ -56,7 +56,7 @@ All implementation tasks strictly follow the Cooper TDD lifecycle (Red -> Green 
 
 ## Phase 5: Documentation, Templates & Final Integration
 
-- [ ] Task: Update Living Capability Specs & Upstream Framework Templates
+- [~] Task: Update Living Capability Specs & Upstream Framework Templates
   - [ ] Sub-task: Update `.cooper/BATTERY.md` and `internal/framework/templates/docs/BATTERY.md` documenting non-Cooper barrel profiles
   - [ ] Sub-task: Run full test suite across all packages (`go test ./...`) and lint checks (`go vet ./...`)
   - [ ] Sub-task: Verify test coverage >80% across all modified packages
