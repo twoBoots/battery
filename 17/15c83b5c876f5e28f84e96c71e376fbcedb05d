@@ -1,0 +1,3 @@
+Task: Expose battery://barrels/{name}/docs & Fallback tech-stack MCP Resources
+Scope: internal/mcp/resources.go, internal/mcp/resources_prompts_test.go
+Summary: Registered battery://barrels/{name}/docs MCP resource to serve resolved Markdown profile documents. Enhanced battery://barrels/{name}/tech-stack with fallback to barrel profile docs or inline metadata when Cooper tech-stack.md is absent.
