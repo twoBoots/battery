@@ -1,0 +1,3 @@
+Task: Enrich battery_list_barrels Tool & battery://topology Resource with Metadata
+Scope: internal/mcp/tools.go, internal/mcp/tools_test.go, internal/mcp/resources.go
+Summary: Updated battery_list_barrels MCP tool and battery://topology resource to include Role, Tech, Docs, Jira, HasProfile, ProfilePath, and hybrid context summaries.
