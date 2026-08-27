@@ -1,0 +1,3 @@
+Task: Update Living Capability Specs & Upstream Framework Templates
+Scope: .cooper/BATTERY.md, internal/framework/templates/docs/BATTERY.md
+Summary: Fully updated orchestrator documentation and framework templates covering non-Cooper barrel support, metadata configuration, Markdown profiles under docs/barrels/<name>.md, CLI commands, and MCP fallbacks.
