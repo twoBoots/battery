@@ -361,9 +361,14 @@ func AddBarrel(barrel BarrelConfig, cwd string, isLocal bool) (*EffectiveBattery
 		}
 
 		local.Barrels = append(local.Barrels, BarrelConfig{
-			Name: barrelName,
-			Path: normalizedPath,
-			Type: barrel.Type,
+			Name:  barrelName,
+			Path:  normalizedPath,
+			Type:  barrel.Type,
+			Role:  barrel.Role,
+			Tech:  barrel.Tech,
+			Docs:  barrel.Docs,
+			Jira:  barrel.Jira,
+			Extra: barrel.Extra,
 		})
 		if _, err := SaveConfig(local, cwd, true); err != nil {
 			return nil, err
@@ -381,9 +386,14 @@ func AddBarrel(barrel BarrelConfig, cwd string, isLocal bool) (*EffectiveBattery
 		}
 
 		canonical.Barrels = append(canonical.Barrels, BarrelConfig{
-			Name: barrelName,
-			Path: normalizedPath,
-			Type: barrel.Type,
+			Name:  barrelName,
+			Path:  normalizedPath,
+			Type:  barrel.Type,
+			Role:  barrel.Role,
+			Tech:  barrel.Tech,
+			Docs:  barrel.Docs,
+			Jira:  barrel.Jira,
+			Extra: barrel.Extra,
 		})
 		if _, err := SaveConfig(canonical, cwd, false); err != nil {
 			return nil, err

@@ -292,3 +292,67 @@ func TestGetEffectiveConfig_PreservesMetadataAndCustomFields(t *testing.T) {
 	assert.Equal(t, "docs/barrels/firmware.md", eb.Docs)
 	assert.Equal(t, "EMB-45", eb.Jira)
 }
+
+func TestAddBarrel_WithMetadataAndPreserveOtherBarrels(t *testing.T) {
+	tempDir := t.TempDir()
+
+	// Initial barrel with custom attributes
+	rawJSON := `{
+  "version": "1.0.0",
+  "structure": "multi-repo",
+  "barrels": [
+    {
+      "name": "existing-barrel",
+      "path": "../existing",
+      "team": "core-infra"
+    }
+  ]
+}`
+	err := os.WriteFile(filepath.Join(tempDir, config.ConfigFilename), []byte(rawJSON), 0o644)
+	require.NoError(t, err)
+
+	// Add new barrel with metadata
+	newBarrel := config.BarrelConfig{
+		Name: "robot-driver",
+		Path: "../driver",
+		Role: "Hardware driver",
+		Tech: "C++20",
+		Docs: "docs/barrels/robot-driver.md",
+		Jira: "DRV-1",
+	}
+
+	effective, err := config.AddBarrel(newBarrel, tempDir, false)
+	require.NoError(t, err)
+	require.Len(t, effective.Barrels, 2)
+
+	// Verify new barrel has metadata
+	var addedBarrel *config.EffectiveBarrel
+	var existingBarrel *config.EffectiveBarrel
+	for i := range effective.Barrels {
+		if effective.Barrels[i].Name == "robot-driver" {
+			addedBarrel = &effective.Barrels[i]
+		}
+		if effective.Barrels[i].Name == "existing-barrel" {
+			existingBarrel = &effective.Barrels[i]
+		}
+	}
+
+	require.NotNil(t, addedBarrel)
+	assert.Equal(t, "Hardware driver", addedBarrel.Role)
+	assert.Equal(t, "C++20", addedBarrel.Tech)
+	assert.Equal(t, "docs/barrels/robot-driver.md", addedBarrel.Docs)
+	assert.Equal(t, "DRV-1", addedBarrel.Jira)
+
+	require.NotNil(t, existingBarrel)
+	assert.Contains(t, string(existingBarrel.Extra["team"]), "core-infra")
+
+	// Verify canonical file persisted properly
+	loaded, err := config.LoadConfig(tempDir)
+	require.NoError(t, err)
+	require.Len(t, loaded.Barrels, 2)
+	assert.Equal(t, "Hardware driver", loaded.Barrels[1].Role)
+	assert.Equal(t, "C++20", loaded.Barrels[1].Tech)
+	assert.Equal(t, "docs/barrels/robot-driver.md", loaded.Barrels[1].Docs)
+	assert.Equal(t, "DRV-1", loaded.Barrels[1].Jira)
+	assert.Contains(t, string(loaded.Barrels[0].Extra["team"]), "core-infra")
+}
