@@ -191,3 +191,39 @@ func TestBarrelAdd_WithMetadataFlags(t *testing.T) {
 	assert.Equal(t, "docs/barrels/ros2-node.md", b.Docs)
 	assert.Equal(t, "ROBOT-42", b.Jira)
 }
+
+func TestBarrelDocInitCmd_Scaffolding(t *testing.T) {
+	tempDir := t.TempDir()
+	origDir, _ := os.Getwd()
+	_ = os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(origDir) }()
+
+	// Scaffold profile using 'barrel doc init'
+	buf := new(bytes.Buffer)
+	cmd.RootCmd.SetOut(buf)
+	cmd.RootCmd.SetErr(buf)
+	cmd.RootCmd.SetArgs([]string{"barrel", "doc", "init", "robotics-firmware"})
+	err := cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Created barrel profile")
+
+	profileFile := filepath.Join(tempDir, "docs", "barrels", "robotics-firmware.md")
+	assert.FileExists(t, profileFile)
+
+	content, err := os.ReadFile(profileFile)
+	require.NoError(t, err)
+	assert.Contains(t, string(content), "# Barrel Profile: robotics-firmware")
+
+	// Attempting without --force should fail
+	buf.Reset()
+	cmd.RootCmd.SetArgs([]string{"barrel", "profile", "init", "robotics-firmware"})
+	err = cmd.Execute()
+	assert.Error(t, err)
+
+	// Overwriting with --force
+	buf.Reset()
+	cmd.RootCmd.SetArgs([]string{"barrel", "doc", "init", "robotics-firmware", "--force"})
+	err = cmd.Execute()
+	require.NoError(t, err)
+	assert.Contains(t, buf.String(), "Updated barrel profile")
+}

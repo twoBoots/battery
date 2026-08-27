@@ -129,6 +129,54 @@ var barrelInitCmd = &cobra.Command{
 	},
 }
 
+var (
+	barrelDocForce bool
+)
+
+var barrelDocCmd = &cobra.Command{
+	Use:     "doc",
+	Aliases: []string{"docs", "profile", "profiles"},
+	Short:   "Manage orchestrator-level documentation profiles for barrels",
+}
+
+var barrelDocInitCmd = &cobra.Command{
+	Use:   "init <name>",
+	Short: "Scaffold docs/barrels/<name>.md starter profile for a non-Cooper barrel",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		target := strings.TrimSpace(args[0])
+		barrelName := config.InferBarrelName(target)
+
+		effCfg, err := config.GetEffectiveConfig(getWorkingDir())
+		if err == nil {
+			for _, b := range effCfg.Barrels {
+				if b.Name == target || b.Path == target {
+					barrelName = b.Name
+					break
+				}
+			}
+		}
+
+		profileFile := filepath.Join(getWorkingDir(), "docs", "barrels", barrelName+".md")
+		alreadyExists := false
+		if fi, err := os.Stat(profileFile); err == nil && !fi.IsDir() {
+			alreadyExists = true
+		}
+
+		savedPath, err := techstack.ScaffoldBarrelProfile(getWorkingDir(), barrelName, barrelDocForce)
+		if err != nil {
+			return err
+		}
+
+		status := "Created"
+		if alreadyExists {
+			status = "Updated"
+		}
+		fmt.Fprintf(cmd.OutOrStdout(), "✓ %s barrel profile at %s\n", status, savedPath)
+		return nil
+	},
+}
+
 func init() {
 	barrelAddCmd.Flags().StringVarP(&addName, "name", "n", "", "Custom name for the barrel")
 	barrelAddCmd.Flags().StringVarP(&addType, "type", "t", "barrel", "Specify barrel type ('barrel' or 'battery')")
@@ -147,10 +195,14 @@ func init() {
 	barrelInitCmd.Flags().StringVar(&barrelInitCov, "coverage-threshold", "", "Override coverage threshold (e.g. '>80%')")
 	barrelInitCmd.Flags().BoolVarP(&barrelInitForce, "force", "f", false, "Overwrite existing tech-stack.md")
 
+	barrelDocInitCmd.Flags().BoolVarP(&barrelDocForce, "force", "f", false, "Overwrite existing profile")
+	barrelDocCmd.AddCommand(barrelDocInitCmd)
+
 	barrelCmd.AddCommand(barrelListCmd)
 	barrelCmd.AddCommand(barrelAddCmd)
 	barrelCmd.AddCommand(barrelRemoveCmd)
 	barrelCmd.AddCommand(barrelInitCmd)
+	barrelCmd.AddCommand(barrelDocCmd)
 
 	RootCmd.AddCommand(barrelCmd)
 }
