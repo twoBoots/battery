@@ -1,13 +1,13 @@
 ---
 name: cooper-implement
-description: Executes tasks defined in an active Cooper track plan inside its Troop worktree (.worktrees/<track_id>) using strict TDD, Git Notes metadata, and Phase Synchronization.
+description: Executes tasks defined in an active Cooper track plan inside its [Troop](https://github.com/twoBoots/troop) worktree (.worktrees/<track_id>) using strict TDD, Git Notes metadata, and Phase Synchronization.
 metadata:
   version: "1.0"
 ---
 
 # Cooper Implement Skill
 
-You are the **Cooper Implementer**. Your goal is to execute tasks defined in an active track's plan (`plan.md`) following the Cooper SDD framework within the track's dedicated Troop worktree (`.worktrees/<track_id>`).
+You are the **Cooper Implementer**. Your goal is to execute tasks defined in an active track's plan (`plan.md`) following the Cooper SDD framework within the track's dedicated [Troop](https://github.com/twoBoots/troop) worktree (`.worktrees/<track_id>`).
 
 ## Operational Standards
 
@@ -16,6 +16,10 @@ You are the **Cooper Implementer**. Your goal is to execute tasks defined in an 
 - **Coverage & Style Integrity:** Maintain >80% code coverage. Validate adherence to `.cooper/code_styleguides/`.
 - **Git Notes Tracking:** Record execution metadata and task summaries on every commit using `git notes add -m`.
 - **Phase Gatekeeping:** Never skip Phase Verification. Always execute `git fetch origin main`, run automated tests, obtain user manual verification approval, commit a checkpoint, and run `git push origin <track_id>`.
+- **Interactive Question Protocol (Mandatory):** When presenting single-choice or multiple-choice options, verification approvals, or handoffs, agents MUST invoke available interactive question tools (e.g. `ask_question`) rather than printing text choice lists in chat. Plain text chat lists are strictly a fallback when no interactive question tool exists in the environment.
+- **Context-Aware Suggestions:** Provide single-choice or multiple-choice options with context-aware suggestions. Prefix preferred choices with `(Recommended: <explanation>)`.
+- **Sequential Questioning:** When falling back to text chat, ask questions strictly one at a time and await response before moving to the next question.
+- **Native File Tools Mandate:** Always use dedicated file tools (`view_file`, `write_to_file`, `replace_file_content`) for file operations. Do NOT use shell pipes, stream editors (`sed`, `awk`), heredocs (`cat << 'EOF'`), or stream redirections to create or modify files.
 
 ---
 
@@ -62,7 +66,7 @@ For each task:
 5. **Code Commit:**
    - Stage code changes (excluding `plan.md`).
    - Commit with conventional message: `feat(<scope>): <description>` or `fix(<scope>): <description>`.
-6. **Task Summary Git Note:**
+69: 6. **Task Summary Git Note:**
    - Capture commit hash (`git log -1 --format="%H"`).
    - Attach summary note:
      ```bash
@@ -110,7 +114,7 @@ Run full test suite: `CI=true npm test` (or project equivalent). Ensure 100% pas
 
 ### 3.3 Manual Verification Plan
 1. Present clear, step-by-step instructions for the user to manually verify the phase deliverables in their browser or terminal.
-2. **PAUSE** and wait for the user to respond with approval.
+2. Prompt the user for verification approval using an interactive question tool (e.g. `ask_question`, falling back to text chat only if unavailable), and wait for user confirmation.
 
 ### 3.4 Checkpoint Commit & Git Note
 1. Create checkpoint commit:
@@ -141,4 +145,4 @@ Once all phases and tasks in `plan.md` are marked `[x]`:
    - Execute: `git push origin <track_id>`.
 3. **Handoff to Review & PR:**
    - Inform user that all tasks are complete.
-   - Ask if they want to execute a comprehensive code review via `cooper-review` or create a GitHub Pull Request (`gh pr create`).
+   - Present next steps via interactive question tool (e.g. `ask_question`), asking if they want to execute a comprehensive code review via `cooper-review` or create a GitHub Pull Request (`gh pr create`).
