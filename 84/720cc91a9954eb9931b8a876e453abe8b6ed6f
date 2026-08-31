@@ -1,0 +1,3 @@
+Task: Extend BarrelConfig & EffectiveBarrel with Metadata Fields & Dynamic Property Preservation
+Scope: internal/config/config.go, internal/config/config_test.go
+Summary: Added Role, Tech, Docs, Jira typed fields to BarrelConfig and EffectiveBarrel. Implemented custom UnmarshalJSON and MarshalJSON to capture and preserve arbitrary dynamic JSON attributes during serialization round-trips without HTML escaping. Updated GetEffectiveConfig to merge metadata fields from canonical and local configurations.

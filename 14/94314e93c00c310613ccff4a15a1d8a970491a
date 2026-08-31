@@ -1,0 +1,3 @@
+Task: Task 1.1 & Task 1.2: Implement Embedded Templates & Framework Engine
+Scope: internal/framework/framework.go, internal/framework/framework_test.go, internal/framework/templates/
+Summary: Embedded canonical Cooper skills and framework documentation using go:embed, implemented template catalog, retrieval, and workspace divergence inspection with >90% test coverage.

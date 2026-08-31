@@ -1,0 +1,4 @@
+Phase Checkpoint Verification
+Automated Tests: PASSED (100% test pass rate across all packages)
+Coverage: >80% across internal/config, internal/mcp, internal/techstack, internal/track, internal/updater, cmd
+Manual Verification: install.sh tested against existing repo preserving .batteryrc, and --force successfully overwriting.

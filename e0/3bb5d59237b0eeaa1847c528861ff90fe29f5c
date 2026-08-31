@@ -1,0 +1,3 @@
+Task: GitHub Release Fetching & Semver Logic
+Scope: internal/updater/release.go, internal/updater/semver.go, internal/updater/release_test.go
+Summary: Implemented GitHub Releases API querying, platform asset discovery, and semver comparison with >90% test coverage.

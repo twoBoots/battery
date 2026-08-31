@@ -1,0 +1,3 @@
+Task: Update .cooper/definition/workflow.md with Rule 9 (Upstream Architecture vs. Track Execution)
+Scope: .cooper/definition/workflow.md
+Summary: Added Rule 9 under Guiding Principles clarifying separation between upstream cooper-rfc planning and downstream track execution.

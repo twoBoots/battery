@@ -1,0 +1,3 @@
+Task: Update AddBarrel & RemoveBarrel APIs to Support Metadata Attributes
+Scope: internal/config/config.go, internal/config/config_test.go
+Summary: Updated AddBarrel to propagate and preserve Role, Tech, Docs, Jira, and Extra dynamic properties when adding barrels to canonical or local configuration. Verified round-trip preservation of existing barrel configurations.

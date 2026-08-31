@@ -1,0 +1,3 @@
+Task: Update Documentation
+Scope: README.md, docs/mcp-setup-guide.md
+Summary: Updated manual configuration guides and examples for Antigravity from .gemini/settings.json to mcp_config.json.

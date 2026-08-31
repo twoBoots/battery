@@ -1,0 +1,3 @@
+Task: Install Cooper Skills into .agents/skills/
+Scope: .agents/skills/cooper-*
+Summary: Packaged cooper-setup, cooper-new-track, cooper-implement, cooper-review, cooper-status

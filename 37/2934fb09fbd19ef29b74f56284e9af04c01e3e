@@ -1,0 +1,3 @@
+Task: Extend battery barrel add with Metadata Flags
+Scope: cmd/barrel.go, cmd/barrel_test.go
+Summary: Added --role, --tech, --docs, and --jira flags to battery barrel add CLI command, wiring metadata directly into BarrelConfig.

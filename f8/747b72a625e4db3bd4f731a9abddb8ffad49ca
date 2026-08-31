@@ -1,0 +1,3 @@
+Task: Install cooper-rfc and update cooper-new-track & cooper-setup
+Scope: .agents/skills/cooper-rfc/SKILL.md, .agents/skills/cooper-new-track/SKILL.md, .agents/skills/cooper-setup/SKILL.md
+Summary: Installed cooper-rfc skill for collaborative upstream architectural design, updated cooper-new-track with silent scope check, and added cooper-rfc to cooper-setup skill manifest.

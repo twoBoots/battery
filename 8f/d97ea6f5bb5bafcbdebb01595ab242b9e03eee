@@ -1,0 +1,3 @@
+Task: Update AGENTS.md with Rule 5 and streamline install.sh
+Scope: AGENTS.md, install.sh
+Summary: Injected Rule 5 (Project-Local Skills in .agents/skills/) and refined install.sh to cleanly delegate foundation to Cooper installer and link BATTERY.md in index.md

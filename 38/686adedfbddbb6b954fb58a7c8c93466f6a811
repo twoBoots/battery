@@ -1,0 +1,3 @@
+Task: Add battery barrel doc init / battery barrel profile init Subcommand
+Scope: cmd/barrel.go, cmd/barrel_test.go
+Summary: Added battery barrel doc init (aliased to profile/profiles/docs) CLI subcommand to scaffold standardized Markdown profile files under docs/barrels/<name>.md with --force overwrite protection.

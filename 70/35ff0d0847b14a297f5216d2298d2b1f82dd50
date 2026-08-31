@@ -1,0 +1,1 @@
+Phase 2 Checkpoint: CI triggers updated to pull_request only with workflow_call; release workflow gated on reusable CI job with needs: ci; all tests and coverage (86.2%) verified.

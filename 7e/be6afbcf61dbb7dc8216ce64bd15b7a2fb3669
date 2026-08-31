@@ -1,0 +1,3 @@
+Task: Task 1.1: Update Go Module & GitHub Actions Workflows
+Scope: go.mod, .github/workflows/ci.yml, .github/workflows/release.yml, .cooper/definition/tech-stack.md
+Summary: Upgraded Go version directive to 1.27.0 in go.mod, setup-go actions in CI and release workflows to 1.27, and updated tech stack definition to Go 1.27+.

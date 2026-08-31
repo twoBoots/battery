@@ -1,0 +1,3 @@
+Task: Task 3.1: Stdio MCP Protocol Integration Testing
+Scope: internal/mcp/server_test.go
+Summary: Added full end-to-end stdio JSON-RPC integration test verifying tools/call, resources/read, and prompts/get for framework upgrade workflows with 100% test pass rate across all packages with race detection.

@@ -1,0 +1,3 @@
+Task: Task 1.1 & Task 1.2: Add auto-tag Job and Dual Release Publishing in release.yml
+Scope: .github/workflows/release.yml
+Summary: Ported Bender's auto-tag job into Battery's GitHub Actions release workflow; configured automated tagging of v<Version> on merge to main; configured dual release publishing for both semantic version tag and latest.

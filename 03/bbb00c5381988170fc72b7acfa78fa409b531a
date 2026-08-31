@@ -1,0 +1,1 @@
+Task 2.1: Implemented 'battery barrel init <path|name>' CLI subcommand with flags (--language, --framework, --test-runner, --linter, --coverage-threshold, --force) and unit tests.

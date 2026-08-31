@@ -1,0 +1,1 @@
+Phase 2 & 3 Verification: Integrated @cliffy/prompt for arrow-key structure selection and candidate barrel checkboxes (unselected by default). Full test suite and coverage >83% pass.

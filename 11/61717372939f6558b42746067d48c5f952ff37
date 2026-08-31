@@ -1,0 +1,3 @@
+Task: Update CLI package imports
+Scope: main.go, cmd/*.go
+Summary: Standardized all CLI package imports and tests to github.com/twoBoots/battery.

@@ -1,0 +1,3 @@
+Task: battery update CLI Command Implementation
+Scope: cmd/update.go, cmd/update_test.go
+Summary: Implemented battery update / self-update commands supporting --check, --force, and --target-version flags with unit and integration tests.
