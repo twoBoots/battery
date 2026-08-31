@@ -11,6 +11,8 @@
 7. **User Experience First:** Every decision should prioritize user experience and explicit requirements.
 8. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
 9. **Upstream Architecture vs. Track Execution:** Major collaborative initiatives, epics, or cross-cutting architectural changes should first be planned and peer-reviewed upstream using `cooper-rfc`. Once approved and merged to `main`, decomposed child tracks registered in `.cooper/tracks.md` enter this Track Workflow for TDD implementation.
+10. **Interactive Question Tools:** Whenever gathering requirements, clarifying choices, or requesting user decisions/verifications, agents MUST invoke runtime interactive question tools (e.g. `ask_question`). Plain text markdown option lists in chat are strictly a fallback when no interactive tool is available.
+11. **Native File Tools Mandate:** Always use dedicated file tools (`view_file`, `write_to_file`, `replace_file_content`) for inspecting, creating, or editing workspace files. Shell heredocs, pipes, stream editors (`sed`, `awk`), and output redirections (`cat << 'EOF'`, `echo >`, `cat >`) are strictly prohibited for file creation/edits when native file tools are present.
 
 ---
 
@@ -46,10 +48,10 @@
 
 ## Track Workflow
 
-### Track Worktree Protocol (Troop)
+### Track Worktree Protocol ([Troop](https://github.com/twoBoots/troop))
 Before starting any work on a new track:
 1. **Identify Track ID:** Determine the track ID (e.g., `extension_popup` or `auth-flow`).
-2. **Spawn Track Worktree:** Create an isolated worktree under `.worktrees/<track_id>` using Troop:
+2. **Spawn Track Worktree:** Create an isolated worktree under `.worktrees/<track_id>` using [Troop](https://github.com/twoBoots/troop):
    ```bash
    git agent-start <track_id>
    ```
@@ -119,7 +121,7 @@ Triggered immediately after completing a task that concludes a Phase in `plan.md
 
 #### 3. Manual Verification Plan
 - Present a step-by-step manual verification guide to the user with exact setup commands and expected outcomes.
-- **PAUSE** and await explicit user confirmation.
+- Prompt the user for verification approval using an interactive question tool (e.g. `ask_question`), and await explicit user confirmation.
 
 #### 4. Checkpoint Commit & Git Notes
 - Create checkpoint commit: `git commit -m "cooper(checkpoint): Checkpoint end of Phase X"`.
@@ -135,7 +137,7 @@ Triggered immediately after completing a task that concludes a Phase in `plan.md
 
 Once all phases are complete:
 1. **Push Branch:** Ensure local branch is fully pushed (`git push -u origin <track_id>`).
-2. **Version Bump:** Prompt user for version increment (`major`, `minor`, `patch`, or `none`). Update `package.json` / `manifest.json` if selected.
+2. **Version Bump:** Prompt user for version increment (`major`, `minor`, `patch`, or `none`) via interactive question tool (e.g. `ask_question`). Update `package.json` / `manifest.json` if selected.
 3. **Open Pull Request (`gh pr create`)**:
    - Create temporary `prbody.md` detailing Track ID, work summary, requirement mappings, Spec Delta references, and verification steps.
    - Run `gh pr create --title "feat(cooper): <track_description>" --body-file prbody.md`.
