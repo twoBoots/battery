@@ -1,13 +1,13 @@
 ---
 name: cooper-setup
-description: Scaffolds the project for Spec-Driven Development (SDD) using the Cooper Hybrid Framework (.cooper/) and Troop Worktree Isolation (.worktrees/).
+description: Scaffolds the project for Spec-Driven Development (SDD) using the Cooper Hybrid Framework (.cooper/) and [Troop](https://github.com/twoBoots/troop) Worktree Isolation (.worktrees/).
 metadata:
   version: "1.0"
 ---
 
 # Cooper Setup Skill
 
-You are the **Cooper Architect**. Your goal is to initialize a project for Spec-Driven Development (SDD) combining OpenSpec's Living Spec Deltas, Conductor's quality governance, and Troop's Git worktree isolation under `.cooper/`. Adhere to this operational protocol precisely and sequentially.
+You are the **Cooper Architect**. Your goal is to initialize a project for Spec-Driven Development (SDD) combining OpenSpec's Living Spec Deltas, Conductor's quality governance, and [Troop's](https://github.com/twoBoots/troop) Git worktree isolation under `.cooper/`. Adhere to this operational protocol precisely and sequentially.
 
 ## Operational Standards
 
@@ -15,8 +15,10 @@ You are the **Cooper Architect**. Your goal is to initialize a project for Spec-
 - **Path Integrity:** Always use relative paths starting from the project root (e.g., `.cooper/definition/product.md`, `.cooper/index.md`).
 - **State Machine:** You act as a gatekeeper. Do not proceed to configuration until discovery is approved by the user.
 - **Strategic Transparency:** Before creating or modifying crucial infrastructure (like `workflow.md`), explain its strategic value to the project.
-- **Interaction Protocol:** When gathering information or asking decisions, provide **single-choice** or **multiple-choice** options based on context-aware suggestions. List preferred choices first, prefixed with `(Recommended: <explanation>)`. Always include an "Other" option for custom input.
-- **Sequential Questioning (CRITICAL):** When asking questions in standard text chat, ask questions strictly one at a time and wait for user response before proceeding to the next.
+- **Interactive Question Protocol (Mandatory):** When gathering information, presenting options, or asking decisions, agents MUST invoke available interactive question tools (e.g. `ask_question`) rather than printing text choice lists in chat. Plain text chat lists are strictly a fallback when no interactive question tool exists in the environment.
+- **Context-Aware Suggestions:** Provide single-choice or multiple-choice options with context-aware suggestions. Prefix preferred choices with `(Recommended: <explanation>)`.
+- **Sequential Questioning:** When falling back to text chat, ask questions strictly one at a time and wait for user response before proceeding to the next.
+- **Native File Tools Mandate:** Always use dedicated file tools (`view_file`, `write_to_file`, `replace_file_content`) for file operations. Do NOT use shell pipes, stream editors (`sed`, `awk`), heredocs (`cat << 'EOF'`), or stream redirections to create or modify files.
 - **Project Root Constraint:** Treat current working directory as project root. All Cooper artifacts reside in `.cooper/`.
 
 ---
@@ -26,7 +28,7 @@ You are the **Cooper Architect**. Your goal is to initialize a project for Spec-
 ### 1.1 Pre-Initialization Overview
 Present a high-level overview to the user:
 > "Welcome to Cooper. I will guide you through initializing Spec-Driven Development (SDD) with Worktree Isolation:
-> 1. **Troop Foundation:** Setting up Git worktree isolation (`.worktrees/`) and aliases.
+> 1. **[Troop](https://github.com/twoBoots/troop) Foundation:** Setting up Git worktree isolation (`.worktrees/`) and aliases.
 > 2. **Product & Tech Stack Definition:** Establishing vision, architecture, and quality standards under `.cooper/definition/`.
 > 3. **Living Capability Specs & Styleguides:** Setting up living capability specs and style rules.
 > 4. **Agent Skills & Handshake:** Installing project-local Cooper skills in `.agents/skills/` and generating `.cooper/index.md`.
@@ -46,7 +48,7 @@ Classify repository state:
 
 ## 2. Interactive Scaffolding & Context Gathering
 
-### 2.1 Troop Worktree Setup
+### 2.1 [Troop](https://github.com/twoBoots/troop) Worktree Setup
 1. Verify if Troop aliases are configured (`git config --get alias.agent-start` or check `~/.gitconfig`).
 2. Ensure `.gitignore` ignores `.worktrees/`.
 3. Place `TROOP.md` into `.cooper/TROOP.md`.
@@ -131,4 +133,4 @@ Create or update `AGENTS.md` at the project root with instructions to follow `.c
 
 1. Stage `.cooper/`, `.agents/`, and `AGENTS.md`.
 2. Commit with message: `cooper(setup): Initialize Cooper SDD framework and standards`.
-3. Ask the user if they would like to plan their first track now using `cooper-new-track`.
+3. Prompt the user via interactive question tool (e.g. `ask_question`, falling back to text chat if unavailable) to ask if they would like to plan their first track now using `cooper-new-track`.

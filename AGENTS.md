@@ -30,7 +30,7 @@ When an agent or developer invokes single-barrel Cooper lifecycle skills (`coope
 
 See [.cooper/BATTERY.md](.cooper/BATTERY.md) and [.cooper/COOPER.md](.cooper/COOPER.md) for full context.
 
-# Agent Guidelines (Cooper SDD Framework + Troop Workflow)
+# Agent Guidelines (Cooper SDD Framework + [Troop](https://github.com/twoBoots/troop) Workflow)
 
 ## Operational Rules
 
@@ -40,7 +40,7 @@ See [.cooper/BATTERY.md](.cooper/BATTERY.md) and [.cooper/COOPER.md](.cooper/COO
    - Ground all planning in living capability specifications (`.cooper/specs/<capability>/spec.md`).
    - Every feature/change proposal MUST produce a **Spec Delta** (`.cooper/active/<track_id>/spec-deltas/<capability>/spec.md`) documenting requirement additions (`+`) and deletions (`-`) before code is written.
 
-2. **Troop Worktree Isolation Protocol**:
+2. **[Troop](https://github.com/twoBoots/troop) Worktree Isolation Protocol**:
    - Work inside an isolated worktree under `.worktrees/<track_id>`. Do NOT write feature code directly on the main repository trunk.
    - Base track worktrees off `main` using `git agent-start <track_id>`.
    - List active worktrees with `git troop`.
@@ -62,3 +62,7 @@ See [.cooper/BATTERY.md](.cooper/BATTERY.md) and [.cooper/COOPER.md](.cooper/COO
      - `cooper-implement`: Execute TDD tasks, record Git Notes, run phase checkpoints and syncs.
      - `cooper-review`: Conduct Principal Engineer code review against spec deltas, styleguides, and tests.
      - `cooper-status`: Inspect active worktrees, track progress, and phase checkpoints.
+
+6. **Interaction & Native Tool Protocols**:
+   - **Interactive Question Tools:** When presenting single-choice or multiple-choice questions, options, or confirmations, agents MUST invoke available interactive question tools (e.g. `ask_question`) rather than printing text choice lists in chat. Plain text formatting is strictly a fallback when no interactive question tool is available.
+   - **Native File Tools:** Use dedicated file tools (`view_file`, `write_to_file`, `replace_file_content`) for file operations. Do NOT use shell pipes, stream editors (`sed`, `awk`), heredocs (`cat << 'EOF'`), or stream redirections to create or modify files.
