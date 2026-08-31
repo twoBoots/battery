@@ -6,7 +6,7 @@
 - [x] Task 1.3: Phase 1 Verification & Checkpoint [checkpoint: d0d81a4]
 
 ## Phase 2: Embedded Framework Templates Sync
-- [ ] Task 2.1: Update `internal/framework/templates/skills/` (sync all 6 skills)
+- [x] Task 2.1: Update `internal/framework/templates/skills/` (sync all 6 skills) (e88e910)
 - [ ] Task 2.2: Update `internal/framework/templates/definition/workflow.md`
 - [ ] Task 2.3: Phase 2 Verification & Checkpoint
 
