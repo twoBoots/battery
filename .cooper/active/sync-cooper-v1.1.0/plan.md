@@ -12,4 +12,4 @@
 
 ## Phase 3: Spec Promotion, Final Verification & PR Handoff
 - [x] Task 3.1: Promote living capability spec to `.cooper/specs/documentation/spec.md` (464c669)
-- [ ] Task 3.2: Final Verification, Checkpoint & PR Creation
+- [x] Task 3.2: Final Verification, Checkpoint & PR Creation [checkpoint: 9c9763f]
