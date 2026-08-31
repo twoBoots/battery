@@ -8,7 +8,7 @@
 ## Phase 2: Embedded Framework Templates Sync
 - [x] Task 2.1: Update `internal/framework/templates/skills/` (sync all 6 skills) (e88e910)
 - [x] Task 2.2: Update `internal/framework/templates/definition/workflow.md` (f7b4a28)
-- [ ] Task 2.3: Phase 2 Verification & Checkpoint
+- [x] Task 2.3: Phase 2 Verification & Checkpoint [checkpoint: 90783a8]
 
 ## Phase 3: Spec Promotion, Final Verification & PR Handoff
 - [ ] Task 3.1: Promote living capability spec to `.cooper/specs/documentation/spec.md`
