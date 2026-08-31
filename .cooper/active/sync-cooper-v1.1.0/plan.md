@@ -7,7 +7,7 @@
 
 ## Phase 2: Embedded Framework Templates Sync
 - [x] Task 2.1: Update `internal/framework/templates/skills/` (sync all 6 skills) (e88e910)
-- [ ] Task 2.2: Update `internal/framework/templates/definition/workflow.md`
+- [x] Task 2.2: Update `internal/framework/templates/definition/workflow.md` (f7b4a28)
 - [ ] Task 2.3: Phase 2 Verification & Checkpoint
 
 ## Phase 3: Spec Promotion, Final Verification & PR Handoff
