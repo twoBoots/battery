@@ -4,6 +4,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
+- [ ] **Track: Synchronize Cooper v1.1.0 Updates**
+  - Worktree: `.worktrees/sync-cooper-v1.1.0`
+  - Link: [.cooper/active/sync-cooper-v1.1.0/plan.md](./active/sync-cooper-v1.1.0/plan.md)
+
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
