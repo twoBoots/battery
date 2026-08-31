@@ -11,5 +11,5 @@
 - [x] Task 2.3: Phase 2 Verification & Checkpoint [checkpoint: 90783a8]
 
 ## Phase 3: Spec Promotion, Final Verification & PR Handoff
-- [ ] Task 3.1: Promote living capability spec to `.cooper/specs/documentation/spec.md`
+- [x] Task 3.1: Promote living capability spec to `.cooper/specs/documentation/spec.md` (464c669)
 - [ ] Task 3.2: Final Verification, Checkpoint & PR Creation
