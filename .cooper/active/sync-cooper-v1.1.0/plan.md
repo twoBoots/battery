@@ -3,7 +3,7 @@
 ## Phase 1: Project-Local Skills & Repository Guidelines Sync
 - [x] Task 1.1: Update `.agents/skills/` with Cooper v1.1.0 instructions (interactive question tools, native file tools mandate, Troop links) (101205b)
 - [x] Task 1.2: Update `AGENTS.md` and `.cooper/definition/workflow.md` (retain Battery multi-barrel orchestrator rules while adding Rule 6 and Guiding Principles 10 & 11) (2c3cf41)
-- [ ] Task 1.3: Phase 1 Verification & Checkpoint
+- [x] Task 1.3: Phase 1 Verification & Checkpoint [checkpoint: d0d81a4]
 
 ## Phase 2: Embedded Framework Templates Sync
 - [ ] Task 2.1: Update `internal/framework/templates/skills/` (sync all 6 skills)
