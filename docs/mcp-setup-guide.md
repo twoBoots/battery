@@ -143,7 +143,7 @@ Any custom AI agent runner can launch `battery` as a child process using:
 | Tool Name | Description | Required Arguments | Optional Arguments |
 | :--- | :--- | :--- | :--- |
 | `battery_status` | Inspects workspace topology, barrel connectivity, and active tracks. | *None* | `verbose` (boolean) |
-| `battery_list_barrels` | Lists registered barrels and resolves their Cooper tech stacks (`.cooper/definition/tech-stack.md`). | *None* | *None* |
+| `battery_list_barrels` | Lists registered barrels and resolves their [Cooper](https://github.com/twoBoots/cooper) tech stacks (`.cooper/definition/tech-stack.md`). | *None* | *None* |
 | `battery_init_barrel_tech_stack` | Scaffolds or updates `.cooper/definition/tech-stack.md` and code styleguides for a barrel or monorepo package. | `barrel` (string) | `language`, `framework`, `test_runner`, `linter`, `coverage_threshold`, `force` |
 | `battery_init_track` | Scaffolds a new track under `.cooper/active/<track_id>/`. | `track_id` (string) | `barrels` (array), `name` (string), `force` (boolean) |
 | `battery_dispatch_track` | Dispatches spec deltas to barrel worktrees while omitting `plan.md` to preserve local planning autonomy. | `track_id` (string) | `force` (boolean) |
@@ -156,7 +156,7 @@ Any custom AI agent runner can launch `battery` as a child process using:
 AI agents can query real-time workspace state using standard MCP `resources/read`:
 
 * **`battery://topology`** (`application/json`): Merged canonical `.batteryrc` and local `.batteryrc.local` configuration.
-* **`battery://barrels/{name}/tech-stack`** (`text/markdown`): Resolved Cooper tech stack guidelines, language idioms, and test runner configurations for a specific barrel.
+* **`battery://barrels/{name}/tech-stack`** (`text/markdown`): Resolved [Cooper](https://github.com/twoBoots/cooper) tech stack guidelines, language idioms, and test runner configurations for a specific barrel.
 * **`battery://tracks/{track_id}`** (`application/json`): Comprehensive track status report, task completion counts, and participating barrel progress.
 
 ---
