@@ -10,8 +10,8 @@
 - [x] Task 2.1: Landing page content (`docs/index.md`) (767729e)
 - [x] Task 2.2: Getting started & workflow guides (`docs/guide/getting-started.md`, `docs/guide/workflow.md`) (f070b7f)
 - [x] Task 2.3: Deep dive guides (`docs/architecture.md`, `docs/mcp.md`, `docs/installation.md`) (56b6623)
-- [~] Task 2.4: Update repository `README.md` documentation link
-- [ ] Task 2.5: Phase 2 Verification & Checkpoint
+- [x] Task 2.4: Update repository `README.md` documentation link (656f285)
+- [~] Task 2.5: Phase 2 Verification & Checkpoint
 
 ## Phase 3: CI/CD Pipeline & Final Deployment Automation
 - [ ] Task 3.1: GitHub Actions Pages deployment workflow (`.github/workflows/pages.yml`)
