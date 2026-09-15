@@ -11,9 +11,9 @@
 - [x] Task 2.2: Getting started & workflow guides (`docs/guide/getting-started.md`, `docs/guide/workflow.md`) (f070b7f)
 - [x] Task 2.3: Deep dive guides (`docs/architecture.md`, `docs/mcp.md`, `docs/installation.md`) (56b6623)
 - [x] Task 2.4: Update repository `README.md` documentation link (656f285)
-- [~] Task 2.5: Phase 2 Verification & Checkpoint
+- [x] Task 2.5: Phase 2 Verification & Checkpoint [checkpoint: aa0b037]
 
 ## Phase 3: CI/CD Pipeline & Final Deployment Automation
-- [ ] Task 3.1: GitHub Actions Pages deployment workflow (`.github/workflows/pages.yml`)
+- [~] Task 3.1: GitHub Actions Pages deployment workflow (`.github/workflows/pages.yml`)
 - [ ] Task 3.2: Full test suite pass (`npm test`) & clean VitePress build verification (`npm run docs:build`)
 - [ ] Task 3.3: Phase 3 Checkpoint, Spec Promotion & Track Completion
