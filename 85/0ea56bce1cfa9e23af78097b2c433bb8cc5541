@@ -1,0 +1,2 @@
+Task 2.4: Add guard test in internal/framework/ ensuring no fabricated attestation templates exist
+Added TestFramework_NoFabricatedAttestationTemplates, TestFramework_HeadingHierarchy, and TestFramework_SkillsParityWithInstalled.
