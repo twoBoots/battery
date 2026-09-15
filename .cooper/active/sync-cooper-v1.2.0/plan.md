@@ -1,0 +1,19 @@
+# Implementation Plan: Synchronize Cooper v1.2.0 Updates
+
+## Phase 1: Project-Local Skills & Guidelines Sync
+- [ ] Task 1.1: Update `.agents/skills/cooper-implement/SKILL.md` (audit attestation template & remove line 69 typo)
+- [ ] Task 1.2: Update `.agents/skills/cooper-rfc/SKILL.md` (Two-Tiered SDD, silent scope check, heading 6.2 fix)
+- [ ] Task 1.3: Synchronize `AGENTS.template.md`, `.cooper/COOPER.md`, and fix `README.md` link
+- [ ] Task 1.4: Phase 1 Verification & Checkpoint
+
+## Phase 2: Embedded Framework Templates Sync & Tests
+- [ ] Task 2.1: Sync `internal/framework/templates/skills/cooper-implement/SKILL.md`
+- [ ] Task 2.2: Sync `internal/framework/templates/skills/cooper-rfc/SKILL.md`
+- [ ] Task 2.3: Sync `internal/framework/templates/docs/COOPER.md`
+- [ ] Task 2.4: Add guard test in `internal/framework/` ensuring no fabricated attestation templates exist
+- [ ] Task 2.5: Phase 2 Verification & Checkpoint
+
+## Phase 3: Spec Promotion, MCP Cleanup & Final Verification
+- [ ] Task 3.1: Promote living capability spec in `.cooper/specs/documentation/spec.md`
+- [ ] Task 3.2: Remove deprecated `"cooper"` server entry from `~/.gemini/config/mcp_config.json`
+- [ ] Task 3.3: Final test suite verification, checkpoint & completion report
