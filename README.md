@@ -2,6 +2,8 @@
 
 `battery` is an open, **agent-agnostic** and **repository-agnostic** multi-repository Specification-Driven Development (SDD) orchestration protocol. Built on top of **[Cooper](https://github.com/twoBoots/cooper) (the barrel maker & Hybrid SDD Framework)** and **[Troop](https://github.com/twoBoots/troop)**, `battery` coordinates multi-repository tracks and living capability specs across a **collection of barrels** (individual repositories or packages) for human developers and autonomous AI agents alike.
 
+📖 **[Documentation Website & Guides](https://twoboots.github.io/battery/)**
+
 See [.cooper/BATTERY.md](.cooper/BATTERY.md) for the complete pattern specification and architectural guidelines.
 
 ---
@@ -150,6 +152,7 @@ See **[Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)** for complete c
 ---
 
 ## 🔗 Quick Links
+- [Documentation Website](https://twoboots.github.io/battery/)
 - [Agent-Agnostic MCP Setup Guide](docs/mcp-setup-guide.md)
 - [Multi-Barrel Track Dispatch & Decoupled Planning Guide](docs/multi-barrel-track-dispatch.md)
 - [Battery Architecture](.cooper/BATTERY.md)
