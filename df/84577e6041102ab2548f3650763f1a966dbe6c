@@ -1,0 +1,2 @@
+Task 1.1: Package configuration, dependencies, and gitignore
+Configured package.json with VitePress, installed dependencies to generate package-lock.json, and updated .gitignore.
