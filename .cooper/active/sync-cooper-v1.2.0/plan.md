@@ -9,8 +9,8 @@
 ## Phase 2: Embedded Framework Templates Sync & Tests
 - [x] Task 2.1: Sync `internal/framework/templates/skills/cooper-implement/SKILL.md` (1b054de)
 - [x] Task 2.2: Sync `internal/framework/templates/skills/cooper-rfc/SKILL.md` (c63041c)
-- [~] Task 2.3: Sync `internal/framework/templates/docs/COOPER.md`
-- [ ] Task 2.4: Add guard test in `internal/framework/` ensuring no fabricated attestation templates exist
+- [x] Task 2.3: Sync `internal/framework/templates/docs/COOPER.md` (d96371d)
+- [~] Task 2.4: Add guard test in `internal/framework/` ensuring no fabricated attestation templates exist
 - [ ] Task 2.5: Phase 2 Verification & Checkpoint
 
 ## Phase 3: Spec Promotion, MCP Cleanup & Final Verification
