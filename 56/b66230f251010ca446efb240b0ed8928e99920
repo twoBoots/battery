@@ -1,0 +1,3 @@
+Task: Deep dive guides
+Scope: docs/architecture.md, docs/mcp.md, docs/installation.md
+Summary: Authored deep dive architecture and topology model, Model Context Protocol integration and tools reference, and complete installation guide with Troop worktree aliases and troubleshooting.
