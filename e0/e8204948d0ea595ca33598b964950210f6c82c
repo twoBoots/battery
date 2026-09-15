@@ -1,0 +1,3 @@
+Task: GitHub Actions Pages deployment workflow
+Scope: .github/workflows/pages.yml
+Summary: Authored GitHub Actions deployment workflow with push triggers, proper pages/id-token write permissions, configure-pages, npm ci, docs:build, and artifact deployment.
