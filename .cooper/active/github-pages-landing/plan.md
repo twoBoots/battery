@@ -15,5 +15,5 @@
 
 ## Phase 3: CI/CD Pipeline & Final Deployment Automation
 - [x] Task 3.1: GitHub Actions Pages deployment workflow (`.github/workflows/pages.yml`) (e0e8204)
-- [~] Task 3.2: Full test suite pass (`npm test`) & clean VitePress build verification (`npm run docs:build`)
-- [ ] Task 3.3: Phase 3 Checkpoint, Spec Promotion & Track Completion
+- [x] Task 3.2: Full test suite pass (`npm test`) & clean VitePress build verification (`npm run docs:build`)
+- [x] Task 3.3: Phase 3 Checkpoint, Spec Promotion & Track Completion [checkpoint: 358ede0]
