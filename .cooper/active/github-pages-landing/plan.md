@@ -2,12 +2,12 @@
 
 ## Phase 1: Environment, Tooling & Verification Scaffolding
 - [x] Task 1.1: Package configuration, dependencies, and gitignore (`package.json`, `package-lock.json`, `.gitignore`) (df84577)
-- [~] Task 1.2: Base VitePress configuration (`docs/.vitepress/config.mts`)
-- [ ] Task 1.3: Verification test suite scaffolding (`tests/*.test.mjs`)
-- [ ] Task 1.4: Phase 1 Verification & Checkpoint
+- [x] Task 1.2: Base VitePress configuration (`docs/.vitepress/config.mts`) (670fe4d)
+- [x] Task 1.3: Verification test suite scaffolding (`tests/*.test.mjs`) (3162816)
+- [x] Task 1.4: Phase 1 Verification & Checkpoint [checkpoint: 58eac3f]
 
 ## Phase 2: Landing Page & Documentation Guides Content
-- [ ] Task 2.1: Landing page content (`docs/index.md`)
+- [~] Task 2.1: Landing page content (`docs/index.md`)
 - [ ] Task 2.2: Getting started & workflow guides (`docs/guide/getting-started.md`, `docs/guide/workflow.md`)
 - [ ] Task 2.3: Deep dive guides (`docs/architecture.md`, `docs/mcp.md`, `docs/installation.md`)
 - [ ] Task 2.4: Update repository `README.md` documentation link
