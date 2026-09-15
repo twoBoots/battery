@@ -4,6 +4,10 @@ All active and completed Cooper tracks are registered below.
 
 ## Active Tracks
 
+- [ ] **Track: VitePress GitHub Pages Documentation Site**
+  - Worktree: `.worktrees/github-pages-landing`
+  - Link: [.cooper/active/github-pages-landing/plan.md](./active/github-pages-landing/plan.md)
+
 - [ ] **Track: Sync Cooper RFC PR Approval Protocols & Reviewer Guidance**
   - Worktree: `.worktrees/track_sync_cooper_rfc_pr_approval_protocols_20260820`
   - Link: [.cooper/active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md](./active/track_sync_cooper_rfc_pr_approval_protocols_20260820/plan.md)
