@@ -1,8 +1,8 @@
 # Implementation Plan: VitePress GitHub Pages Documentation Site
 
 ## Phase 1: Environment, Tooling & Verification Scaffolding
-- [ ] Task 1.1: Package configuration, dependencies, and gitignore (`package.json`, `package-lock.json`, `.gitignore`)
-- [ ] Task 1.2: Base VitePress configuration (`docs/.vitepress/config.mts`)
+- [x] Task 1.1: Package configuration, dependencies, and gitignore (`package.json`, `package-lock.json`, `.gitignore`) (df84577)
+- [~] Task 1.2: Base VitePress configuration (`docs/.vitepress/config.mts`)
 - [ ] Task 1.3: Verification test suite scaffolding (`tests/*.test.mjs`)
 - [ ] Task 1.4: Phase 1 Verification & Checkpoint
 
