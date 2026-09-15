@@ -1,0 +1,2 @@
+Task 1.2: Base VitePress configuration
+Added docs/.vitepress/config.mts configured with title Battery, base /battery/, navigation, sidebar, and social links.
