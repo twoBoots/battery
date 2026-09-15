@@ -38,7 +38,7 @@ The installer will:
 ## ⚙️ Configuration (`.batteryrc` & `.batteryrc.local`)
 
 `battery` uses a layered configuration model:
-- **[`.batteryrc`](file:///.batteryrc)**: Committed to Git, storing canonical team project topology and barrels.
+- **[`.batteryrc`](.batteryrc)**: Committed to Git, storing canonical team project topology and barrels.
 - **`.batteryrc.local`**: Git-ignored, allowing individual developers to override barrel paths to match local directory layouts.
 
 ```json
