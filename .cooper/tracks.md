@@ -16,6 +16,14 @@ All active and completed Cooper tracks are registered below.
 
 ## Completed Tracks
 
+- [x] **Track: VitePress GitHub Pages Documentation Site**
+  - Completed: 2026-09-15
+  - Spec: [.cooper/specs/documentation/spec.md](./specs/documentation/spec.md)
+
+- [x] **Track: Synchronize Cooper v1.2.0 Updates**
+  - Completed: 2026-09-15
+  - Spec: [.cooper/specs/documentation/spec.md](./specs/documentation/spec.md)
+
 - [x] **Track: Synchronize Cooper v1.1.0 Updates**
   - Completed: 2026-08-31
   - Spec: [.cooper/specs/documentation/spec.md](./specs/documentation/spec.md)

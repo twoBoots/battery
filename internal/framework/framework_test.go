@@ -158,3 +158,76 @@ func TestInspectFrameworkStatus(t *testing.T) {
 		t.Errorf("expected UpdateAvailable to be false for fully up-to-date dir")
 	}
 }
+
+// TestFramework_NoFabricatedAttestationTemplates guards against pre-filled
+// checkpoint attestation templates in embedded templates and installed skills,
+// enforcing Cooper v1.2.0 specification requirements.
+func TestFramework_NoFabricatedAttestationTemplates(t *testing.T) {
+	forbidden := []string{
+		"Automated Tests: PASSED",
+		"Manual Verification: APPROVED by user",
+	}
+
+	for _, tmpl := range ListTemplates() {
+		content, err := GetTemplate(tmpl.Name)
+		if err != nil {
+			t.Fatalf("failed to get template %s: %v", tmpl.Name, err)
+		}
+		for _, needle := range forbidden {
+			if strings.Contains(content, needle) {
+				t.Errorf("embedded template %s contains pre-filled verification attestation %q", tmpl.Name, needle)
+			}
+		}
+	}
+}
+
+// TestFramework_HeadingHierarchy guards against sub-numbered H2 headings (e.g. '## 6.2')
+// ensuring heading levels follow Cooper's '## N.' and '### N.M' hierarchy.
+func TestFramework_HeadingHierarchy(t *testing.T) {
+	for _, tmpl := range ListTemplates() {
+		if !strings.HasPrefix(tmpl.Name, "skills/") {
+			continue
+		}
+		content, err := GetTemplate(tmpl.Name)
+		if err != nil {
+			t.Fatalf("failed to get template %s: %v", tmpl.Name, err)
+		}
+		lines := strings.Split(content, "\n")
+		for lineNum, line := range lines {
+			trimmed := strings.TrimSpace(line)
+			if strings.HasPrefix(trimmed, "## ") {
+				rest := strings.TrimPrefix(trimmed, "## ")
+				if len(rest) >= 4 && rest[0] >= '0' && rest[0] <= '9' && rest[1] == '.' && rest[2] >= '0' && rest[2] <= '9' {
+					t.Errorf("template %s has sub-numbered heading at H2 level on line %d: %q (expected H3 '###')",
+						tmpl.Name, lineNum+1, trimmed)
+				}
+			}
+		}
+	}
+}
+
+// TestFramework_SkillsParityWithInstalled asserts that all skills in the canonical
+// embedded catalog match their counterparts in .agents/skills/.
+func TestFramework_SkillsParityWithInstalled(t *testing.T) {
+	workspaceRoot := filepath.Join("..", "..")
+	for _, tmpl := range ListTemplates() {
+		if !strings.HasPrefix(tmpl.Name, "skills/") {
+			continue
+		}
+		embeddedContent, err := GetTemplate(tmpl.Name)
+		if err != nil {
+			t.Fatalf("failed to read embedded template %s: %v", tmpl.Name, err)
+		}
+
+		installedPath := filepath.Join(workspaceRoot, tmpl.TargetPath)
+		installedData, err := os.ReadFile(installedPath)
+		if err != nil {
+			t.Errorf("failed to read installed skill at %s: %v", installedPath, err)
+			continue
+		}
+
+		if string(normalizeContent([]byte(embeddedContent))) != string(normalizeContent(installedData)) {
+			t.Errorf("installed skill %s has drifted from embedded template %s", tmpl.TargetPath, tmpl.Name)
+		}
+	}
+}

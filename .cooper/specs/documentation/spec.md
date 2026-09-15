@@ -39,3 +39,52 @@ When interacting with users or performing file operations during skill execution
 - WHEN the agent needs to view, create, or edit files in the workspace
 - THEN the agent MUST use native file tools
 - AND the agent MUST NOT use shell commands with stream editors (`sed`, `awk`), heredocs, pipes, or stream redirections (`cat << 'EOF'`, `echo >`, `cat >`) to create or edit files.
+
+### Requirement: Prohibition on Unverified Checkpoint Attestations
+Cooper and Battery agent skills and workflow instructions MUST NOT provide or encourage pre-filled verification attestations, requiring agents to record actual test outcomes, coverage metrics, and user confirmation.
+
+#### Scenario: Audit Verification Notes
+- GIVEN an agent executing a phase checkpoint in a Cooper track
+- WHEN the agent drafts and attaches a Git Note verification record
+- THEN the note body MUST reflect the actual test command executed, the actual test suite result, and the measured coverage percentage
+- AND the note body MUST record the explicit verification steps presented and the user's actual recorded response
+- AND the agent instruction template MUST NOT supply pre-filled assertions such as `Automated Tests: PASSED` or `Manual Verification: APPROVED by user`.
+
+### Requirement: Two-Tiered SDD Architecture & Collaborative RFCs
+The framework documentation and skills SHALL explicitly distinguish upstream architectural alignment from downstream track execution.
+
+#### Scenario: Upstream Architectural Alignment via RFC
+- GIVEN an epic, major refactor, or multi-capability initiative
+- WHEN the initiative requires consensus, trade-off analysis, or spec delta approval before code implementation
+- THEN the initiative MUST be planned upstream via `cooper-rfc` inside an isolated worktree
+- AND a Draft Pull Request SHALL be published for team review and comment resolution before implementation tracks are created.
+
+#### Scenario: Silent Scope Assessment
+- GIVEN an agent invoked with `cooper-rfc`
+- WHEN the requested change is an isolated single-capability bug fix or localized improvement
+- THEN the agent SHALL silently assess scope and prompt the user with an option to fast-track directly into `cooper-new-track` without RFC ceremony overhead.
+
+### Requirement: Public GitHub Pages Landing Site
+The repository SHALL provide a responsive, static documentation website built with VitePress and deployed automatically to GitHub Pages.
+
+#### Scenario: Documentation Site Configuration
+- GIVEN a consumer or developer accessing the project documentation
+- WHEN navigating to `https://twoboots.github.io/battery/`
+- THEN the site renders a responsive VitePress interface with title `Battery`, base path `/battery/`, local search, and navigation to guides, architecture, and installation.
+
+#### Scenario: Landing Page Hero & Quickstart
+- GIVEN a user visiting `docs/index.md`
+- WHEN the landing page loads
+- THEN it presents a concise Hero banner with tagline, official curl quickstart command, core feature pillars, and a visual multi-barrel workflow diagram.
+
+#### Scenario: Automated GitHub Pages Deployment
+- GIVEN commits merged to `main` modifying documentation files
+- WHEN the `pages.yml` workflow triggers
+- THEN it builds the VitePress bundle and deploys the static artifact to GitHub Pages with zero broken links.
+
+#### Scenario: Documentation Verification Test Suite
+- GIVEN automated testing execution via `npm test`
+- WHEN the test runner executes `tests/*.test.mjs`
+- THEN all tests pass, validating configuration, package metadata, guide presence, link resolution, and workflow syntax.
+
+

@@ -1,6 +1,6 @@
 # Cooper 🛢️🐒
 
-**Cooper** is a unified **Spec-Driven Development (SDD)** framework that merges **OpenSpec's Living Spec Deltas** with **Conductor's** quality governance and **Troop's** worktree isolation ([troop](https://github.com/twoBoots/troop)).
+**Cooper** is a unified **Spec-Driven Development (SDD)** framework that merges **OpenSpec's Living Spec Deltas** with **Conductor's** quality governance and **[Troop's](https://github.com/twoBoots/troop)** worktree isolation.
 
 ---
 
@@ -121,6 +121,6 @@ At the end of each Phase in `plan.md`:
 | :--- | :--- | :--- |
 | **Cooper Skills** | `.agents/skills/cooper-*` | Executable agent skills for setup, RFCs, planning, TDD, review, and status |
 | **Cooper Reference** | `.cooper/COOPER.md` | Spec-Driven Development (SDD) & track lifecycle cheatsheet |
-| **Troop** | `.cooper/TROOP.md` | Git worktree isolation (`git agent-start`, `git troop`, `git agent-stop`) |
+| **[Troop](https://github.com/twoBoots/troop)** | `.cooper/TROOP.md` | Git worktree isolation (`git agent-start`, `git troop`, `git agent-stop`) |
 | **Workflow** | `.cooper/definition/workflow.md` | Project-specific quality and operational governance |
 | **Handshake** | `.cooper/index.md` | Single source of truth index linking project context |

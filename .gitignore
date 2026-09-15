@@ -11,3 +11,8 @@ dist/
 coverage/
 cov_profile/
 coverage.out
+
+# Node & VitePress
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
