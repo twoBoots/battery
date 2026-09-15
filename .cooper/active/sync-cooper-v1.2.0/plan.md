@@ -7,8 +7,8 @@
 - [x] Task 1.4: Phase 1 Verification & Checkpoint [checkpoint: b4bf8aa]
 
 ## Phase 2: Embedded Framework Templates Sync & Tests
-- [~] Task 2.1: Sync `internal/framework/templates/skills/cooper-implement/SKILL.md`
-- [ ] Task 2.2: Sync `internal/framework/templates/skills/cooper-rfc/SKILL.md`
+- [x] Task 2.1: Sync `internal/framework/templates/skills/cooper-implement/SKILL.md` (1b054de)
+- [~] Task 2.2: Sync `internal/framework/templates/skills/cooper-rfc/SKILL.md`
 - [ ] Task 2.3: Sync `internal/framework/templates/docs/COOPER.md`
 - [ ] Task 2.4: Add guard test in `internal/framework/` ensuring no fabricated attestation templates exist
 - [ ] Task 2.5: Phase 2 Verification & Checkpoint
