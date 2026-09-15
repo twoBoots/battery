@@ -1,8 +1,8 @@
 # Implementation Plan: Synchronize Cooper v1.2.0 Updates
 
 ## Phase 1: Project-Local Skills & Guidelines Sync
-- [ ] Task 1.1: Update `.agents/skills/cooper-implement/SKILL.md` (audit attestation template & remove line 69 typo)
-- [ ] Task 1.2: Update `.agents/skills/cooper-rfc/SKILL.md` (Two-Tiered SDD, silent scope check, heading 6.2 fix)
+- [x] Task 1.1: Update `.agents/skills/cooper-implement/SKILL.md` (audit attestation template & remove line 69 typo) (90a8abb)
+- [~] Task 1.2: Update `.agents/skills/cooper-rfc/SKILL.md` (Two-Tiered SDD, silent scope check, heading 6.2 fix)
 - [ ] Task 1.3: Synchronize `AGENTS.template.md`, `.cooper/COOPER.md`, and fix `README.md` link
 - [ ] Task 1.4: Phase 1 Verification & Checkpoint
 
