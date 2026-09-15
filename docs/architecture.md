@@ -130,3 +130,4 @@ By isolating local implementation plans to barrel worktrees managed by [Troop](h
 * [Installation Guide](installation.md)
 * [Cooper SDD Framework](https://github.com/twoBoots/cooper)
 * [Troop Worktree Isolation](https://github.com/twoBoots/troop)
+

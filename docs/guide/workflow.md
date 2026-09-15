@@ -145,3 +145,4 @@ Battery parses each barrel's local `plan.md` and phase checkpoints to display ov
 * [Installation Guide](../installation.md)
 * [Cooper Framework](https://github.com/twoBoots/cooper)
 * [Troop Isolation Tool](https://github.com/twoBoots/troop)
+

@@ -105,3 +105,4 @@ AI assistants can query real-time workspace state using standard MCP `resources/
 * [Installation Guide](installation.md)
 * [Cooper SDD Framework](https://github.com/twoBoots/cooper)
 * [Troop Worktree Isolation](https://github.com/twoBoots/troop)
+

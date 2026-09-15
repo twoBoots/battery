@@ -115,3 +115,4 @@ git worktree prune
 * [Model Context Protocol (MCP) Server](mcp.md)
 * [Cooper SDD Framework](https://github.com/twoBoots/cooper)
 * [Troop Worktree Isolation](https://github.com/twoBoots/troop)
+

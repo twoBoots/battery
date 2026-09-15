@@ -67,3 +67,4 @@ battery mcp install
 * Understand the multi-repo and monorepo topology models in [Architecture & Topology](../architecture.md).
 * Explore the full [MCP Server Reference](../mcp.md) for AI assistant integrations.
 * Review detailed build and installation options in the [Installation Guide](../installation.md).
+

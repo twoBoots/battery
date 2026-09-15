@@ -133,3 +133,4 @@ battery track status [<track_id>]
 # Validate contract alignment between barrel spec deltas
 battery track verify <track_id>
 ```
+
