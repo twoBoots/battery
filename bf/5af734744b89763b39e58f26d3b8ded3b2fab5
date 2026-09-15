@@ -1,0 +1,3 @@
+Task: Fix CI gofmt failure
+Scope: internal/framework/framework_test.go
+Summary: Removed trailing extra blank line from framework_test.go to resolve gofmt check in CI.
