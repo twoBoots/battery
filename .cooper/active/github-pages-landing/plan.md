@@ -8,8 +8,8 @@
 
 ## Phase 2: Landing Page & Documentation Guides Content
 - [x] Task 2.1: Landing page content (`docs/index.md`) (767729e)
-- [~] Task 2.2: Getting started & workflow guides (`docs/guide/getting-started.md`, `docs/guide/workflow.md`)
-- [ ] Task 2.3: Deep dive guides (`docs/architecture.md`, `docs/mcp.md`, `docs/installation.md`)
+- [x] Task 2.2: Getting started & workflow guides (`docs/guide/getting-started.md`, `docs/guide/workflow.md`) (f070b7f)
+- [~] Task 2.3: Deep dive guides (`docs/architecture.md`, `docs/mcp.md`, `docs/installation.md`)
 - [ ] Task 2.4: Update repository `README.md` documentation link
 - [ ] Task 2.5: Phase 2 Verification & Checkpoint
 
