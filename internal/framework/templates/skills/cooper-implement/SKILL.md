@@ -119,10 +119,27 @@ Run full test suite: `CI=true npm test` (or project equivalent). Ensure 100% pas
 ### 3.4 Checkpoint Commit & Git Note
 1. Create checkpoint commit:
    `git commit --allow-empty -m "cooper(checkpoint): Checkpoint end of Phase <N> - <Phase Title>"`
-2. Attach verification note:
+2. Attach a verification note recording **what actually happened**. Never copy a
+   pre-filled result: the note is an audit record, and an unverified attestation
+   is worse than no note at all. Substitute the real test command, its real
+   outcome, the measured coverage figure, and the user's actual response.
    ```bash
-   git notes add -m "Phase <N> Checkpoint Verification\nAutomated Tests: PASSED\nManual Verification: APPROVED by user\nTimestamp: $(date -u)" <checkpoint_commit_hash>
+   git notes add -m "Phase <N> Checkpoint Verification
+
+   Automated Tests: <PASSED|FAILED — exactly what the suite reported>
+     Command: <the command you ran>
+     Result:  <pass/fail counts, or the failure output>
+     Coverage: <measured %> (threshold <target %>)
+
+   Manual Verification: <APPROVED|REJECTED|NOT REQUESTED>
+     Steps presented: <what you asked the user to check>
+     User response:   <what the user actually replied>
+
+   Outstanding at phase close: <anything still failing or deferred, or 'none'>
+   Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)" <checkpoint_commit_hash>
    ```
+   If the suite did not pass, record the failure and resolve it before
+   checkpointing — do not describe a red build as green.
 3. Update `plan.md` with `[checkpoint: <sha>]` and commit `plan.md`.
 
 ### 3.5 Remote Phase Synchronization
