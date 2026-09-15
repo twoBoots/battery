@@ -15,5 +15,5 @@
 
 ## Phase 3: Spec Promotion, MCP Cleanup & Final Verification
 - [x] Task 3.1: Promote living capability spec in `.cooper/specs/documentation/spec.md` (192c57f)
-- [~] Task 3.2: Remove deprecated `"cooper"` server entry from `~/.gemini/config/mcp_config.json`
-- [ ] Task 3.3: Final test suite verification, checkpoint & completion report
+- [x] Task 3.2: Remove deprecated `"cooper"` server entry from `~/.gemini/config/mcp_config.json`
+- [x] Task 3.3: Final test suite verification, checkpoint & completion report [checkpoint: 050c35f]
