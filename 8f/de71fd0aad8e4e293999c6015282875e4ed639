@@ -1,0 +1,3 @@
+Task: Apply review suggestions across all documentation
+Scope: docs/**, tests/**
+Summary: Replaced Mermaid diagrams with responsive flexbox/grid cards, updated all Cooper/Troop links to GitHub Pages URLs, removed redundant separators, added topology directory examples, and restructured planning boundary tables for mobile responsiveness.
