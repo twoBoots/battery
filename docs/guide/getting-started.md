@@ -1,17 +1,13 @@
 # Getting Started with Battery 🔋
 
-**Battery** is an open, agent-agnostic and repository-agnostic multi-repository Specification-Driven Development (SDD) orchestration protocol. Built on top of **[Cooper](https://github.com/twoBoots/cooper) (the barrel maker & Hybrid SDD Framework)** and **[Troop](https://github.com/twoBoots/troop) (worktree isolation tool)**, Battery coordinates multi-repository tracks and living capability specs across a collection of barrels (individual repositories or packages) for human developers and autonomous AI agents alike.
-
----
+**Battery** is an open, agent-agnostic and repository-agnostic multi-repository Specification-Driven Development (SDD) orchestration protocol. Built on top of **[Cooper](https://twoboots.github.io/cooper) (the barrel maker & Hybrid SDD Framework)** and **[Troop](https://twoboots.github.io/troop) (worktree isolation tool)**, Battery coordinates multi-repository tracks and living capability specs across a collection of independent repositories or monorepo packages (barrels 🛢️) for human developers and autonomous AI agents alike.
 
 ## 🛢️ Core Metaphor & Concepts
 
-* **[Cooper](https://github.com/twoBoots/cooper)**: The barrel maker managing SDD specifications (`.cooper/`) and worktree lifecycle for human developers and autonomous AI agents.
-* **[Troop](https://github.com/twoBoots/troop)**: Worktree isolation tool providing shared Git aliases for human developers and AI code monkeys working in isolated worktrees (`.worktrees/`).
-* **Barrel**: An individual repository, package, or microservice within the system landscape.
+* **[Cooper](https://twoboots.github.io/cooper)**: The barrel maker managing SDD specifications (`.cooper/`) and worktree lifecycle for human developers and autonomous AI agents.
+* **[Troop](https://twoboots.github.io/troop)**: Worktree isolation tool providing shared Git aliases for human developers and AI code monkeys working in isolated worktrees (`.worktrees/`).
+* **Barrel**: An individual repository, package, or microservice within the system landscape (barrels 🛢️).
 * **Battery**: A collection of barrels orchestrated together for cross-repository feature epics.
-
----
 
 ## ⚡ 5-Minute Quickstart
 
@@ -23,7 +19,7 @@ Install the `battery` CLI into your system with the official installer script:
 curl -fsSL https://raw.githubusercontent.com/twoBoots/battery/main/install.sh | bash
 ```
 
-The installer verifies prerequisites, sets up [Troop](https://github.com/twoBoots/troop) Git aliases, and installs the precompiled `battery` binary into `~/.local/bin` (or `/usr/local/bin`).
+The installer verifies prerequisites, sets up [Troop](https://twoboots.github.io/troop) Git aliases, and installs the precompiled `battery` binary into `~/.local/bin` (or `/usr/local/bin`).
 
 ### Step 2: Initialize Workspace & Discover Barrels
 
@@ -41,7 +37,7 @@ This creates the canonical [`.batteryrc`](../architecture.md) topology file defi
 
 ### Step 3: Inspect Workspace Status
 
-Verify that all barrels and their resolved [Cooper](https://github.com/twoBoots/cooper) tech stacks are connected:
+Verify that all barrels and their resolved [Cooper](https://twoboots.github.io/cooper) tech stacks are connected:
 
 ```bash
 # Check overall workspace health and active tracks
@@ -59,12 +55,9 @@ Connect Battery directly to your favorite AI coding assistant (Google Antigravit
 battery mcp install
 ```
 
----
-
 ## 📚 Next Steps
 
 * Master the multi-barrel track lifecycle in the [Workflow Guide](workflow.md).
 * Understand the multi-repo and monorepo topology models in [Architecture & Topology](../architecture.md).
 * Explore the full [MCP Server Reference](../mcp.md) for AI assistant integrations.
 * Review detailed build and installation options in the [Installation Guide](../installation.md).
-

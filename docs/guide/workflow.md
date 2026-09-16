@@ -1,39 +1,40 @@
 # Multi-Barrel Track Lifecycle Workflow 🔄
 
-Battery provides a structured, contract-first orchestration lifecycle for feature epics spanning multiple repositories or monorepo packages (barrels). By combining **[Cooper](https://github.com/twoBoots/cooper)** for Spec-Driven Development (SDD) and **[Troop](https://github.com/twoBoots/troop)** for Git worktree isolation, Battery ensures cross-barrel consistency without sacrificing repository autonomy.
-
----
+Battery provides a structured, contract-first orchestration lifecycle for feature epics spanning multiple repositories or monorepo packages (barrels 🛢️). By combining **[Cooper](https://twoboots.github.io/cooper)** for Spec-Driven Development (SDD) and **[Troop](https://twoboots.github.io/troop)** for Git worktree isolation, Battery ensures cross-barrel consistency without sacrificing repository autonomy.
 
 ## 🧭 The Multi-Barrel Lifecycle
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Dev as Developer / Lead Agent
-    participant Battery as 🔋 Battery Root
-    participant BarrelA as 🛢️ Backend Barrel
-    participant BarrelB as 🛢️ Frontend Barrel
-
-    Dev->>Battery: battery track init auth-v2 --barrels backend,frontend
-    Note over Battery: Authors macro contract (design.md)<br/>and Living Spec Deltas (spec-deltas/)
-    Dev->>Battery: battery track dispatch auth-v2
-    Battery-->>BarrelA: Syncs spec-deltas/ (omits plan.md)
-    Battery-->>BarrelB: Syncs spec-deltas/ (omits plan.md)
-
-    par Autonomous TDD in Barrel A
-        Dev->>BarrelA: git agent-start auth-v2
-        Note over BarrelA: Authors local plan.md<br/>Executes TDD (Red -> Green -> Refactor)
-        Dev->>BarrelA: Submits PR & git agent-stop auth-v2
-    and Autonomous TDD in Barrel B
-        Dev->>BarrelB: git agent-start auth-v2
-        Note over BarrelB: Authors local plan.md<br/>Executes TDD (Red -> Green -> Refactor)
-        Dev->>BarrelB: Submits PR & git agent-stop auth-v2
-    end
-
-    Dev->>Battery: battery track status auth-v2 (Aggregates completion)
-```
-
----
+<div class="lifecycle-flow">
+  <div class="lifecycle-card">
+    <span class="lifecycle-badge">Step 1</span>
+    <div class="lifecycle-step">battery track init</div>
+    <div class="lifecycle-sub">Macro Contracts &amp; Spec Deltas</div>
+  </div>
+  <div class="lifecycle-arrow">→</div>
+  <div class="lifecycle-card">
+    <span class="lifecycle-badge">Step 2</span>
+    <div class="lifecycle-step">battery track dispatch</div>
+    <div class="lifecycle-sub">Sync to Barrels (No plan.md)</div>
+  </div>
+  <div class="lifecycle-arrow">→</div>
+  <div class="lifecycle-card">
+    <span class="lifecycle-badge">Step 3</span>
+    <div class="lifecycle-step">git agent-start</div>
+    <div class="lifecycle-sub">Spawn Barrel Worktrees</div>
+  </div>
+  <div class="lifecycle-arrow">→</div>
+  <div class="lifecycle-card">
+    <span class="lifecycle-badge">Step 4</span>
+    <div class="lifecycle-step">Local TDD Loop</div>
+    <div class="lifecycle-sub">Red -&gt; Green -&gt; Refactor</div>
+  </div>
+  <div class="lifecycle-arrow">→</div>
+  <div class="lifecycle-card">
+    <span class="lifecycle-badge">Step 5</span>
+    <div class="lifecycle-step">battery track status</div>
+    <div class="lifecycle-sub">PR, Merge &amp; Teardown</div>
+  </div>
+</div>
 
 ## 1. Track Initialization
 
@@ -49,8 +50,6 @@ This scaffolds a dedicated track directory at the Battery root:
 * `.cooper/active/<track_id>/design.md`: Specifies shared contracts (REST endpoints, protobuf schemas, events).
 * `.cooper/active/<track_id>/spec-deltas/`: Scaffolds living specification additions (`+`) and removals (`-`).
 
----
-
 ## 2. Decoupled Planning Protocol
 
 > [!IMPORTANT]
@@ -60,8 +59,6 @@ Local implementation planning is intentionally delegated to autonomous sessions 
 1. **Context Window Optimization**: Barrel agents only need context on their own repository codebase.
 2. **Tech Stack Autonomy**: Each barrel uses its own idioms, test runners, and styleguides defined in `.cooper/definition/tech-stack.md`.
 3. **Collision Avoidance**: Barrel agents create their own TDD checklists without conflicting with cross-repo plans.
-
----
 
 ## 3. Spec Dispatch
 
@@ -73,9 +70,7 @@ battery track dispatch <track_id>
 
 Battery synchronizes the track artifacts and spec deltas to each barrel's `.cooper/active/<track_id>/` directory while strictly omitting `plan.md` to preserve local planning autonomy.
 
----
-
-## 4. Worktree Isolation with [Troop](https://github.com/twoBoots/troop)
+## 4. Worktree Isolation with [Troop](https://twoboots.github.io/troop)
 
 Inside each target barrel, developers or agents spawn an isolated worktree based off `main`:
 
@@ -89,12 +84,10 @@ git agent-start <track_id>
 
 This ensures feature implementation is completely isolated from the main trunk in `.worktrees/<track_id>`.
 
----
-
 ## 5. Autonomous TDD Implementation
 
 Within the isolated barrel worktree:
-1. Ground implementation in living capability specs using [Cooper](https://github.com/twoBoots/cooper) SDD.
+1. Ground implementation in living capability specs using [Cooper](https://twoboots.github.io/cooper) SDD.
 2. Author local `plan.md` with granular TDD tasks.
 3. Follow the strict **Red -> Green -> Refactor** cycle:
    * **Red**: Write failing unit or integration tests.
@@ -104,8 +97,6 @@ Within the isolated barrel worktree:
    ```bash
    git notes add -m "Task: <task_name>\nScope: <files>\nSummary: <details>" <commit_sha>
    ```
-
----
 
 ## 6. Centralized Status Aggregation
 
@@ -121,8 +112,6 @@ battery track list
 
 Battery parses each barrel's local `plan.md` and phase checkpoints to display overall multi-repo progress.
 
----
-
 ## 7. Review, Merge & Teardown
 
 1. Submit pull requests in each target barrel repository.
@@ -135,14 +124,73 @@ Battery parses each barrel's local `plan.md` and phase checkpoints to display ov
    battery track status <track_id>
    ```
 
----
-
 ## 🔗 Related Resources
 
 * [Getting Started Guide](getting-started.md)
 * [Architecture & Topology Model](../architecture.md)
 * [Model Context Protocol (MCP) Server](../mcp.md)
 * [Installation Guide](../installation.md)
-* [Cooper Framework](https://github.com/twoBoots/cooper)
-* [Troop Isolation Tool](https://github.com/twoBoots/troop)
+* [Cooper Framework](https://twoboots.github.io/cooper)
+* [Troop Isolation Tool](https://twoboots.github.io/troop)
 
+<style>
+.lifecycle-flow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+.lifecycle-card {
+  flex: 1 1 130px;
+  min-width: 120px;
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.lifecycle-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--vp-c-brand-1);
+  margin-bottom: 4px;
+}
+.lifecycle-step {
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+  margin-bottom: 4px;
+}
+.lifecycle-sub {
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  line-height: 1.3;
+}
+.lifecycle-arrow {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--vp-c-text-3);
+  user-select: none;
+}
+@media (max-width: 640px) {
+  .lifecycle-flow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lifecycle-arrow {
+    text-align: center;
+    transform: rotate(90deg);
+  }
+  .lifecycle-card {
+    min-width: 100%;
+  }
+}
+</style>

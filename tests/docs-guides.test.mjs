@@ -48,18 +48,18 @@ test('All Cooper and Troop references in docs/ link to upstream repositories', (
     const relativePath = path.relative(repoRoot, file);
 
     if (content.includes('Cooper')) {
-      const hasCooperLink = content.includes('https://github.com/twoBoots/cooper');
+      const hasCooperLink = content.includes('https://twoboots.github.io/cooper') || content.includes('https://github.com/twoBoots/cooper');
       assert.ok(
         hasCooperLink,
-        `File ${relativePath} mentions Cooper but is missing link to https://github.com/twoBoots/cooper`
+        `File ${relativePath} mentions Cooper but is missing link to https://twoboots.github.io/cooper or https://github.com/twoBoots/cooper`
       );
     }
 
     if (content.includes('Troop')) {
-      const hasTroopLink = content.includes('https://github.com/twoBoots/troop');
+      const hasTroopLink = content.includes('https://twoboots.github.io/troop') || content.includes('https://github.com/twoBoots/troop');
       assert.ok(
         hasTroopLink,
-        `File ${relativePath} mentions Troop but is missing link to https://github.com/twoBoots/troop`
+        `File ${relativePath} mentions Troop but is missing link to https://twoboots.github.io/troop or https://github.com/twoBoots/troop`
       );
     }
   }
