@@ -26,8 +26,8 @@ test('Landing page docs/index.md exists with required layout and sections', () =
 
   // Core pillars
   assert.ok(content.includes('Multi-Barrel') || content.includes('Multi-Repository'), 'must feature multi-barrel/repo coordination');
-  assert.ok(content.includes('https://github.com/twoBoots/cooper'), 'must link Cooper to https://github.com/twoBoots/cooper');
-  assert.ok(content.includes('https://github.com/twoBoots/troop'), 'must link Troop to https://github.com/twoBoots/troop');
+  assert.ok(content.includes('https://twoboots.github.io/cooper') || content.includes('https://github.com/twoBoots/cooper'), 'must link Cooper to docs or repo');
+  assert.ok(content.includes('https://twoboots.github.io/troop') || content.includes('https://github.com/twoBoots/troop'), 'must link Troop to docs or repo');
   assert.ok(content.includes('Model Context Protocol') || content.includes('MCP'), 'must feature MCP server');
   assert.ok(content.includes('.batteryrc'), 'must mention .batteryrc topology');
 

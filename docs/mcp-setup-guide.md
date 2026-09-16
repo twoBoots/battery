@@ -6,8 +6,6 @@
 
 Exposing Battery as an MCP server enables **any** compliant AI coding assistant or agent (Antigravity, Claude Code, Cursor, Windsurf, Copilot, Cline, Roo Code) to interact with your multi-repository SDD environment using structured JSON-RPC tools, real-time context resources, and prompt templates—without needing fragile shell scripting or terminal output parsing.
 
----
-
 ## 🚀 Quick Setup (Automatic Configuration)
 
 Battery can automatically detect and configure your installed AI coding assistants with a single command:
@@ -24,8 +22,6 @@ battery mcp install --all
 ```
 
 `battery init` also offers to configure your AI assistant automatically during initial workspace setup!
-
----
 
 ## ⚙️ Client Configuration Reference (Manual)
 
@@ -45,8 +41,6 @@ In your global `~/.gemini/config/mcp_config.json` (or workspace `.agents/mcp_con
   }
 }
 ```
-
----
 
 ### 2. Anthropic Claude Desktop & Claude Code
 
@@ -68,8 +62,6 @@ For **Claude Code** CLI (`~/.claude.json` or run via CLI):
 claude mcp add battery -- battery mcp
 ```
 
----
-
 ### 3. Cursor IDE
 
 In your workspace root `.cursor/mcp.json` or in **Cursor Settings > Features > MCP**:
@@ -85,8 +77,6 @@ In your workspace root `.cursor/mcp.json` or in **Cursor Settings > Features > M
 }
 ```
 
----
-
 ### 4. Windsurf IDE (Codeium)
 
 In `~/.codeium/windsurf/mcp_config.json`:
@@ -101,8 +91,6 @@ In `~/.codeium/windsurf/mcp_config.json`:
   }
 }
 ```
-
----
 
 ### 5. VS Code Extensions (Roo Code, Cline, GitHub Copilot)
 
@@ -125,8 +113,6 @@ In `mcpSettings.json` or extension MCP settings:
 }
 ```
 
----
-
 ### 6. Generic / Custom Stdio MCP Client
 
 Any custom AI agent runner can launch `battery` as a child process using:
@@ -136,36 +122,28 @@ Any custom AI agent runner can launch `battery` as a child process using:
 * **Transport**: `stdio` (JSON-RPC 2.0 delimited by newlines)
 * **Working Directory**: The root of the Battery orchestrator workspace containing `.batteryrc` / `.cooper/`.
 
----
-
 ## 🛠️ Available MCP Tools
 
 | Tool Name | Description | Required Arguments | Optional Arguments |
 | :--- | :--- | :--- | :--- |
 | `battery_status` | Inspects workspace topology, barrel connectivity, and active tracks. | *None* | `verbose` (boolean) |
-| `battery_list_barrels` | Lists registered barrels and resolves their [Cooper](https://github.com/twoBoots/cooper) tech stacks (`.cooper/definition/tech-stack.md`). | *None* | *None* |
+| `battery_list_barrels` | Lists registered barrels and resolves their [Cooper](https://twoboots.github.io/cooper) tech stacks (`.cooper/definition/tech-stack.md`). | *None* | *None* |
 | `battery_init_barrel_tech_stack` | Scaffolds or updates `.cooper/definition/tech-stack.md` and code styleguides for a barrel or monorepo package. | `barrel` (string) | `language`, `framework`, `test_runner`, `linter`, `coverage_threshold`, `force` |
 | `battery_init_track` | Scaffolds a new track under `.cooper/active/<track_id>/`. | `track_id` (string) | `barrels` (array), `name` (string), `force` (boolean) |
 | `battery_dispatch_track` | Dispatches spec deltas to barrel worktrees while omitting `plan.md` to preserve local planning autonomy. | `track_id` (string) | `force` (boolean) |
 | `battery_track_status` | Aggregates phase completion and task checklists across all participating barrels. | `track_id` (string) | *None* |
-
----
 
 ## 📚 Living Context Resources (`battery://`)
 
 AI agents can query real-time workspace state using standard MCP `resources/read`:
 
 * **`battery://topology`** (`application/json`): Merged canonical `.batteryrc` and local `.batteryrc.local` configuration.
-* **`battery://barrels/{name}/tech-stack`** (`text/markdown`): Resolved [Cooper](https://github.com/twoBoots/cooper) tech stack guidelines, language idioms, and test runner configurations for a specific barrel.
+* **`battery://barrels/{name}/tech-stack`** (`text/markdown`): Resolved [Cooper](https://twoboots.github.io/cooper) tech stack guidelines, language idioms, and test runner configurations for a specific barrel.
 * **`battery://tracks/{track_id}`** (`application/json`): Comprehensive track status report, task completion counts, and participating barrel progress.
-
----
 
 ## 💡 Prompt Templates
 
 * **`plan_multi_barrel_track`**: Interactive planning prompt that guides AI assistants through barrel discovery, contract generation, spec delta authoring, and decentralized track dispatching.
-
----
 
 ## 🧪 Testing & Verification
 

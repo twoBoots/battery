@@ -1,8 +1,6 @@
 # Installation & Setup Guide 📦
 
-This guide covers installing the `battery` CLI, configuring [Troop](https://github.com/twoBoots/troop) Git aliases, scaffolding [Cooper](https://github.com/twoBoots/cooper) SDD infrastructure, and troubleshooting.
-
----
+This guide covers installing the `battery` CLI, configuring [Troop](https://twoboots.github.io/troop) Git aliases, scaffolding [Cooper](https://twoboots.github.io/cooper) SDD infrastructure, and troubleshooting.
 
 ## ⚡ Quickstart (One-Line Installer)
 
@@ -16,10 +14,8 @@ The installer will:
 1. Detect your operating system (macOS / Linux) and architecture (arm64 / x86_64).
 2. Download and verify the latest precompiled `battery` binary.
 3. Install the binary into `~/.local/bin` (or `/usr/local/bin`).
-4. Configure [Troop](https://github.com/twoBoots/troop) Git aliases in your global Git configuration (`~/.gitconfig`).
+4. Configure [Troop](https://twoboots.github.io/troop) Git aliases in your global Git configuration (`~/.gitconfig`).
 5. Ensure your `PATH` includes the binary destination directory.
-
----
 
 ## 📋 System Prerequisites
 
@@ -28,11 +24,9 @@ The installer will:
 * **Bash / Zsh**: Compatible POSIX shell.
 * **Go** (optional): Go `1.22+` if compiling from source.
 
----
+## 🔧 Git Aliases Configuration ([Troop](https://twoboots.github.io/troop))
 
-## 🔧 Git Aliases Configuration ([Troop](https://github.com/twoBoots/troop))
-
-Battery relies on [Troop](https://github.com/twoBoots/troop) for Git worktree isolation. The installer automatically registers the following aliases in your Git configuration:
+Battery relies on [Troop](https://twoboots.github.io/troop) for Git worktree isolation. The installer automatically registers the following aliases in your Git configuration:
 
 ```ini
 [alias]
@@ -45,8 +39,6 @@ Verify your Troop aliases:
 ```bash
 git troop
 ```
-
----
 
 ## 🔨 Building from Source
 
@@ -64,8 +56,6 @@ go build -o battery ./cmd/battery
 mv battery ~/.local/bin/
 ```
 
----
-
 ## 🔄 Self-Updating Battery
 
 Keep Battery up to date using the built-in update command:
@@ -80,8 +70,6 @@ battery update
 # Upgrade or downgrade to a specific release
 battery update --target-version v1.3.0
 ```
-
----
 
 ## 🛠️ Troubleshooting
 
@@ -105,13 +93,11 @@ git worktree list
 git worktree prune
 ```
 
----
-
 ## 🔗 Related Resources
 
 * [Getting Started Guide](guide/getting-started.md)
 * [Multi-Barrel Workflow Guide](guide/workflow.md)
 * [Architecture & Topology Model](architecture.md)
 * [Model Context Protocol (MCP) Server](mcp.md)
-* [Cooper SDD Framework](https://github.com/twoBoots/cooper)
-* [Troop Worktree Isolation](https://github.com/twoBoots/troop)
+* [Cooper SDD Framework](https://twoboots.github.io/cooper)
+* [Troop Worktree Isolation](https://twoboots.github.io/troop)
