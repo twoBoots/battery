@@ -53,36 +53,43 @@ flowchart TD
 ---
 
 ### Track 2: `herdr-detect-and-map`
-- **Scope**: Introduce the `internal/multiplexer` abstraction layer in Battery. Implement detection of Herdr via environment variables (`HERDR_ENV=1`), socket existence at `HERDR_SOCKET_PATH`, a resolvable `herdr` binary (`HERDR_BIN_PATH`, then `PATH`), a successful `herdr status` preflight check to catch client/server version mismatches before any mutations, and opt-out via `BATTERY_HERDR=0`. The adapter shells out to the `herdr` CLI and parses JSON responses; it does not communicate over the raw socket or use `herdr api`. Implement barrel-to-workspace mapping using `herdr worktree list --cwd <barrel>` to obtain the `source_workspace_id` matching the barrel checkout path. Support optional workspace label overrides in `.batteryrc.local` under `multiplexer.herdr.workspaceLabel` (labels only, never raw workspace IDs, per spec 5.2). If no workspace matches, report the barrel as unmapped without creating a workspace unless `--create-workspace` is passed.
+- **Scope**: Introduce the `internal/multiplexer` abstraction layer in Battery. Implement detection of Herdr via environment variables (`HERDR_ENV=1`), socket existence at `HERDR_SOCKET_PATH`, a resolvable `herdr` binary (`HERDR_BIN_PATH`, then `PATH`), and a preflight check executing `herdr status --json` that verifies both `server.running` and `server.compatible` evaluate to `true` (catching client/server version mismatches before any mutations). Opt-out is provided via `BATTERY_HERDR=0`. The adapter shells out to the `herdr` CLI and parses JSON responses; it branches on structured JSON `error.code` values (such as `agent_name_taken`, `invalid_agent_name`, `agent_not_ready`, `timeout`) rather than relying on exit status alone. Implement barrel-to-workspace mapping using `herdr worktree list --cwd <barrel>` to obtain the `source_workspace_id` matching the barrel checkout path. Support optional workspace label overrides in `.batteryrc.local` under `multiplexer.herdr.workspaceLabel` (labels only, never raw workspace IDs, per spec 5.2). If no workspace matches, report the barrel as unmapped without calling `herdr worktree open`, since `herdr worktree open` creates a source workspace as a side-effect unless `--create-workspace` is passed.
 - **Dependencies**: Track 1
 - **Living Specs Touched**:
   - `.cooper/specs/barrel-config/spec.md`
   - `.cooper/specs/track-dispatch/spec.md`
 - **Key Deliverables**:
   - New package `internal/multiplexer/` with `Multiplexer` interface and Herdr CLI adapter
-  - Preflight checks including `herdr status` execution
-  - Barrel-to-workspace mapping via `herdr worktree list --cwd <barrel>`
+  - Preflight checks using `herdr status --json` validating server running and compatibility states
+  - Structured error code dispatching based on JSON `error.code`
+  - Barrel-to-workspace mapping via `herdr worktree list --cwd <barrel>` with source workspace resolution
   - Configuration schema support in `internal/config/` for `.batteryrc.local` `multiplexer.herdr.workspaceLabel`
-  - Unit tests with mocked CLI outputs covering detection, opt-out, and path resolution
+  - Unit tests with mocked CLI outputs covering detection, version validation, error codes, and path resolution
 
 ---
 
 ### Track 3: `dispatch-spawn`
-- **Scope**: Extend `battery track dispatch` with the `--spawn` flag. The `--spawn` flag is explicit per invocation (no automatic or interactive confirmation path) and requires a detected multiplexer, exiting non-zero if none is present. For each successfully seeded barrel worktree, Battery:
-  1. Opens the worktree using `herdr worktree open --cwd <barrel> --path <barrel>/.worktrees/<track_id> --label <barrel>:<track_id> --no-focus` and obtains the linked workspace root pane (MUST NOT call `herdr worktree create` and MUST NOT create additional pane splits).
-  2. Starts an agent in that root pane via `herdr agent start <name> --kind <kind> --pane <root_pane>`. Name is `<barrel>-<short_track>` normalised to `[a-z][a-z0-9_-]{0,31}` (maximum 32 characters) with `-2`, `-3` suffixes on collision recorded only in the dispatch result.
-  3. Resolves agent kind from `--agent-kind`, then `.batteryrc.local` `multiplexer.herdr.agentKind`, then built-in default `claude` (never written to canonical `.batteryrc`).
-  4. Waits for agent readiness. If `agent_not_ready` is returned or the agent is blocked at startup, reports it and MUST NOT send the kickoff prompt.
-  5. Submits a fixed kickoff prompt template once via `herdr agent prompt <name> <kickoff>` without `--wait`.
-  6. Deprecates and removes Track 0 interim skill.
+- **Scope**: Extend `battery track dispatch` with the `--spawn` flag. The `--spawn` flag is explicit per invocation (no automatic or interactive confirmation path) and requires a detected multiplexer, exiting non-zero before seeding if none is present. For each successfully seeded barrel worktree, Battery executes the following pipeline:
+  1. Resolves the barrel workspace (Track 2). If the barrel is unmapped and `--create-workspace` was not passed, skip the barrel, record outcome `unmapped`, and report it.
+  2. Opens the worktree using `herdr worktree open --cwd <barrel> --path <barrel>/.worktrees/<track_id> --label <barrel>:<track_id> --no-focus` to obtain the linked worktree workspace and its `root_pane` (MUST NOT call `herdr worktree create` and MUST NOT create additional pane splits).
+  3. Inspects `herdr agent list`: if an agent already occupies that root pane, skips starting an agent, records outcome `already-running`, reports the existing agent name and state, and prints the kickoff text for manual sending.
+  4. Starts an agent in the root pane via `herdr agent start <name> --kind <kind> --pane <root_pane>`. Name is `<barrel>-<short_track>` normalised to `[a-z][a-z0-9_-]{0,31}` (maximum 32 characters). On `agent_name_taken`, appends `-2`, `-3` (recorded in dispatch result, never on disk). Agent kind resolves from `--agent-kind`, then `.batteryrc.local` `multiplexer.herdr.agentKind`, then built-in default `claude` (never written to canonical `.batteryrc`).
+  5. Handles startup gates: if `agent start` returns `agent_not_ready` (indicating the agent is waiting at a folder-trust or login dialog), reports the barrel as waiting for the operator and waits via `herdr agent wait <name> --until idle --timeout <spawn-timeout>` (default 10 minutes, configurable via `--spawn-timeout`). If `idle` is reached within the timeout, proceeds to step 6. On timeout, records outcome `waiting-timed-out`, reports it, and prints the kickoff text without sending it. Battery MUST NOT send any keys or inputs to gated agents.
+  6. Submits the fixed kickoff prompt template once via `herdr agent prompt <name> <kickoff>` without `--wait`, and records outcome `prompted`.
+  7. Deprecates and removes Track 0 interim skill.
 - **Dependencies**: Track 1, Track 2
 - **Living Specs Touched**:
   - `.cooper/specs/track-dispatch/spec.md`
 - **Key Deliverables**:
-  - Flag `--spawn` and `--agent-kind` added to `battery track dispatch`
-  - Process orchestration in `internal/track/spawn.go` calling `herdr worktree open`, `herdr agent start`, and `herdr agent prompt`
-  - Invariant enforcement: no auto-approvals, no sending keys to blocked agents, no closing workspaces or stopping servers
-  - Unit and integration tests covering the complete dispatch-spawn pipeline
+  - Flags `--spawn`, `--agent-kind`, and `--spawn-timeout` added to `battery track dispatch`
+  - Process orchestration in `internal/track/spawn.go` executing worktree opening, agent occupancy check, startup gate waiting, and kickoff prompt submission
+  - Structured per-barrel dispatch reporting tracking outcomes: `prompted`, `waiting-timed-out`, `already-running`, `unmapped`
+  - Invariant enforcement: no auto-approvals, no sending keys to gated agents, no closing workspaces or stopping servers
+  - Comprehensive unit and integration tests covering:
+    - Normal end-to-end spawn and prompt delivery (Scenario 5.4)
+    - Agent waiting at startup gates with successful idle resumption and timeout fallback (Scenario 5.4a)
+    - Re-running spawn against already occupied root panes (Scenario 5.4b)
+    - Structured error code branching without blind retries (Scenario 5.4c)
 
 ---
 

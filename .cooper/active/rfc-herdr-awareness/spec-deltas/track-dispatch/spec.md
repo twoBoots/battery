@@ -34,7 +34,7 @@ Capability: `.cooper/specs/track-dispatch/spec.md`
 + The system MUST detect a supported terminal multiplexer at runtime and MUST behave identically to a multiplexer-free run when none is detected.
 +
 + #### Scenario 5.1: Herdr Detection
-+ - **GIVEN** `HERDR_ENV=1`, a socket at `HERDR_SOCKET_PATH`, a resolvable `herdr` binary, and a successful `herdr status`
++ - **GIVEN** `HERDR_ENV=1`, a socket at `HERDR_SOCKET_PATH`, a resolvable `herdr` binary, and `herdr status --json` reporting `server.running` and `server.compatible` as `true`
 + - **AND** `BATTERY_HERDR` is unset or not `0`
 + - **WHEN** any Battery command starts
 + - **THEN** Battery MUST select the Herdr multiplexer backend
@@ -50,16 +50,36 @@ Capability: `.cooper/specs/track-dispatch/spec.md`
 + - **GIVEN** a detected Herdr backend
 + - **WHEN** Battery resolves a barrel's workspace
 + - **THEN** it MUST use, in order: the `.batteryrc.local` `multiplexer.herdr.workspaceLabel` override, then the workspace whose source checkout path equals the barrel's resolved absolute path
-+ - **AND** if neither matches, report the barrel as unmapped and MUST NOT create a workspace unless `--create-workspace` is passed.
++ - **AND** if neither matches, report the barrel as unmapped and MUST NOT create a workspace unless `--create-workspace` is passed
++ - **AND** because `herdr worktree open` creates a source workspace as a side effect, MUST NOT call it for an unmapped barrel unless `--create-workspace` is passed.
 +
 + #### Scenario 5.4: Spawning Barrel Agents (`battery track dispatch --spawn`)
 + - **GIVEN** a detected Herdr backend and a successfully seeded barrel worktree
 + - **WHEN** `battery track dispatch <track_id> --spawn` is executed
 + - **THEN** Battery MUST open the worktree with `herdr worktree open` and MUST NOT call `herdr worktree create`
-+ - **AND** start one agent per barrel in that workspace's root pane, named `<barrel>-<short_track>` normalised to `[a-z][a-z0-9_-]{0,31}` and suffixed on collision
++ - **AND** start one agent per barrel in that workspace's root pane, named `<barrel>-<short_track>` normalised to `[a-z][a-z0-9_-]{0,31}` and suffixed on `agent_name_taken`
 + - **AND** use the agent kind from `--agent-kind`, then `.batteryrc.local` `multiplexer.herdr.agentKind`, then the built-in default
-+ - **AND** send the fixed kickoff template once, without waiting for the agent's turn to finish
-+ - **AND** if the agent is not ready or is blocked at startup, report it and MUST NOT send the kickoff.
++ - **AND** send the fixed kickoff template once, without waiting for the agent's turn to finish.
++
++ #### Scenario 5.4a: Agent Waiting at a Startup Gate
++ - **GIVEN** `herdr agent start` returns `agent_not_ready`
++ - **WHEN** Battery handles that barrel
++ - **THEN** it MUST report the barrel as waiting for the operator
++ - **AND** wait for the agent to reach `idle` for at most the spawn timeout (default 10 minutes, `--spawn-timeout`)
++ - **AND** send the kickoff only if `idle` is reached within the timeout, otherwise print the kickoff text without sending it
++ - **AND** MUST NOT send any keys or input to the agent while it is gated.
++
++ #### Scenario 5.4b: Re-running Spawn
++ - **GIVEN** `herdr worktree open` returns a root pane already occupied by an agent
++ - **WHEN** `battery track dispatch <track_id> --spawn` is executed again
++ - **THEN** Battery MUST NOT start another agent or send the kickoff for that barrel
++ - **AND** MUST report the existing agent's name and state and print the kickoff text.
++
++ #### Scenario 5.4c: Herdr Error Handling
++ - **GIVEN** a `herdr` command exits non-zero
++ - **WHEN** the adapter handles the result
++ - **THEN** it MUST decide on the JSON `error.code`, not on the exit status alone
++ - **AND** MUST NOT retry `agent start` or `agent prompt` except on `agent_name_taken`.
 +
 + #### Scenario 5.5: Spawn Without a Multiplexer
 + - **GIVEN** the no-op backend

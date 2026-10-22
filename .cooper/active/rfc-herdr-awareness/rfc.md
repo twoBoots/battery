@@ -54,10 +54,12 @@ type Multiplexer interface {
 1. `HERDR_ENV=1`
 2. `HERDR_SOCKET_PATH` exists and is a socket
 3. the `herdr` binary resolves (`HERDR_BIN_PATH`, then `PATH`)
-4. `herdr status` succeeds, so that a client/server version mismatch is caught before any mutation
+4. `herdr status --json` succeeds and reports `server.running` and `server.compatible` as `true`, so that a client/server version mismatch is caught before any mutation. Plain `herdr status` prints text and is not parsed.
 5. `BATTERY_HERDR` is not `0`
 
 Battery needs no flag of its own to enable this: Herdr already sets `HERDR_ENV`. The adapter shells out to the `herdr` CLI and parses its JSON. It does not speak the socket protocol directly, so Battery does not pin a Herdr wire version.
+
+Herdr reports server-side failures as `{"error":{"code":"...","message":"..."}}` with exit status 1, and CLI syntax errors with exit status 2. The adapter branches on `error.code` (for example `agent_name_taken`, `invalid_agent_name`, `agent_not_ready`, `timeout`), not on the exit status alone.
 
 ### 2.3 Barrel to workspace mapping
 
@@ -69,19 +71,25 @@ Resolution order for each barrel:
 2. A Herdr workspace whose checkout path equals the barrel's resolved absolute path (via `herdr worktree list --cwd <barrel>`, `source_workspace_id`).
 3. None. Dispatch reports that the barrel has no open workspace and that the operator should open one. Battery does not create workspaces for barrels the operator has not opened, unless `--create-workspace` is passed.
 
+The check matters because `herdr worktree open` creates a workspace for the source checkout as a side effect when none is open. `--spawn` therefore resolves the barrel's workspace before opening the worktree (2.4 step 2), so that the side effect only happens when the operator asked for it.
+
 ### 2.4 `battery track dispatch --spawn`
 
 `--spawn` requires a detected multiplexer and fails clearly without one. For each target barrel, after the 2.1 seeding succeeds:
 
 1. Ensure the worktree exists (2.1). Troop owns worktree creation. Battery MUST NOT call `herdr worktree create`, so there is only one tool creating worktrees and their layout cannot drift.
-2. `herdr worktree open --cwd <barrel> --path <barrel>/.worktrees/<track_id> --label <barrel>:<track_id> --no-focus`, which gives a linked worktree workspace and its root pane.
-3. `herdr agent start <name> --kind <kind> --pane <root_pane>`, where:
-   - `<name>` is `<barrel>-<short_track>`, normalised to `[a-z][a-z0-9_-]{0,31}`. On collision Battery appends `-2`, `-3`, and records the final name in the dispatch result, not on disk.
+2. Resolve the barrel's workspace (2.3). If the barrel is unmapped and `--create-workspace` was not passed, skip the barrel and report it.
+3. `herdr worktree open --cwd <barrel> --path <barrel>/.worktrees/<track_id> --label <barrel>:<track_id> --no-focus`, which gives a linked worktree workspace and its `root_pane`, whose working directory is the worktree. The call is idempotent: on a re-run it returns `already_open: true` and the same root pane.
+4. If `herdr agent list` shows an agent already occupying that root pane, skip the barrel: report the existing agent's name and state, and print the kickoff text for the operator to send if it is still needed. Battery never starts a second agent for the same barrel and track, and never sends the kickoff twice, because it keeps no record of having sent it.
+5. `herdr agent start <name> --kind <kind> --pane <root_pane>`, where:
+   - `<name>` is `<barrel>-<short_track>`, normalised to `[a-z][a-z0-9_-]{0,31}`. On `agent_name_taken` Battery appends `-2`, `-3`, and records the final name in the dispatch result, not on disk.
    - `<kind>` comes from `--agent-kind`, then `.batteryrc.local` `multiplexer.herdr.agentKind`, then `claude`.
-4. Wait for the agent to become ready (`agent start` already blocks until ready). If it returns `agent_not_ready` because the agent is blocked at startup, Battery reports it and does not send the prompt.
-5. `herdr agent prompt <name> <kickoff>`, without `--wait`. The kickoff is a fixed template naming the track ID, the dispatched spec delta paths, and the instruction to run `cooper-new-track` against them in the current worktree. Battery does not wait for planning to finish.
+6. `agent start` blocks until the agent is ready. If it returns `agent_not_ready`, the agent is waiting at its own startup gate, typically a folder-trust or login dialog. Battery reports the barrel as waiting for the operator, then runs `herdr agent wait <name> --until idle --timeout <spawn-timeout>` (default 10 minutes, `--spawn-timeout` to change). If the operator clears the gate and the agent reaches `idle` within the timeout, Battery continues to step 7. On `timeout`, Battery reports the barrel and prints the kickoff text instead of sending it. Battery never answers the gate itself.
+7. `herdr agent prompt <name> <kickoff>`, without `--wait`. The kickoff is a fixed template naming the track ID, the dispatched spec delta paths, and the instruction to run `cooper-new-track` against them in the current worktree. Battery does not wait for planning to finish.
 
-Dispatch output adds one line per barrel: workspace label, agent name, and kind.
+Barrels are processed one at a time, so a barrel waiting in step 6 delays the ones after it. Parallel spawning is left for later (section 6).
+
+Dispatch output adds one line per barrel: workspace label, agent name, kind, and outcome (`prompted`, `waiting-timed-out`, `already-running`, `unmapped`).
 
 ### 2.5 `battery track status --live`
 
@@ -95,7 +103,23 @@ Track: example-track
 
 `blocked` is shown and never acted on. Battery MUST NOT send keys, approve, or answer on an agent's behalf. Those decisions belong to the operator.
 
-### 2.6 Agent-facing guidance
+### 2.6 Validation against Herdr
+
+The steps in 2.2 to 2.5 were exercised against Herdr 0.9.1 in an isolated named session (`herdr --session <name> server`) using a throwaway barrel repository with a Troop-style worktree:
+
+| Step | Observed |
+| :--- | :--- |
+| `herdr status --json` | JSON with `server.running` and `server.compatible`. Without `--json` the output is text. |
+| `herdr worktree list --cwd <barrel>` | Lists the Troop worktree. `source_workspace_id` is absent until a workspace is open for the barrel. |
+| `herdr worktree open ... --no-focus` | Returns `root_pane` with its working directory set to the worktree. Creates a workspace for the source checkout if none was open. A second call returns `already_open: true` and the same pane. |
+| `herdr agent start` (`claude`), worktree under a trusted repository | `agent_started` in about 4 seconds, state `idle`. |
+| `herdr agent start` (`claude`), untrusted path | `agent_not_ready`, exit 1. The pane shows the agent's folder-trust dialog. Worktrees under a repository the agent already trusts did not show it. |
+| `herdr agent start`, duplicate or invalid name | `agent_name_taken` or `invalid_agent_name`, exit 1, nothing launched. |
+| `herdr agent prompt` without `--wait` | Delivered. The agent answered the prompt. |
+| `herdr agent list`, cwd prefix match | Matched the spawned agent to its worktree and nothing else. |
+| `herdr agent wait --until idle` on a blocked agent | `timeout`, exit 1, no input sent. |
+
+### 2.7 Agent-facing guidance
 
 `AGENTS.template.md` gains one multiplexer-agnostic clause in the dispatch row: "If Battery reports a multiplexer, prefer `battery track dispatch --spawn` so barrel sessions start in the track worktree." No Herdr commands go into the template. A teammate without Herdr reads the same template and still has a working process.
 
@@ -112,7 +136,7 @@ Track: example-track
 ## 4. Security, Performance & Scalability
 
 - **Authority boundary.** `--spawn` starts agents that edit code in barrel worktrees. It is opt-in for each invocation and never the default. The kickoff prompt is a fixed template with no operator free text, so spec content cannot inject instructions into the prompt itself. The agent still reads the spec deltas, as it does today.
-- **No auto-approval.** Battery never answers `blocked` agents (2.5) and never passes `--trust-repository` to Herdr.
+- **No auto-approval.** Battery never answers `blocked` agents or startup gates (2.4 step 6, 2.5), and never passes `--trust-repository` to Herdr.
 - **Process safety.** Battery never closes workspaces, panes, or agents it did not create, and never stops the Herdr server. It does not close the ones it created either: their lifetime belongs to the operator.
 - **Local scope only.** Battery does not use `herdr --machine`. Remote barrels are out of scope (section 6).
 - **Cost.** Detection is one `herdr status` call per Battery invocation, made only when `HERDR_ENV=1`. `--live` adds one `herdr agent list` call per `status` invocation, not one per barrel.
@@ -125,7 +149,7 @@ Track: example-track
 3. **Detection and mapping** (2.2, 2.3), with `battery status` printing the detected multiplexer and mapped workspaces. Read-only.
 4. **`dispatch --spawn`** (2.4).
 5. **`status --live`** and the MCP `live` field (2.5).
-6. **Template wording** (2.6) through the normal Cooper skill sync.
+6. **Template wording** (2.7) through the normal Cooper skill sync.
 
 Steps 3 to 5 are additive and inactive outside Herdr. Rolling back means removing the flag. No data migration is needed: nothing Herdr-specific is ever persisted.
 
@@ -137,3 +161,4 @@ Steps 3 to 5 are additive and inactive outside Herdr. Rolling back means removin
 4. **Teardown.** Should `git agent-stop <track_id>` or a future `battery track close` offer to close the linked Herdr workspace, given the rule that Battery never closes what it did not create?
 5. **Remote barrels.** Herdr can control saved SSH machines (`--machine`). Is there demand for barrels whose worktrees live on another host?
 6. **Root agent messaging.** Should Battery offer `battery track ask <track_id> <barrel> "<question>"` (a wrapper over `herdr agent prompt`) so the root can query barrel agents? Or does that let the root steer barrel planning, which the Spec-Only Orchestrator Boundary forbids? *Authors' leaning: leave it out. Cross-barrel findings go back through the spec deltas, so the macro contract stays the single source of truth.*
+7. **Parallel spawning.** Section 2.4 spawns barrels one at a time, so one barrel waiting at a startup gate holds up the rest for up to the spawn timeout. Should Battery start all barrels first and then wait on the gated ones together, at the cost of a more complex output and failure model?
