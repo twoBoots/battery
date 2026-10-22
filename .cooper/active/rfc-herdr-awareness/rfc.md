@@ -11,7 +11,7 @@ Battery's multi-barrel model assumes that each target barrel has its own autonom
 
 In production use this gap is visible:
 
-- A production Battery workspace with nine barrels ran its last three multi-barrel tracks without `battery track dispatch` at all. Its track registry records: "Not dispatched with `battery track dispatch`. It seeds stub deltas, and it writes into a barrel's main checkout when no track worktree exists. Barrel sessions plan directly from the deltas authored here."
+- A production Battery workspace with nine barrels ran its last three multi-barrel tracks without `battery track dispatch` at all. Operators skipped it because it seeds stub deltas and writes into a barrel's main checkout when no track worktree exists. Instead, barrel agents planned directly from the spec deltas authored at the root.
 - Those barrel sessions already existed, hand-arranged in Herdr (a terminal multiplexer for coding agents): one Herdr workspace per barrel, plus one for the Battery root. Cross-barrel coordination meant the operator switching workspaces and relaying findings between agents by hand.
 - `battery track status` reports plan checkbox progress, but not whether a barrel agent is working, finished, or blocked waiting for a human. Today that takes visiting every workspace.
 
@@ -19,7 +19,7 @@ Herdr exposes a JSON CLI over a local socket. With it, a process inside a manage
 
 This RFC proposes making Battery **optionally** Herdr aware. When Battery runs inside a Herdr pane, `dispatch` can start a barrel agent in the track worktree and hand it the spec deltas, and `status` can show each barrel agent's live state. Outside Herdr, Battery behaves exactly as it does today.
 
-It also fixes the dispatch defect described above first, because automating it would spread the damage faster.
+It also fixes the main-checkout dispatch defect first, because automating it would spread the damage faster.
 
 ## 2. Architecture & Detailed Design
 
@@ -65,7 +65,7 @@ Herdr IDs (`w3`, `w3:p33`) are opaque, specific to one machine and one server, a
 
 Resolution order for each barrel:
 
-1. `.batteryrc.local` override: `"multiplexer": { "herdr": { "workspaceLabel": "vms" } }` on the barrel entry.
+1. `.batteryrc.local` override: `"multiplexer": { "herdr": { "workspaceLabel": "api" } }` on the barrel entry.
 2. A Herdr workspace whose checkout path equals the barrel's resolved absolute path (via `herdr worktree list --cwd <barrel>`, `source_workspace_id`).
 3. None. Dispatch reports that the barrel has no open workspace and that the operator should open one. Battery does not create workspaces for barrels the operator has not opened, unless `--create-workspace` is passed.
 
@@ -88,9 +88,9 @@ Dispatch output adds one line per barrel: workspace label, agent name, and kind.
 When a multiplexer is detected, `--live` (and the MCP `battery_track_status` tool with `live: true`) joins `herdr agent list` against each barrel's worktree path (agent `cwd` or `foreground_cwd` under `<barrel>/.worktrees/<track_id>`) and adds the agent's name, kind, and state to each `BarrelTrackSummary`:
 
 ```
-Track: workflow-pose-inputs
-  vms      planning   3/14 tasks   agent vms-workflow-pose  claude  working
-  vms-cli  planning   0/6 tasks    agent vms-cli-workflow   agy     blocked
+Track: example-track
+  api  planning   3/14 tasks   agent api-example-track  claude  working
+  cli  planning   0/6 tasks    agent cli-example-track  agy     blocked
 ```
 
 `blocked` is shown and never acted on. Battery MUST NOT send keys, approve, or answer on an agent's behalf. Those decisions belong to the operator.
@@ -104,7 +104,7 @@ Track: workflow-pose-inputs
 | Option | Summary | Why not (or not alone) |
 | :--- | :--- | :--- |
 | A. Do nothing | Operators keep starting barrel agents by hand | The production gap in section 1 stays. Dispatch stays unused. |
-| B. Skill only | Ship a `battery-dispatch` agent skill that teaches the root agent to drive `herdr` after `battery track dispatch` | Zero Go code and available now, but every agent kind needs the skill, behaviour drifts between agents, and `status` gains nothing. Kept as an **interim step** (see section 5), not the end state. |
+| B. Skill only | Ship a `cooper-battery-dispatch` agent skill that teaches the root agent to drive `herdr` after `battery track dispatch` | Zero Go code and available now, but every agent kind needs the skill, behaviour drifts between agents, and `status` gains nothing. Kept as an **interim step** (see section 5), not the end state. |
 | C. Battery talks to the Herdr socket directly | Native client in Go | Ties Battery to a wire protocol that Herdr does not promise to keep stable. The CLI is the documented interface. |
 | D. Herdr owns worktrees (`herdr worktree create`) | Let Herdr create worktrees during dispatch | Two tools creating worktrees under different path conventions. Troop already owns `.worktrees/<track_id>`, and Herdr reads it. |
 | E. Generic tmux/zellij support | Abstract over all multiplexers now | tmux cannot report agent lifecycle state, which is most of the value. The interface in 2.2 leaves room for a second backend later without building one now. |
@@ -121,7 +121,7 @@ Track: workflow-pose-inputs
 ## 5. Rollout & Migration Strategy
 
 1. **Dispatch worktree guard** (2.1). This is a behaviour change: dispatch against a barrel with no worktree now fails instead of writing to `main`. Called out in the release notes with the one-line fix.
-2. **Interim skill** (alternative B), optional, for operators who want spawn behaviour before step 4 ships.
+2. **Interim skill** (the skill-only alternative in section 3), optional, for operators who want spawn behaviour before step 4 ships.
 3. **Detection and mapping** (2.2, 2.3), with `battery status` printing the detected multiplexer and mapped workspaces. Read-only.
 4. **`dispatch --spawn`** (2.4).
 5. **`status --live`** and the MCP `live` field (2.5).
